@@ -28,6 +28,12 @@ class _HomePageState extends State<HomePage> {
             child: const Icon(CupertinoIcons.chat_bubble_text),
           ),
         ),
-        child: WeekPage(mondayOfWeek: DateTime.utc(2022, 10, 31)));
+        child: WeekPage(
+          mondayOfWeek: DateTime.utc(2022, 10, 31),
+          menu: List<String>.generate(
+              4,
+              (index) =>
+                  "$index Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
+        ));
   }
 }

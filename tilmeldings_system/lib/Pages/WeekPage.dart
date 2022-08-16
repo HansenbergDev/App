@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 import 'MenuTile.dart';
+import '../Controllers/ColoredCupertinoButton.dart';
 
 class WeekPage extends StatefulWidget {
-  const WeekPage({Key? key, required this.mondayOfWeek}) : super(key: key);
+  const WeekPage({Key? key, required this.mondayOfWeek, required this.menu}) : super(key: key);
 
   final DateTime mondayOfWeek;
+  final List<String> menu;
 
   @override
   State<WeekPage> createState() => _WeekPageState();
@@ -72,10 +74,6 @@ class _WeekPageState extends State<WeekPage> {
   }
 
   var states = List<EnlistStates>.generate(5, (index) => EnlistStates.none);
-  var menu = List<String>.generate(
-      4,
-          (index) =>
-      "$index Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
   @override
   Widget build(BuildContext context) {
@@ -104,31 +102,51 @@ class _WeekPageState extends State<WeekPage> {
           child: Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 400),
-              child: ListView.builder(
-                  itemCount: 4,
-                  itemBuilder: (BuildContext context, int index) {
-                    return MenuTile(
-                        dateString:
-                        "${_dayNumberInWeekToDayString(dates[index].weekday)} d. ${dates[index].day} ${_monthNumberToMonthString(dates[index].month)}",
-                        menuText: menu[index],
-                        enlistForDinner: () => enlist(states, index),
-                        rejectDinner: () => reject(states, index));
-                  }),
-            ),
-          )),
-    );
-  }
-}
-
-/*
-
-const SizedBox(
+              child: ListView(
+                children: [
+                  MenuTile(
+                      dateString:
+                      "${_dayNumberInWeekToDayString(dates[0].weekday)} d. ${dates[0].day} ${_monthNumberToMonthString(dates[0].month)}",
+                      menuText: widget.menu[0],
+                      enlistForDinner: () => enlist(states, 0),
+                      rejectDinner: () => reject(states, 0)
+                  ),
+                  MenuTile(
+                      dateString:
+                      "${_dayNumberInWeekToDayString(dates[1].weekday)} d. ${dates[1].day} ${_monthNumberToMonthString(dates[1].month)}",
+                      menuText: widget.menu[1],
+                      enlistForDinner: () => enlist(states, 1),
+                      rejectDinner: () => reject(states, 1)
+                  ),
+                  MenuTile(
+                      dateString:
+                      "${_dayNumberInWeekToDayString(dates[2].weekday)} d. ${dates[2].day} ${_monthNumberToMonthString(dates[2].month)}",
+                      menuText: widget.menu[2],
+                      enlistForDinner: () => enlist(states, 2),
+                      rejectDinner: () => reject(states, 2)
+                  ),
+                  MenuTile(
+                      dateString:
+                      "${_dayNumberInWeekToDayString(dates[3].weekday)} d. ${dates[3].day} ${_monthNumberToMonthString(dates[3].month)}",
+                      menuText: widget.menu[3],
+                      enlistForDinner: () => enlist(states, 3),
+                      rejectDinner: () => reject(states, 3)
+                  ),
+                  const SizedBox(
                     height: 20,
                   ),
+                  // TODO: Fredag
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 70),
                     child: ColoredButton.filled(
-                        onPressed: () => print("Sender tilmelding"),
+                        onPressed: () => {
+                          if (!states.take(4).any((element) => element == EnlistStates.none)) {
+                            print("Sender tilmelding: $states")
+                          }
+                          else {
+                            print("Mangler stadigvæk at tage stilling: $states")
+                          }
+                        },
                         fillColor: CupertinoColors.systemBlue,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -144,43 +162,10 @@ const SizedBox(
                   const SizedBox(
                     height: 30,
                   )
-
- */
-
-/*
-
-child: ListView(
-                children: <Widget>[
-                  MenuTile(
-                      dateString:
-                      "${_dayNumberInWeekToDayString(dates[0].weekday)} d. ${dates[0].day} ${_monthNumberToMonthString(dates[0].month)}",
-                      menuText: menu[0],
-                      enlistForDinner: () => enlist(states[0]),
-                      rejectDinner: () => reject(states[0])
-                  ),
-                  MenuTile(
-                      dateString:
-                      "${_dayNumberInWeekToDayString(tuesday.weekday)} d. ${tuesday.day} ${_monthNumberToMonthString(tuesday.month)}",
-                      menuText: "Hotwings m/ kartofler & aioli",
-                      enlistForDinner: () => print("I want dinner!"),
-                      rejectDinner: () => print("I don't want dinner!")
-                  ),
-                  MenuTile(
-                      dateString:
-                      "${_dayNumberInWeekToDayString(wednesday.weekday)} d. ${wednesday.day} ${_monthNumberToMonthString(wednesday.month)}",
-                      menuText: "Hotwings m/ kartofler & aioli",
-                      enlistForDinner: () => print("I want dinner!"),
-                      rejectDinner: () => print("I don't want dinner!")
-                  ),
-                  MenuTile(
-                      dateString:
-                      "${_dayNumberInWeekToDayString(thursday.weekday)} d. ${thursday.day} ${_monthNumberToMonthString(thursday.month)}",
-                      menuText: "Hotwings m/ kartofler & aioli",
-                      enlistForDinner: () => print("I want dinner!"),
-                      rejectDinner: () => print("I don't want dinner!")
-                  ),
-                  // TODO: Fredag
-
                 ],
-              ),
- */
+              )
+            ),
+          )),
+    );
+  }
+}
