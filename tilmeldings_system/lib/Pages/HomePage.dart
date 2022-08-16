@@ -35,9 +35,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         child: Navigator(
-          // TODO: Der skal muligvis bruges en FutureBuilder her i stedet, så filer kan loades
-          // https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html
-          initialRoute: 'mondayOfWeek/${DateTime.now()}',
+          initialRoute: 'mondayOfWeek/${DateTime.now().toString()}',
           onGenerateRoute: (RouteSettings settings) {
 
             var splitRoute = settings.name.toString().split('/');
@@ -52,9 +50,10 @@ class _HomePageState extends State<HomePage> {
 
             WidgetBuilder builder;
 
-            builder = (BuildContext context) => WeekPage(
-                mondayOfWeek: mondayOfWeek,
-                menu: List<String>.generate(4, (index) => "$index This is a menu."));
+            builder = (BuildContext context) =>
+                WeekPage(mondayOfWeek: mondayOfWeek,
+                  storage: WeekDataStorage(date: mondayOfWeek),
+                );
 
             return CupertinoPageRoute(builder: builder, settings: settings);
           },
