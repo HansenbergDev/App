@@ -75,6 +75,7 @@ class _WeekPageState extends State<WeekPage> {
 
   var states = List<EnlistStates>.generate(5, (index) => EnlistStates.none);
 
+
   @override
   Widget build(BuildContext context) {
     var dates = List<DateTime>.generate(
@@ -94,6 +95,7 @@ class _WeekPageState extends State<WeekPage> {
         ),
         middle: Text("Uge ${widget.mondayOfWeek.weekOfYear}"),
         trailing: CupertinoButton(
+
             onPressed: () => {
               Navigator
                   .of(context)
