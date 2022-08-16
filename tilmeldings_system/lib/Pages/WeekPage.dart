@@ -84,13 +84,21 @@ class _WeekPageState extends State<WeekPage> {
       backgroundColor: CupertinoColors.secondarySystemBackground,
       navigationBar: CupertinoNavigationBar(
         leading: CupertinoButton(
-          onPressed: () => print("Back"),
+          onPressed: () => {
+            Navigator
+                .of(context)
+                .pushReplacementNamed("mondayOfWeek/${widget.mondayOfWeek.subtract(const Duration(days: 7)).toString()}")
+          },
           padding: EdgeInsets.zero,
           child: const Icon(CupertinoIcons.arrow_left_circle_fill),
         ),
         middle: Text("Uge ${widget.mondayOfWeek.weekOfYear}"),
         trailing: CupertinoButton(
-            onPressed: () => print("Forward"),
+            onPressed: () => {
+              Navigator
+                  .of(context)
+                  .pushReplacementNamed("mondayOfWeek/${widget.mondayOfWeek.add(const Duration(days: 7)).toString()}")
+            },
             padding: EdgeInsets.zero,
             child: const Icon(CupertinoIcons.arrow_right_circle_fill)),
       ),

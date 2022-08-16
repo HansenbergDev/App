@@ -14,10 +14,12 @@ class HansenbergApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-        title: _title, debugShowCheckedModeBanner: false, home: HomePage(studentName: "Elev",));
+        title: _title,
+        debugShowCheckedModeBanner: false,
+        initialRoute: "/",
+        routes: <String, WidgetBuilder>{
+          '/': (BuildContext context) => HomePage(studentName: "Elev"),
+        },
+    );
   }
 }
-
-
-
-
