@@ -151,6 +151,7 @@ class _WeekPageState extends State<WeekPage> {
         Widget child;
 
         if (snapshot.hasData) {
+          _weekData = snapshot.data!;
           var states = snapshot.data!.states;
           child = CupertinoScrollbar(
               thumbVisibility: true,
