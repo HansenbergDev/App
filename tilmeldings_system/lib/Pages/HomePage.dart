@@ -4,6 +4,7 @@ import 'WeekPage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.studentName}) : super(key: key);
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         child: Navigator(
-          initialRoute: 'mondayOfWeek/${DateTime.now().toString()}',
+          initialRoute: 'mondayOfWeek/${DateFormat("yyyy-MM-dd").format(DateTime.now())}',
           onGenerateRoute: (RouteSettings settings) {
 
             var splitRoute = settings.name.toString().split('/');

@@ -3,39 +3,34 @@ import '../Controllers/ColoredCupertinoButton.dart';
 
 enum EnlistStates { none, enlisted, rejected }
 
-class MenuTile extends StatefulWidget {
+class MenuTile extends StatelessWidget {
   const MenuTile(
       {Key? key,
         required this.dateString,
         required this.menuText,
+        required this.enlistmentState,
         required this.enlistForDinner,
         required this.rejectDinner})
       : super(key: key);
 
   final String dateString;
   final String menuText;
+  final EnlistStates enlistmentState;
   final VoidCallback enlistForDinner;
   final VoidCallback rejectDinner;
 
   @override
-  State<MenuTile> createState() => _MenuTileState();
-}
-
-class _MenuTileState extends State<MenuTile> {
-  EnlistStates _state = EnlistStates.none;
-
-  @override
   Widget build(BuildContext context) {
-    Color enlistButtonFillColor = _state == EnlistStates.enlisted
+    Color enlistButtonFillColor = enlistmentState == EnlistStates.enlisted
         ? CupertinoColors.systemGreen
         : CupertinoColors.systemGrey2;
-    Color enlistButtonIconColor = _state == EnlistStates.enlisted
+    Color enlistButtonIconColor = enlistmentState == EnlistStates.enlisted
         ? CupertinoColors.white
         : CupertinoColors.black;
-    Color rejectButtonFillColor = _state == EnlistStates.rejected
+    Color rejectButtonFillColor = enlistmentState == EnlistStates.rejected
         ? CupertinoColors.systemRed
         : CupertinoColors.systemGrey2;
-    Color rejectButtonIconColor = _state == EnlistStates.rejected
+    Color rejectButtonIconColor = enlistmentState == EnlistStates.rejected
         ? CupertinoColors.white
         : CupertinoColors.black;
 
@@ -59,14 +54,14 @@ class _MenuTileState extends State<MenuTile> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  widget.dateString, style: const TextStyle(fontWeight: FontWeight.bold),
+                  dateString, style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Flexible(
                   flex: 200,
-                  child: Text(widget.menuText),
+                  child: Text(menuText),
                 )
               ],
             ),
@@ -77,8 +72,7 @@ class _MenuTileState extends State<MenuTile> {
           Column(
             children: [
               makeSquareButton(
-                  widget.enlistForDinner,
-                  EnlistStates.enlisted,
+                  enlistForDinner,
                   CupertinoIcons.check_mark,
                   enlistButtonIconColor,
                   enlistButtonFillColor),
@@ -86,8 +80,7 @@ class _MenuTileState extends State<MenuTile> {
                 height: 20,
               ),
               makeSquareButton(
-                  widget.rejectDinner,
-                  EnlistStates.rejected,
+                  rejectDinner,
                   CupertinoIcons.clear,
                   rejectButtonIconColor,
                   rejectButtonFillColor)
@@ -99,15 +92,12 @@ class _MenuTileState extends State<MenuTile> {
   }
 
   Widget makeSquareButton(
-      VoidCallback fn, EnlistStates setStateTo, icon, iconColor, fillColor) {
+      VoidCallback fn, icon, iconColor, fillColor) {
     return SizedBox(
       width: 60,
       height: 60,
       child: ColoredButton.filled(
-          onPressed: () => setState(() {
-            fn();
-            _state = setStateTo;
-          }),
+          onPressed: fn,
           fillColor: fillColor,
           child: Icon(
             icon,
@@ -117,3 +107,4 @@ class _MenuTileState extends State<MenuTile> {
     );
   }
 }
+

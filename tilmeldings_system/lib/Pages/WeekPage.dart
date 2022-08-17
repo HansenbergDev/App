@@ -6,6 +6,7 @@ import 'package:week_of_year/date_week_extensions.dart';
 import 'MenuTile.dart';
 import '../Controllers/ColoredCupertinoButton.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 class WeekData {
   const WeekData({required this.menu, required this.states});
@@ -15,13 +16,13 @@ class WeekData {
 
   @override
   String toString() {
-    List<String> result = [];
+    String result = "";
 
     for (int i = 0; i < states.length; i++) {
-      result.add("${menu[i]}|${states[i]};");
+      result = "$result${menu[i]}|${states[i]};";
     }
 
-    return result.toString();
+    return result;
   }
 }
 
@@ -37,20 +38,27 @@ class WeekDataStorage {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/week_data/${date.toString()}');
+    Directory("$path/week_data").exists().then((value) => !value ? Directory("$path/week_data").create() : "");
+
+    return File('$path/week_data/${DateFormat("yyyy-MM-dd").format(date)}');
   }
 
   Future<WeekData> readWeekData() async {
     final file = await _localFile;
     final content = await file.readAsString();
 
-    final days = content.split(';');
+    final days = content.split(';').take(5).toList();
 
     return WeekData(
-        menu: days.map((e) => e.split('|')[0]).toList(),
-        states: days.map((e) =>
-            EnlistStates.values.firstWhere((element) =>
-            describeEnum(element) == e.split('|')[1]))
+        menu: days.map((day) => day.split('|')[0])
+            .toList(),
+        states: days.map((day) {
+          var split = day.split('|')[1];
+
+          var states = EnlistStates.values;
+          var state = states.firstWhere((element) => "EnlistStates.${describeEnum(element)}".compareTo(split) == 0);
+          return state;
+        })
             .toList()
     );
   }
@@ -123,19 +131,13 @@ class _WeekPageState extends State<WeekPage> {
     return "";
   }
 
-  void enlist(list, index) {
-    list[index] = EnlistStates.enlisted;
+  Future<void> sendWeekData(WeekData weekData) {
+    // TODO: Implement send to server
+    return Future.delayed(const Duration(seconds: 2));
   }
 
-  void reject(list, index) {
-    list[index] = EnlistStates.rejected;
-  }
-
-  Future<File> writeAndSend(WeekData weekData) {
-
-    // TODO: Send data
-
-    return widget.storage.writeWeekData(_weekData);
+  Future<File> writeWeekData(WeekData weekData) {
+    return widget.storage.writeWeekData(weekData);
   }
 
   late WeekData _weekData;
@@ -152,7 +154,6 @@ class _WeekPageState extends State<WeekPage> {
 
         if (snapshot.hasData) {
           _weekData = snapshot.data!;
-          var states = snapshot.data!.states;
           child = CupertinoScrollbar(
               thumbVisibility: true,
               thickness: 6.0,
@@ -166,59 +167,79 @@ class _WeekPageState extends State<WeekPage> {
                         MenuTile(
                             dateString:
                             "${_dayNumberInWeekToDayString(dates[0].weekday)} d. ${dates[0].day} ${_monthNumberToMonthString(dates[0].month)}",
-                            menuText: snapshot.data!.menu[0],
-                            enlistForDinner: () => enlist(states, 0),
-                            rejectDinner: () => reject(states, 0)
+                            menuText: _weekData.menu[0],
+                            enlistmentState: _weekData.states[0],
+                            enlistForDinner: () => setState(() {
+                              _weekData.states[0] = EnlistStates.enlisted;
+                              writeWeekData(_weekData);
+                            }),
+                            rejectDinner: () => setState(() {
+                              _weekData.states[0] = EnlistStates.rejected;
+                              writeWeekData(_weekData);
+                            }),
                         ),
                         MenuTile(
                             dateString:
                             "${_dayNumberInWeekToDayString(dates[1].weekday)} d. ${dates[1].day} ${_monthNumberToMonthString(dates[1].month)}",
-                            menuText: snapshot.data!.menu[1],
-                            enlistForDinner: () => enlist(states, 1),
-                            rejectDinner: () => reject(states, 1)
+                            menuText: _weekData.menu[1],
+                            enlistmentState: _weekData.states[1],
+                          enlistForDinner: () => setState(() {
+                            _weekData.states[1] = EnlistStates.enlisted;
+                            writeWeekData(_weekData);
+                          }),
+                          rejectDinner: () => setState(() {
+                            _weekData.states[1] = EnlistStates.rejected;
+                            writeWeekData(_weekData);
+                          }),
                         ),
                         MenuTile(
                             dateString:
                             "${_dayNumberInWeekToDayString(dates[2].weekday)} d. ${dates[2].day} ${_monthNumberToMonthString(dates[2].month)}",
-                            menuText: snapshot.data!.menu[2],
-                            enlistForDinner: () => enlist(states, 2),
-                            rejectDinner: () => reject(states, 2)
+                            menuText: _weekData.menu[2],
+                            enlistmentState: _weekData.states[2],
+                            enlistForDinner: () => setState(() {
+                              _weekData.states[2] = EnlistStates.enlisted;
+                              writeWeekData(_weekData);
+                            }),
+                            rejectDinner: () => setState(() {
+                              _weekData.states[2] = EnlistStates.rejected;
+                              writeWeekData(_weekData);
+                            }),
                         ),
                         MenuTile(
                             dateString:
                             "${_dayNumberInWeekToDayString(dates[3].weekday)} d. ${dates[3].day} ${_monthNumberToMonthString(dates[3].month)}",
-                            menuText: snapshot.data!.menu[3],
-                            enlistForDinner: () => enlist(states, 3),
-                            rejectDinner: () => reject(states, 3)
+                            menuText: _weekData.menu[3],
+                            enlistmentState: _weekData.states[3],
+                            enlistForDinner: () => setState(() {
+                              _weekData.states[3] = EnlistStates.enlisted;
+                              writeWeekData(_weekData);
+                            }),
+                            rejectDinner: () => setState(() {
+                              _weekData.states[3] = EnlistStates.rejected;
+                              writeWeekData(_weekData);
+                            }),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         // TODO: Fredag
                         Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 70),
-                          child: ColoredButton.filled(
-                              onPressed: () => {
-                                if (!states.take(4).any((element) => element == EnlistStates.none)) {
-
-                                  writeAndSend(_weekData)
-                                }
-                                else {
-                                  // TODO: Popup warning
-                                  print("Mangler stadigvæk at tage stilling: $states")
-                                }
-                              },
-                              fillColor: CupertinoColors.systemBlue,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(CupertinoIcons.paperplane),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Send tilmelding"),
-                                ],
-                              )),
+                          margin: const EdgeInsets.symmetric(horizontal: 60),
+                          child: CupertinoButton.filled(
+                            disabledColor: CupertinoColors.systemGrey,
+                            onPressed: _weekData.states.take(4).any((element) => element == EnlistStates.none) ? null : () => sendWeekData(_weekData),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(CupertinoIcons.paperplane),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Send tilmelding"),
+                              ],
+                            )
+                          ),
                         ),
                         const SizedBox(
                           height: 30,
@@ -228,13 +249,11 @@ class _WeekPageState extends State<WeekPage> {
                 ),
               ));
         }
-
         else if (snapshot.hasError) {
           child = const Center(
             child: Text("Ingen menu tilgængelig for denne uge"),
           );
         }
-
         else {
           child = const CupertinoActivityIndicator();
         }
@@ -246,7 +265,7 @@ class _WeekPageState extends State<WeekPage> {
                 onPressed: () => {
                   Navigator
                       .of(context)
-                      .pushReplacementNamed("mondayOfWeek/${widget.mondayOfWeek.subtract(const Duration(days: 7)).toString()}")
+                      .pushReplacementNamed("mondayOfWeek/${DateFormat("yyyy-MM-dd").format(widget.mondayOfWeek.subtract(const Duration(days: 7)))}")
                 },
                 padding: EdgeInsets.zero,
                 child: const Icon(CupertinoIcons.arrow_left_circle_fill),
@@ -256,7 +275,7 @@ class _WeekPageState extends State<WeekPage> {
                   onPressed: () => {
                     Navigator
                         .of(context)
-                        .pushReplacementNamed("mondayOfWeek/${widget.mondayOfWeek.add(const Duration(days: 7)).toString()}")
+                        .pushReplacementNamed("mondayOfWeek/${DateFormat("yyyy-MM-dd").format(widget.mondayOfWeek.add(const Duration(days: 7)))}")
                   },
                   padding: EdgeInsets.zero,
                   child: const Icon(CupertinoIcons.arrow_right_circle_fill)),
