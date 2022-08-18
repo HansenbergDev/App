@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:tilmeldings_system/Utilities/util.dart';
+import 'package:tilmeldings_system/Widgets/IconCupertinoButton.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import '../Models/StudentWeekData.dart';
@@ -142,27 +143,13 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                                 height: 20,
                               );
                             case 6:
-                              return Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 60),
-                                child: CupertinoButton.filled(
-                                    disabledColor: CupertinoColors.systemGrey,
-                                    onPressed: _weekData.states
-                                        .take(4)
-                                        .any((element) => element == EnlistmentStates.none)
-                                        ? null : () => _sendWeekData(_weekData),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: const [
-                                        Icon(CupertinoIcons.paperplane),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text("Send tilmelding"),
-                                      ],
-                                    )),
-                              );
+                              return IconCupertinoButtonFilled(
+                                  onPressed: () => _weekData.states
+                                      .take(4)
+                                      .any((element) => element == EnlistmentStates.none)
+                                      ? null : () => _sendWeekData(_weekData),
+                                  text: "Send tilmelding",
+                                  icon: CupertinoIcons.paperplane);
                             case 7:
                               return const SizedBox(
                                 height: 30,
@@ -182,7 +169,6 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
           }
 
           return CupertinoPageScaffold(
-              backgroundColor: CupertinoColors.secondarySystemBackground,
               navigationBar: CupertinoNavigationBar(
                 leading: CupertinoButton(
                   onPressed: () => _navigateToPreviousWeek(),
