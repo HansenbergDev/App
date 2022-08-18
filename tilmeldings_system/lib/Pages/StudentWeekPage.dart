@@ -7,7 +7,7 @@ import 'package:week_of_year/date_week_extensions.dart';
 
 import '../Models/StudentWeekData.dart';
 import '../Utilities/StudentWeekDataStorage.dart';
-import 'MenuTile.dart';
+import '../Widgets/MenuTile.dart';
 
 class StudentWeekPage extends StatefulWidget {
   const StudentWeekPage(
