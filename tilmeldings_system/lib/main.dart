@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tilmeldings_system/Pages/ChooseViewPage.dart';
-
-import 'Pages/HomePage.dart';
+import 'package:tilmeldings_system/Pages/HomePage.dart';
+import 'package:tilmeldings_system/Pages/StudentRegistration.dart';
 
 void main() {
   runApp(const HansenbergApp());
@@ -30,7 +30,7 @@ class HansenbergApp extends StatelessWidget {
         '/': (BuildContext context) => const ChooseViewPage(),
         '/student/home': (BuildContext context) => HomePage(studentName: studentName),
         '/student/login': (BuildContext context) => const CupertinoPageScaffold(child: Text("Student login")),
-        '/student/registration': (BuildContext context) => const CupertinoPageScaffold(child: Text("Student registration")),
+        '/student/registration': (BuildContext context) => const StudentRegistration(),
         '/staff/login': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff login")),
         '/staff/home': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff home")),
       },

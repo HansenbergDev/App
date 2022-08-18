@@ -10,8 +10,7 @@ class IconCupertinoButtonFilled extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:
-      const EdgeInsets.symmetric(horizontal: 60),
+      margin: const EdgeInsets.symmetric(horizontal: 60),
       child: CupertinoButton.filled(
           disabledColor: CupertinoColors.systemGrey,
           onPressed: onPressed,
