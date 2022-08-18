@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 import 'Pages/HomePage.dart';
 
 void main() {
@@ -13,6 +14,7 @@ class HansenbergApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // TODO: Fetch from databse
     return CupertinoApp(
       title: _title,
       debugShowCheckedModeBanner: false,
