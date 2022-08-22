@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tilmeldings_system/Models/StudentNotifier.dart';
 import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Pages/ChooseViewPage.dart';
+import 'package:tilmeldings_system/Pages/LoginPage.dart';
 import 'package:tilmeldings_system/Pages/InitPage.dart';
 import 'package:tilmeldings_system/Pages/StudentLoginPage.dart';
 import 'package:tilmeldings_system/Pages/StudentPage.dart';
@@ -54,10 +54,10 @@ class _HansenbergAppState extends State<HansenbergApp> {
         initialRoute: '/',
         routes: <String, WidgetBuilder> {
           '/': (BuildContext context) => InitPage(storage: TokenStorage()),
-          '/login': (BuildContext context) => const ChooseViewPage(),
+          '/login': (BuildContext context) => const LoginPage(),
           '/student': (BuildContext context) => const StudentPage(),
           '/student/login': (BuildContext context) => StudentLoginPage(studentClient: studentClient),
-          '/student/registration': (BuildContext context) => const StudentRegistration(),
+          '/student/registration': (BuildContext context) => StudentRegistration(studentClient: studentClient),
           '/staff/login': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff login")),
           '/staff': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff home")),
         });

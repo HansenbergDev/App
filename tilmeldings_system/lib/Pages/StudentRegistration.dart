@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tilmeldings_system/Utilities/StudentClient.dart';
+import 'package:tilmeldings_system/Widgets/DatePicker.dart';
 import 'package:tilmeldings_system/Widgets/ItemPicker.dart';
 import 'package:tilmeldings_system/Widgets/TextfieldWithTitle.dart';
 
 import '../Widgets/IconCupertinoButton.dart';
 
 class StudentRegistration extends StatefulWidget {
-  const StudentRegistration({Key? key}) : super(key: key);
+  const StudentRegistration({Key? key, required this.studentClient}) : super(key: key);
+
+  final StudentClient studentClient;
 
   @override
   State<StudentRegistration> createState() => _StudentRegistrationState();
@@ -24,6 +28,8 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   late TextEditingController _nameController;
   int _selectedEducation = 0;
   int _selectedCourse = 0;
+  DateTime _enrolledFrom = DateTime.now();
+  DateTime _enrolledTo = DateTime.now();
 
   @override
   void initState() {
@@ -36,6 +42,13 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     super.dispose();
     _nameController.dispose();
   }
+
+  void _sendRegistration() async {
+    // widget.studentClient.registerStudent(name, enrolledFrom, enrolledTo)
+
+    Navigator.of(context).pushReplacementNamed("/student");
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,17 +89,26 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     text: "Vælg din klasse: ",
                     fontSize: 18,
                     list: _educations,
-                    callback: (int selected) => _selectedEducation = selected),
+                    callback: (int selected) => _selectedEducation = selected
+                ),
                 ItemPicker(
                     text: "Vælg forløb: ",
                     fontSize: 18,
                     list: _course,
-                    callback: (int selected) => _selectedCourse = selected),
-                // TODO: Indskrevet fra
-                // TODO: Indskrevet til
+                    callback: (int selected) => _selectedCourse = selected
+                ),
+                DatePicker(
+                    title: "Indskrevet fra",
+                    callback: (DateTime date) => _enrolledFrom = date
+                ),
+                DatePicker(
+                    title: "Indskrevet til",
+                    callback: (DateTime date) => _enrolledTo = date
+                ),
+                const SizedBox(height: 20,),
                 // https://api.flutter.dev/flutter/cupertino/CupertinoDatePicker-class.html
                 IconCupertinoButtonFilled(
-                  onPressed: () => Navigator.of(context).pushReplacementNamed("/student"),
+                  onPressed: () => _sendRegistration(),
                   text: "Log ind",
                   icon: CupertinoIcons.chevron_right_square,
                 ),

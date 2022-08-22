@@ -2,7 +2,6 @@
 
 import 'package:flutter/cupertino.dart';
 
-
 class ItemPicker extends StatefulWidget {
   const ItemPicker({Key? key, required this.text, required this.fontSize, required this.list, required this.callback}) : super(key: key);
 
@@ -87,3 +86,4 @@ class _ItemPickerState extends State<ItemPicker> {
     );
   }
 }
+

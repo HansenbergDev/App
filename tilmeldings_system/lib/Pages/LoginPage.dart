@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tilmeldings_system/Widgets/IconCupertinoButton.dart';
 
-class ChooseViewPage extends StatelessWidget {
-  const ChooseViewPage({Key? key}) : super(key: key);
+class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

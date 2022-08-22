@@ -8,6 +8,27 @@ class StudentClient {
 
   final HttpClient httpClient;
 
+  Future<String> registerStudent(String name, DateTime enrolledFrom, DateTime enrolledTo) async {
+    final response = await httpClient.post(
+      '/student/register',
+      <String, String> {},
+      jsonEncode(<String, String> {
+        'name': name,
+        'enrolled_from': enrolledFrom.toString(),
+        'enrolled_to': enrolledTo.toString()
+      })
+    );
+
+    if (response.statusCode == 201) {
+      final token = "student|${jsonDecode(response.body)['token']}";
+      print(token);
+      return token;
+    }
+    else {
+      throw Exception("Failed to create student: ${response.statusCode}, ${response.body}");
+    }
+  }
+
   Future<Student> getStudent(String token) async {
     final response = await httpClient.get(
         '/student',
