@@ -7,7 +7,7 @@ import 'package:tilmeldings_system/Widgets/IconCupertinoButton.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import '../Models/StudentWeekData.dart';
-import '../Utilities/StudentWeekDataStorage.dart';
+import '../Utilities/Storage/StudentWeekDataStorage.dart';
 import '../Widgets/MenuTile.dart';
 
 class StudentWeekPage extends StatefulWidget {

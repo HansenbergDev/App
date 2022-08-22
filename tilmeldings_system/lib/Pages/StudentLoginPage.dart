@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tilmeldings_system/Models/Student.dart';
 import 'package:tilmeldings_system/Models/StudentNotifier.dart';
 import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Utilities/StudentClient.dart';
+import 'package:tilmeldings_system/Utilities/Clients/StudentClient.dart';
 import 'package:tilmeldings_system/Widgets/ActivityIndicatorWithTitle.dart';
 
 class StudentLoginPage extends StatefulWidget {

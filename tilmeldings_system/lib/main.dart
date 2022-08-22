@@ -7,10 +7,10 @@ import 'package:tilmeldings_system/Pages/InitPage.dart';
 import 'package:tilmeldings_system/Pages/StudentLoginPage.dart';
 import 'package:tilmeldings_system/Pages/StudentPage.dart';
 import 'package:tilmeldings_system/Pages/StudentRegistration.dart';
-import 'package:tilmeldings_system/Utilities/StudentClient.dart';
-import 'package:tilmeldings_system/Utilities/TokenStorage.dart';
+import 'package:tilmeldings_system/Utilities/Clients/StudentClient.dart';
+import 'package:tilmeldings_system/Utilities/Storage/TokenStorage.dart';
 import 'package:tilmeldings_system/Widgets/CupertinoAppWithRoutes.dart';
-import 'package:tilmeldings_system/Utilities/HttpClient.dart';
+import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
 
 void main() {
   runApp(

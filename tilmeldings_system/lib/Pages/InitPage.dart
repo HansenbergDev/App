@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Utilities/TokenStorage.dart';
+import 'package:tilmeldings_system/Utilities/Storage/TokenStorage.dart';
 import 'package:tilmeldings_system/Widgets/ActivityIndicatorWithTitle.dart';
 
 class InitPage extends StatelessWidget {

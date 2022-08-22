@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../Utilities/Storage.dart';
+import 'Storage.dart';
 
 class TokenStorage extends Storage{
 

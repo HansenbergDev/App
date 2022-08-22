@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 import 'package:tilmeldings_system/Models/Student.dart';
-import 'package:tilmeldings_system/Utilities/HttpClient.dart';
+import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
 
 class StudentClient {
   const StudentClient({required this.httpClient});

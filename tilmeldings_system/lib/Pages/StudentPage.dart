@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tilmeldings_system/Models/StudentNotifier.dart';
 
-import '../Utilities/StudentWeekDataStorage.dart';
+import '../Utilities/Storage/StudentWeekDataStorage.dart';
 import 'StudentWeekPage.dart';
 
 class StudentPage extends StatefulWidget {
