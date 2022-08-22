@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class HttpClient {
@@ -9,11 +11,11 @@ class HttpClient {
     return http.get(Uri.parse('$base$endpoint'), headers: headers);
   }
 
-  Future<http.Response> post(String endpoint, Map<String, String> headers, Object body) {
+  Future<http.Response> post(String endpoint, Map<String, String> headers, Map<String, dynamic> body) {
     return http.post(
       Uri.parse("$base$endpoint"),
       headers: headers,
-      body: body
+      body: jsonEncode(body)
     );
   }
 }

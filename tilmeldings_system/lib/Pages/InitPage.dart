@@ -18,11 +18,11 @@ class InitPage extends StatelessWidget {
           builder: (BuildContext futureContext, AsyncSnapshot<String> snapshot) {
             if (snapshot.hasData) {
               var split = snapshot.data!.split('|');
-              var tokenModel = context.read<TokenNotifier>();
+              var tokenNotifier = context.read<TokenNotifier>();
 
               if (split.first.compareTo('student') == 0) {
                 Future.delayed(Duration.zero, () {
-                  tokenModel.setToken(split.last.trim());
+                  tokenNotifier.setToken(split.last.trim());
                   Navigator.of(context).pushReplacementNamed('/student/login');
                 });
 
@@ -30,7 +30,7 @@ class InitPage extends StatelessWidget {
               }
               else if (split.first.compareTo('staff') == 0) {
                 Future.delayed(Duration.zero, () {
-                  tokenModel.setToken(split.last.trim());
+                  tokenNotifier.setToken(split.last.trim());
                   Navigator.of(context).pushReplacementNamed('/staff/login');
                 });
 

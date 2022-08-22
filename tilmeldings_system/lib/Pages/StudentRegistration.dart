@@ -1,15 +1,21 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:tilmeldings_system/Models/Student.dart';
+import 'package:tilmeldings_system/Models/TokenNotifier.dart';
 import 'package:tilmeldings_system/Utilities/StudentClient.dart';
+import 'package:tilmeldings_system/Utilities/TokenStorage.dart';
 import 'package:tilmeldings_system/Widgets/DatePicker.dart';
 import 'package:tilmeldings_system/Widgets/ItemPicker.dart';
 import 'package:tilmeldings_system/Widgets/TextfieldWithTitle.dart';
 
+import '../Models/StudentNotifier.dart';
 import '../Widgets/IconCupertinoButton.dart';
 
 class StudentRegistration extends StatefulWidget {
-  const StudentRegistration({Key? key, required this.studentClient}) : super(key: key);
+  const StudentRegistration({Key? key, required this.studentClient, required this.storage}) : super(key: key);
 
   final StudentClient studentClient;
+  final TokenStorage storage;
 
   @override
   State<StudentRegistration> createState() => _StudentRegistrationState();
@@ -44,9 +50,37 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   }
 
   void _sendRegistration() async {
-    // widget.studentClient.registerStudent(name, enrolledFrom, enrolledTo)
+    String token;
 
-    Navigator.of(context).pushReplacementNamed("/student");
+    // TODO: Input validation
+
+    try {
+      token = await widget.studentClient.registerStudent(_nameController.text, _enrolledFrom, _enrolledTo);
+      Future.delayed(Duration.zero, () {
+        context.read<TokenNotifier>().setToken(token.split('/').last);
+        context.read<StudentNotifier>().set(
+            Student(
+                studentName: _nameController.text,
+                enrolledFrom: _enrolledFrom,
+                enrolledTo: _enrolledTo
+            )
+        );
+
+        Navigator.of(context).pushReplacementNamed("/student");
+      });
+    }
+    catch(e) {
+      // TODO: Vis popup
+      throw Exception(e);
+    }
+
+    try {
+      widget.storage.writeToken(token);
+    }
+    catch(e) {
+      // TODO: Gør noget?
+      throw Exception(e);
+    }
   }
 
 
@@ -99,10 +133,12 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                 ),
                 DatePicker(
                     title: "Indskrevet fra",
+                    fontSize: 18,
                     callback: (DateTime date) => _enrolledFrom = date
                 ),
                 DatePicker(
                     title: "Indskrevet til",
+                    fontSize: 18,
                     callback: (DateTime date) => _enrolledTo = date
                 ),
                 const SizedBox(height: 20,),

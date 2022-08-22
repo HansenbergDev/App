@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'package:tilmeldings_system/Models/Student.dart';
 import 'package:tilmeldings_system/Utilities/HttpClient.dart';
 
@@ -11,18 +12,18 @@ class StudentClient {
   Future<String> registerStudent(String name, DateTime enrolledFrom, DateTime enrolledTo) async {
     final response = await httpClient.post(
       '/student/register',
-      <String, String> {},
-      jsonEncode(<String, String> {
+      <String, String> {
+        'Content-Type': 'application/json'
+      },
+      <String, dynamic> {
         'name': name,
-        'enrolled_from': enrolledFrom.toString(),
-        'enrolled_to': enrolledTo.toString()
-      })
+        'enrolled_from': DateFormat("yyyy-MM-dd").format(enrolledFrom),
+        'enrolled_to': DateFormat("yyyy-MM-dd").format(enrolledTo)
+      }
     );
 
     if (response.statusCode == 201) {
-      final token = "student|${jsonDecode(response.body)['token']}";
-      print(token);
-      return token;
+      return "student|${jsonDecode(response.body)['token']}";
     }
     else {
       throw Exception("Failed to create student: ${response.statusCode}, ${response.body}");

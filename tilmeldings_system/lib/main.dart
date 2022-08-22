@@ -57,7 +57,7 @@ class _HansenbergAppState extends State<HansenbergApp> {
           '/login': (BuildContext context) => const LoginPage(),
           '/student': (BuildContext context) => const StudentPage(),
           '/student/login': (BuildContext context) => StudentLoginPage(studentClient: studentClient),
-          '/student/registration': (BuildContext context) => StudentRegistration(studentClient: studentClient),
+          '/student/registration': (BuildContext context) => StudentRegistration(studentClient: studentClient, storage: TokenStorage()),
           '/staff/login': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff login")),
           '/staff': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff home")),
         });

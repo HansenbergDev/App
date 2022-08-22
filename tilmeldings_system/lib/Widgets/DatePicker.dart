@@ -3,9 +3,10 @@
 import 'package:flutter/cupertino.dart';
 
 class DatePicker extends StatefulWidget {
-  const DatePicker({Key? key, required this.title, required this.callback}) : super(key: key);
+  const DatePicker({Key? key, required this.title, required this.fontSize, required this.callback}) : super(key: key);
 
   final String title;
+  final double fontSize;
   final Function callback;
 
   @override
@@ -62,8 +63,8 @@ class _DatePickerState extends State<DatePicker> {
             // to format the value based on user's locale settings.
             child: Text(
               '${_date.day < 10 ? "0${_date.day}" : _date.day}-${_date.month < 10 ? "0${_date.month}" : _date.month}-${_date.year}',
-              style: const TextStyle(
-                fontSize: 22.0,
+              style: TextStyle(
+                fontSize: widget.fontSize,
               ),
             ),
           ),

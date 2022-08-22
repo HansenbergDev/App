@@ -17,4 +17,9 @@ class TokenStorage extends Storage{
 
     return token;
   }
+
+  Future<File> writeToken(String token) async {
+    final file = await localFile();
+    return file.writeAsString(token);
+  }
 }
