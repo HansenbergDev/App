@@ -2,23 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../Models/StudentWeekData.dart';
 import '../Utilities/util.dart';
+import '../Utilities/Storage.dart';
 
-class StudentWeekDataStorage {
-  const StudentWeekDataStorage({required this.date});
+class StudentWeekDataStorage extends Storage {
+  StudentWeekDataStorage({required this.date});
 
   final DateTime date;
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
+  @override
+  Future<File> localFile() async {
+    final path = await localPath();
     Directory("$path/week_data")
         .exists()
         .then((value) => !value ? Directory("$path/week_data").create() : "");
@@ -27,7 +23,7 @@ class StudentWeekDataStorage {
   }
 
   Future<StudentWeekData> readWeekData() async {
-    final file = await _localFile;
+    final file = await localFile();
     final content = await file.readAsString();
 
     final days = content.split(';').take(5).toList();
@@ -43,7 +39,7 @@ class StudentWeekDataStorage {
   }
 
   Future<File> writeWeekData(StudentWeekData data) async {
-    final file = await _localFile;
+    final file = await localFile();
     return file.writeAsString(data.toString());
   }
 }

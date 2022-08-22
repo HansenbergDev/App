@@ -1,39 +1,68 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:tilmeldings_system/Models/StudentNotifier.dart';
+import 'package:tilmeldings_system/Models/TokenNotifier.dart';
 import 'package:tilmeldings_system/Pages/ChooseViewPage.dart';
-import 'package:tilmeldings_system/Pages/HomePage.dart';
+import 'package:tilmeldings_system/Pages/InitPage.dart';
+import 'package:tilmeldings_system/Pages/StudentLoginPage.dart';
+import 'package:tilmeldings_system/Pages/StudentPage.dart';
 import 'package:tilmeldings_system/Pages/StudentRegistration.dart';
+import 'package:tilmeldings_system/Utilities/StudentClient.dart';
+import 'package:tilmeldings_system/Utilities/TokenStorage.dart';
+import 'package:tilmeldings_system/Widgets/CupertinoAppWithRoutes.dart';
+import 'package:tilmeldings_system/Utilities/HttpClient.dart';
 
 void main() {
-  runApp(const HansenbergApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => TokenNotifier(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StudentNotifier(),
+        ),
+      ],
+      child: const HansenbergApp(),
+    )
+  );
 }
 
-class HansenbergApp extends StatelessWidget {
+
+class HansenbergApp extends StatefulWidget {
   const HansenbergApp({Key? key}) : super(key: key);
 
-  final String _title = "Hansenberg App";
+  @override
+  State<HansenbergApp> createState() => _HansenbergAppState();
+}
 
-  // This widget is the root of your application.
+class _HansenbergAppState extends State<HansenbergApp> {
+
+  // final String uriBase = "http://localhost:4001";
+  final String uriBase = "http://10.0.2.2:4001";
+
   @override
   Widget build(BuildContext context) {
-    // TODO: Fetch from databse
 
-    String studentName = "ElevNavn";
-    return CupertinoApp(
-      theme: const CupertinoThemeData(
-        scaffoldBackgroundColor: CupertinoColors.secondarySystemBackground,
-        brightness: Brightness.light,
-      ),
-      title: _title,
-      debugShowCheckedModeBanner: false,
-      initialRoute: "/",
-      routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => const ChooseViewPage(),
-        '/student/home': (BuildContext context) => HomePage(studentName: studentName),
-        '/student/login': (BuildContext context) => const CupertinoPageScaffold(child: Text("Student login")),
-        '/student/registration': (BuildContext context) => const StudentRegistration(),
-        '/staff/login': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff login")),
-        '/staff/home': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff home")),
-      },
+    StudentClient studentClient = StudentClient(
+        httpClient: HttpClient(
+            base: uriBase
+        )
     );
+
+    return CupertinoAppWithRoutes(
+        initialRoute: '/',
+        routes: <String, WidgetBuilder> {
+          '/': (BuildContext context) => InitPage(storage: TokenStorage()),
+          '/login': (BuildContext context) => const ChooseViewPage(),
+          '/student': (BuildContext context) => const StudentPage(),
+          '/student/login': (BuildContext context) => StudentLoginPage(studentClient: studentClient),
+          '/student/registration': (BuildContext context) => const StudentRegistration(),
+          '/staff/login': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff login")),
+          '/staff': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff home")),
+        });
   }
 }
+
+
+

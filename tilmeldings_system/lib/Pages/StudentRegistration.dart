@@ -86,7 +86,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                 // TODO: Indskrevet til
                 // https://api.flutter.dev/flutter/cupertino/CupertinoDatePicker-class.html
                 IconCupertinoButtonFilled(
-                  onPressed: () => Navigator.of(context).pushReplacementNamed("/student/home"),
+                  onPressed: () => Navigator.of(context).pushReplacementNamed("/student"),
                   text: "Log ind",
                   icon: CupertinoIcons.chevron_right_square,
                 ),

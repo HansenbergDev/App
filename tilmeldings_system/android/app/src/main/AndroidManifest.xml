@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tilmeldings_system">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="tilmeldings_system"
         android:name="${applicationName}"

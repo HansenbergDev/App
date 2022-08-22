@@ -1,21 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:tilmeldings_system/Models/StudentNotifier.dart';
 
 import '../Utilities/StudentWeekDataStorage.dart';
 import 'StudentWeekPage.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.studentName}) : super(key: key);
+class StudentPage extends StatefulWidget {
+  const StudentPage({Key? key}) : super(key: key);
 
-  final String studentName;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<StudentPage> createState() => _StudentPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _StudentPageState extends State<StudentPage> {
+
   @override
   Widget build(BuildContext context) {
+
+    var studentName = context.select<StudentNotifier, String>(
+          (notifier) => notifier.student!.studentName,
+    );
+
     return CupertinoPageScaffold(
         backgroundColor: CupertinoColors.secondarySystemBackground,
         navigationBar: CupertinoNavigationBar(
@@ -25,7 +32,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.zero,
             child: const Icon(CupertinoIcons.bars),
           ),
-          middle: Text("Hej ${widget.studentName}!"),
+          middle: Text("Hej $studentName!"),
           trailing: CupertinoButton(
             // TODO: Implement chat
             onPressed: () => print("Chat"),
