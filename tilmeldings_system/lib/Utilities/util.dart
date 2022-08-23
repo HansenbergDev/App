@@ -1,6 +1,16 @@
+// TODO: Konverter alt med EnlistmentStates til bool?
+
 // DO NOT CHANGE THE NAMES IN THIS ENUM
 // They will have to be manually changed in every saved StudentWeekData file
 enum EnlistmentStates { none, enlisted, rejected }
+
+EnlistmentStates boolToEnlistmentStates(bool b) {
+  return b ? EnlistmentStates.enlisted : EnlistmentStates.rejected;
+}
+
+bool EnlistmentStatesToBool(EnlistmentStates state) {
+  return state == EnlistmentStates.enlisted ? true : false;
+}
 
 String dayNumberInWeekToDayString(int dayNumber) {
   switch (dayNumber) {

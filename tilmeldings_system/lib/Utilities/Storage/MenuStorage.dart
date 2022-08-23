@@ -35,6 +35,10 @@ class MenuStorage extends Storage {
     );
   }
 
+  Future<bool> menuExists() async {
+    return localFile().then((value) => value.exists());
+  }
+
   Future<File> writeMenu(Menu menu) async {
     final file = await localFile();
     return file.writeAsString(menu.toString());

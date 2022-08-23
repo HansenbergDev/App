@@ -1,4 +1,4 @@
-class Menu {
+class Menu extends Iterable<String>{
 
   const Menu({
     required this.monday,
@@ -26,4 +26,7 @@ class Menu {
       thursday: json['thursday']
     );
   }
+
+  @override
+  Iterator<String> get iterator => [monday, tuesday, wednesday, thursday].iterator;
 }

@@ -1,4 +1,6 @@
-class Enlistment {
+import 'package:tilmeldings_system/Utilities/util.dart';
+
+class Enlistment extends Iterable<bool>{
 
   const Enlistment({
     required this.monday,
@@ -28,4 +30,17 @@ class Enlistment {
         friday: json['friday'],
     );
   }
+
+  factory Enlistment.fromEnlistmentStates(List<EnlistmentStates> list) {
+    return Enlistment(
+        monday: EnlistmentStatesToBool(list[0]),
+        tuesday: EnlistmentStatesToBool(list[1]),
+        wednesday: EnlistmentStatesToBool(list[2]),
+        thursday: EnlistmentStatesToBool(list[3]),
+        friday: EnlistmentStatesToBool(list[4])
+    );
+  }
+
+  @override
+  Iterator<bool> get iterator => [monday, tuesday, wednesday, thursday, friday].iterator;
 }

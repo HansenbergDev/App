@@ -12,10 +12,10 @@ import '../Models/StudentNotifier.dart';
 import '../Widgets/IconCupertinoButton.dart';
 
 class StudentRegistration extends StatefulWidget {
-  const StudentRegistration({Key? key, required this.studentClient, required this.storage}) : super(key: key);
+  const StudentRegistration({Key? key, required this.studentClient, required this.tokenStorage}) : super(key: key);
 
   final StudentClient studentClient;
-  final TokenStorage storage;
+  final TokenStorage tokenStorage;
 
   @override
   State<StudentRegistration> createState() => _StudentRegistrationState();
@@ -75,7 +75,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     }
 
     try {
-      await widget.storage.writeToken(token);
+      await widget.tokenStorage.writeToken(token);
     }
     catch(e) {
       // TODO: Gør noget?

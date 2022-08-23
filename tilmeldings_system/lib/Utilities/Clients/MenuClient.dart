@@ -29,24 +29,44 @@ class MenuClient {
     }
   }
 
-  Future<List<Menu>> getMenuAll() async {
+  Future<Menu?> getMenu(int year, int week) async {
     final response = await httpClient.get(
-        '/menu/all',
+        '/menu/single',
+        <String, String> {
+          'year': '$year',
+          'week': '$week',
+        },
         <String, String> {}
     );
 
     if (response.statusCode == 200) {
-      List<Map<String, dynamic>> json = jsonDecode(response.body);
-      List<Menu> result = [];
-
-      for (var element in json) {
-        result.add(Menu.fromJson(element));
-      }
-
-      return result;
+      return Menu.fromJson(jsonDecode(response.body));
     }
     else {
-      throw Exception('Failed to get all menus: ${response.statusCode}, ${response.body}');
+      print('Failed to get menu: ${response.statusCode}, ${response.body}');
+      return null;
     }
   }
+
+  // Future<List<Menu>> getMenuAll() async {
+  //   final response = await httpClient.get(
+  //       '/menu/all',
+  //       <String, String> {},
+  //       <String, String> {}
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     List<Map<String, dynamic>> json = jsonDecode(response.body);
+  //     List<Menu> result = [];
+  //
+  //     for (var element in json) {
+  //       result.add(Menu.fromJson(element));
+  //     }
+  //
+  //     return result;
+  //   }
+  //   else {
+  //     throw Exception('Failed to get all menus: ${response.statusCode}, ${response.body}');
+  //   }
+  // }
 }

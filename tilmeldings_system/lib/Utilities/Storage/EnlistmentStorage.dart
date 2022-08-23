@@ -4,8 +4,8 @@ import 'package:tilmeldings_system/Models/Enlistment.dart';
 
 import 'Storage.dart';
 
-class MenuStorage extends Storage {
-  const MenuStorage({required this.year, required this.week}) : super();
+class EnlistmentStorage extends Storage {
+  const EnlistmentStorage({required this.year, required this.week}) : super();
 
   final int year;
   final int week;
@@ -19,6 +19,10 @@ class MenuStorage extends Storage {
         .then((value) => !value ? Directory(path).create() : "");
 
     return File('$path/$year-$week');
+  }
+
+  Future<bool> enlistmentExists() {
+    return localFile().then((value) => value.exists());
   }
 
   Future<Enlistment> readEnlistment() async {
@@ -44,7 +48,7 @@ class MenuStorage extends Storage {
     );
   }
 
-  Future<File> writeMenu(Enlistment enlistment) async {
+  Future<File> writeEnlistment(Enlistment enlistment) async {
     final file = await localFile();
     return file.writeAsString(enlistment.toString());
   }

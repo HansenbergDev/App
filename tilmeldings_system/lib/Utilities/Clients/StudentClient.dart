@@ -30,9 +30,10 @@ class StudentClient {
     }
   }
 
-  Future<Student> getStudent(String token) async {
+  Future<Student?> getStudent(String token) async {
     final response = await httpClient.get(
         '/student',
+        <String, String> {},
         <String, String> {
           'x-access-token': token
         });
@@ -41,7 +42,8 @@ class StudentClient {
       return Student.fromJson(jsonDecode(response.body));
     }
     else {
-      throw Exception('Failed to get student: ${response.statusCode}, ${response.body}');
+      print('Failed to get student: ${response.statusCode}, ${response.body}');
+      return null;
     }
   }
 }

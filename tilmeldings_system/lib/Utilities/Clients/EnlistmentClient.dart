@@ -11,7 +11,7 @@ class EnlistmentClient {
 
   Future<void> createEnlistment(int year, int week, Enlistment enlistment, String token) async {
     final response = await httpClient.post(
-        '/student/enlistments',
+        '/student/enlistment',
         <String, String> {
           'Content-Type': 'application/json',
           'x-access-token': token
@@ -32,27 +32,49 @@ class EnlistmentClient {
     }
   }
 
-  Future<List<Enlistment>> getEnlistments(String token) async {
+  Future<Enlistment?> getEnlistment(int year, int week, String token) async {
     final response = await httpClient.get(
-        '/student/enlistments',
+        '/student/enlistment/single',
         <String, String> {
-          'x-access-token': token
+          'year': '$year',
+          'week': '$week',
+        },
+        <String, String> {
+          'x-access-params': token
         }
     );
 
     if (response.statusCode == 200) {
-      List<Map<String, dynamic>> json = jsonDecode(response.body);
-
-      List<Enlistment> result = [];
-
-      for (var element in json) {
-        result.add(Enlistment.fromJson(element));
-      }
-
-      return result;
+      return Enlistment.fromJson(jsonDecode(response.body));
     }
     else {
-      throw Exception('Failed to get enlistments: ${response.statusCode}, ${response.body}');
+      print("Failed to get enlistment: ${response.statusCode}, ${response.body}");
+      return null;
     }
   }
+
+  // Future<List<Enlistment>> getEnlistmentAll(String token) async {
+  //   final response = await httpClient.get(
+  //       '/student/enlistment',
+  //       <String, String> {},
+  //       <String, String> {
+  //         'x-access-token': token
+  //       }
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     List<Map<String, dynamic>> json = jsonDecode(response.body);
+  //
+  //     List<Enlistment> result = [];
+  //
+  //     for (var element in json) {
+  //       result.add(Enlistment.fromJson(element));
+  //     }
+  //
+  //     return result;
+  //   }
+  //   else {
+  //     throw Exception('Failed to get enlistments: ${response.statusCode}, ${response.body}');
+  //   }
+  // }
 }
