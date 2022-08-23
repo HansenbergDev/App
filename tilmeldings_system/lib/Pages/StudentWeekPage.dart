@@ -58,15 +58,6 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
   StudentWeekData _weekData = const StudentWeekData(menu: [], states: []);
   bool _expanded = false;
 
-  // TODO: Implement this:
-  // late Future<StudentWeekData> _weekData;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _weekData = widget.storage.readWeekData();
-  // }
-
   @override
   Widget build(BuildContext context) {
     var dates = List<DateTime>.generate(

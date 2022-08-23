@@ -8,18 +8,19 @@ import '../util.dart';
 import 'Storage.dart';
 
 class StudentWeekDataStorage extends Storage {
-  StudentWeekDataStorage({required this.date});
+  const StudentWeekDataStorage({required this.date});
 
   final DateTime date;
 
   @override
   Future<File> localFile() async {
-    final path = await localPath();
-    Directory("$path/week_data")
-        .exists()
-        .then((value) => !value ? Directory("$path/week_data").create() : "");
+    final path = "${await localPath()}/week_data";
 
-    return File('$path/week_data/${DateFormat("yyyy-MM-dd").format(date)}');
+    Directory(path)
+        .exists()
+        .then((value) => !value ? Directory(path).create() : "");
+
+    return File('$path/${DateFormat("yyyy-MM-dd").format(date)}');
   }
 
   Future<StudentWeekData> readWeekData() async {

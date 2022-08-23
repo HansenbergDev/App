@@ -6,15 +6,8 @@ import 'package:tilmeldings_system/Models/StudentNotifier.dart';
 import '../Utilities/Storage/StudentWeekDataStorage.dart';
 import 'StudentWeekPage.dart';
 
-class StudentPage extends StatefulWidget {
+class StudentPage extends StatelessWidget {
   const StudentPage({Key? key}) : super(key: key);
-
-
-  @override
-  State<StudentPage> createState() => _StudentPageState();
-}
-
-class _StudentPageState extends State<StudentPage> {
 
   @override
   Widget build(BuildContext context) {

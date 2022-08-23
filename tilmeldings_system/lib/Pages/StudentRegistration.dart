@@ -75,7 +75,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     }
 
     try {
-      widget.storage.writeToken(token);
+      await widget.storage.writeToken(token);
     }
     catch(e) {
       // TODO: Gør noget?
