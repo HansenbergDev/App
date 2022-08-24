@@ -22,18 +22,20 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
     String token = context.select<TokenNotifier, String>((notifier) => notifier.token!);
 
     return CupertinoPageScaffold(
-      child: FutureBuilder<Student>(
-        builder: (BuildContext futureContext, AsyncSnapshot<Student> snapshot) {
+      child: FutureBuilder<Student?>(
+        builder: (BuildContext futureContext, AsyncSnapshot<Student?> snapshot) {
           if (snapshot.hasData) {
             Future.delayed(Duration.zero, () {
-              context.read<StudentNotifier>().set(snapshot.data!);
-              Navigator.of(context).pushReplacementNamed('/student');
+              if (snapshot.data != null) {
+                context.read<StudentNotifier>().set(snapshot.data!);
+                Navigator.of(context).pushReplacementNamed('/student');
+              }
+              else {
+                Navigator.of(context).pushReplacementNamed('/');
+              }
             });
 
             return const ActivityIndicatorWithTitle();
-          }
-          else if (snapshot.hasError) {
-            throw Exception("An error occurred during login: ${snapshot.error}");
           }
           else {
             return const ActivityIndicatorWithTitle();

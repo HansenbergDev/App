@@ -1,20 +1,53 @@
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tilmeldings_system/Models/StudentNotifier.dart';
+import 'package:tilmeldings_system/Utilities/Clients/EnlistmentClient.dart';
+import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
+import 'package:tilmeldings_system/Utilities/Clients/MenuClient.dart';
+import 'package:tilmeldings_system/Utilities/Storage/EnlistmentStorage.dart';
+import 'package:tilmeldings_system/Utilities/Storage/MenuStorage.dart';
+import 'package:week_of_year/date_week_extensions.dart';
 
-import '../Utilities/Storage/StudentWeekDataStorage.dart';
 import 'StudentWeekPage.dart';
 
-class StudentPage extends StatefulWidget {
-  const StudentPage({Key? key}) : super(key: key);
+class StudentPage extends StatelessWidget {
+  const StudentPage({
+    Key? key,
+    required this.httpClient
+  }) : super(key: key);
 
+  final HttpClient httpClient;
 
-  @override
-  State<StudentPage> createState() => _StudentPageState();
-}
+  String _initialRoute() {
+    DateTime now = DateTime.now();
+    return "${now.weekOfYear}";
+  }
 
-class _StudentPageState extends State<StudentPage> {
+  Route<dynamic> _onGenerateRoute(RouteSettings settings) {
+    final week = int.parse(settings.name!);
+
+    final now = DateTime.now();
+
+    final difference = 7 * (week - now.weekOfYear);
+
+    final next = now.add(Duration(days: difference));
+
+    final mondayOfWeek = next.subtract(Duration(days: next.weekday - 1));
+    final year = mondayOfWeek.year;
+    final newWeek = mondayOfWeek.weekOfYear;
+
+    WidgetBuilder builder;
+
+    builder = (BuildContext context) => StudentWeekPage(
+      mondayOfWeek: mondayOfWeek,
+      menuStorage: MenuStorage(year: year, week: newWeek),
+      enlistmentStorage: EnlistmentStorage(year: year, week: newWeek),
+      menuClient: MenuClient(httpClient: httpClient),
+      enlistmentClient: EnlistmentClient(httpClient: httpClient),
+    );
+
+    return CupertinoPageRoute(builder: builder, settings: settings);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,27 +74,8 @@ class _StudentPageState extends State<StudentPage> {
           ),
         ),
         child: Navigator(
-          initialRoute: 'mondayOfWeek/${DateFormat("yyyy-MM-dd").format(DateTime.now())}',
-          onGenerateRoute: (RouteSettings settings) {
-            var splitRoute = settings.name.toString().split('/');
-
-            if (splitRoute[0].compareTo('mondayOfWeek') != 0) {
-              throw Exception('Invalid route: ${splitRoute[0]}');
-            }
-
-            DateTime date = DateTime.parse(settings.name!.split('/').last);
-
-            var mondayOfWeek = date.subtract(Duration(days: date.weekday - 1));
-
-            WidgetBuilder builder;
-
-            builder = (BuildContext context) => StudentWeekPage(
-                  mondayOfWeek: mondayOfWeek,
-                  storage: StudentWeekDataStorage(date: mondayOfWeek),
-                );
-
-            return CupertinoPageRoute(builder: builder, settings: settings);
-          },
+          initialRoute: _initialRoute(),
+          onGenerateRoute: (RouteSettings settings) => _onGenerateRoute(settings),
         ));
   }
 }

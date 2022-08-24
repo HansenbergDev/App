@@ -44,20 +44,22 @@ class _HansenbergAppState extends State<HansenbergApp> {
   @override
   Widget build(BuildContext context) {
 
+    TokenStorage tokenStorage = TokenStorage();
+
+    HttpClient httpClient = HttpClient(base: uriBase);
+
     StudentClient studentClient = StudentClient(
-        httpClient: HttpClient(
-            base: uriBase
-        )
+        httpClient: httpClient
     );
 
     return CupertinoAppWithRoutes(
         initialRoute: '/',
         routes: <String, WidgetBuilder> {
-          '/': (BuildContext context) => InitPage(storage: TokenStorage()),
+          '/': (BuildContext context) => InitPage(tokenStorage: tokenStorage),
           '/login': (BuildContext context) => const LoginPage(),
-          '/student': (BuildContext context) => const StudentPage(),
+          '/student': (BuildContext context) => StudentPage(httpClient: httpClient,),
           '/student/login': (BuildContext context) => StudentLoginPage(studentClient: studentClient),
-          '/student/registration': (BuildContext context) => StudentRegistration(studentClient: studentClient, storage: TokenStorage()),
+          '/student/registration': (BuildContext context) => StudentRegistration(studentClient: studentClient, tokenStorage: tokenStorage),
           '/staff/login': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff login")),
           '/staff': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff home")),
         });

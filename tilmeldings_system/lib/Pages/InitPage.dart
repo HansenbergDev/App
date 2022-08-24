@@ -7,9 +7,9 @@ import 'package:tilmeldings_system/Utilities/Storage/TokenStorage.dart';
 import 'package:tilmeldings_system/Widgets/ActivityIndicatorWithTitle.dart';
 
 class InitPage extends StatelessWidget {
-  const InitPage({Key? key, required this.storage}) : super(key: key);
+  const InitPage({Key? key, required this.tokenStorage}) : super(key: key);
 
-  final TokenStorage storage;
+  final TokenStorage tokenStorage;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class InitPage extends StatelessWidget {
               return const ActivityIndicatorWithTitle();
             }
           },
-          future: storage.readToken(),
+          future: tokenStorage.readToken(),
         ),
     );
   }
