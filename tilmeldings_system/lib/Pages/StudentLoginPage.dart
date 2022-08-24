@@ -16,17 +16,32 @@ class StudentLoginPage extends StatefulWidget {
 }
 
 class _StudentLoginPageState extends State<StudentLoginPage> {
+
+  Future<Student> _fetchStudent(String token) async {
+    Student? student = await widget.studentClient.getStudent(token);
+
+    if (student != null) {
+      return student;
+    }
+    else {
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(0);
+      return Student(studentName: "", enrolledFrom: date, enrolledTo: date);
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
+
     String token = context.select<TokenNotifier, String>((notifier) => notifier.token!);
 
     return CupertinoPageScaffold(
-      child: FutureBuilder<Student?>(
-        builder: (BuildContext futureContext, AsyncSnapshot<Student?> snapshot) {
+      child: FutureBuilder<Student>(
+        builder: (BuildContext futureContext, AsyncSnapshot<Student> snapshot) {
           if (snapshot.hasData) {
             Future.delayed(Duration.zero, () {
-              if (snapshot.data != null) {
+              Student student = snapshot.data!;
+
+              if (student.studentName.isNotEmpty) {
                 context.read<StudentNotifier>().set(snapshot.data!);
                 Navigator.of(context).pushReplacementNamed('/student');
               }
@@ -37,11 +52,14 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
 
             return const ActivityIndicatorWithTitle();
           }
+          else if (snapshot.hasError) {
+            return Center(child: Text("An error happened: ${snapshot.error}"),);
+          }
           else {
             return const ActivityIndicatorWithTitle();
           }
         },
-        future: widget.studentClient.getStudent(token),
+        future: _fetchStudent(token),
       ),
     );
   }

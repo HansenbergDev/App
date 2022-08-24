@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tilmeldings_system/Widgets/ColoredCupertinoButton.dart';
 
 class IconCupertinoButtonFilled extends StatelessWidget {
   const IconCupertinoButtonFilled({Key? key, required this.onPressed, required this.text, required this.icon}) : super(key: key);
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
   final IconData icon;
 
@@ -11,9 +12,10 @@ class IconCupertinoButtonFilled extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 60),
-      child: CupertinoButton.filled(
-          disabledColor: CupertinoColors.systemGrey,
+      child: ColoredButton.filled(
+          customDisabledColor: CupertinoColors.systemGrey,
           onPressed: onPressed,
+          fillColor: null,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,9 +43,10 @@ class IconCupertinoButton extends StatelessWidget {
     return Container(
       margin:
       const EdgeInsets.symmetric(horizontal: 60),
-      child: CupertinoButton(
-          disabledColor: CupertinoColors.systemGrey,
+      child: ColoredButton(
+          customDisabledColor: CupertinoColors.systemGrey,
           onPressed: onPressed,
+          fillColor: null,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

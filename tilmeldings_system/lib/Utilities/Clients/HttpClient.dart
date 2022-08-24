@@ -15,13 +15,16 @@ class HttpClient {
 
 
       for (var key in params.keys) {
-        formattedParams = "$formattedParams$key${params[key]}&";
+        formattedParams = "$formattedParams$key=${params[key]}&";
       }
 
       formattedParams = formattedParams.substring(0, formattedParams.length - 1);
     }
 
-    return http.get(Uri.parse('$base$endpoint$formattedParams'), headers: headers);
+    final path = '$base$endpoint$formattedParams';
+    final uri = Uri.parse(path);
+
+    return http.get(uri, headers: headers);
   }
 
   Future<http.Response> post(String endpoint, Map<String, String> headers, Map<String, dynamic> body) {
@@ -29,6 +32,14 @@ class HttpClient {
       Uri.parse("$base$endpoint"),
       headers: headers,
       body: jsonEncode(body)
+    );
+  }
+
+  Future<http.Response> patch(String endpoint, Map<String, String> headers, Map<String, dynamic> body) {
+    return http.patch(
+        Uri.parse("$base$endpoint"),
+        headers: headers,
+        body: jsonEncode(body)
     );
   }
 }

@@ -92,6 +92,7 @@ class MenuTile extends StatelessWidget {
       height: 60,
       child: ColoredButton.filled(
           onPressed: fn,
+          customDisabledColor: CupertinoColors.systemGrey2,
           fillColor: fillColor,
           child: Icon(
             icon,

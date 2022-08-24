@@ -37,9 +37,9 @@ class HansenbergApp extends StatefulWidget {
 }
 
 class _HansenbergAppState extends State<HansenbergApp> {
-
-  // final String uriBase = "http://localhost:4001";
   final String uriBase = "http://10.0.2.2:4001";
+
+  // final String uriBase = "http://178.62.220.90:4001";
 
   @override
   Widget build(BuildContext context) {

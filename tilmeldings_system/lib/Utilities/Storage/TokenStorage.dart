@@ -11,11 +11,13 @@ class TokenStorage extends Storage{
     return File('$path/token');
   }
 
+  Future<bool> tokenExists() async {
+    return localFile().then((value) => value.exists());
+  }
+
   Future<String> readToken() async {
     final file = await localFile();
-    final token = await file.readAsString();
-
-    return token;
+    return await file.readAsString();
   }
 
   Future<File> writeToken(String token) async {

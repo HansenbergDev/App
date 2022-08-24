@@ -34,8 +34,8 @@ class EnlistmentStorage extends Storage {
         .take(5)
         .map(
             (e) =>
-            e.compareTo("true") == 0 ? true :
-            e.compareTo("false") == 0 ? false :
+            e == "true" ? true :
+            e == "false" ? false :
             throw Exception("Something went wrong in enlistment file, got $e"))
         .toList();
 

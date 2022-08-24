@@ -9,6 +9,29 @@ class EnlistmentClient {
 
   final HttpClient httpClient;
 
+  Future<void> updateEnlistment(int year, int week, Enlistment enlistment, String token) async {
+    final response = await httpClient.patch(
+        '/student/enlistment',
+        <String, String> {
+          'Content-Type': 'application/json',
+          'x-access-token': token
+        },
+        <String, dynamic> {
+          'year': year,
+          'week': week,
+          'monday': enlistment.monday,
+          'tuesday': enlistment.tuesday,
+          'wednesday': enlistment.wednesday,
+          'thursday': enlistment.thursday,
+          'friday': enlistment.friday,
+        }
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception("Failed to update enlistment: ${response.statusCode}, ${response.body}");
+    }
+  }
+
   Future<void> createEnlistment(int year, int week, Enlistment enlistment, String token) async {
     final response = await httpClient.post(
         '/student/enlistment',
@@ -40,18 +63,25 @@ class EnlistmentClient {
           'week': '$week',
         },
         <String, String> {
-          'x-access-params': token
+          'x-access-token': token
         }
     );
 
     if (response.statusCode == 200) {
-      return Enlistment.fromJson(jsonDecode(response.body));
+      if (response.body.isNotEmpty) {
+        return Enlistment.fromJson(jsonDecode(response.body));
+      }
+      else {
+        return null;
+      }
     }
     else {
       print("Failed to get enlistment: ${response.statusCode}, ${response.body}");
       return null;
     }
   }
+  
+  
 
   // Future<List<Enlistment>> getEnlistmentAll(String token) async {
   //   final response = await httpClient.get(

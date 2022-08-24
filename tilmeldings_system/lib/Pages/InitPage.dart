@@ -11,51 +11,52 @@ class InitPage extends StatelessWidget {
 
   final TokenStorage tokenStorage;
 
+  Future<String> _fetchToken() async {
+    return await tokenStorage.tokenExists() ? await tokenStorage.readToken() : "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         child: FutureBuilder<String>(
           builder: (BuildContext futureContext, AsyncSnapshot<String> snapshot) {
             if (snapshot.hasData) {
-              var split = snapshot.data!.split('|');
-              var tokenNotifier = context.read<TokenNotifier>();
 
-              if (split.first.compareTo('student') == 0) {
-                Future.delayed(Duration.zero, () {
-                  tokenNotifier.setToken(split.last.trim());
-                  Navigator.of(context).pushReplacementNamed('/student/login');
-                });
+              String token = snapshot.data!;
 
-                return const ActivityIndicatorWithTitle();
-              }
-              else if (split.first.compareTo('staff') == 0) {
-                Future.delayed(Duration.zero, () {
-                  tokenNotifier.setToken(split.last.trim());
-                  Navigator.of(context).pushReplacementNamed('/staff/login');
-                });
+              if (token.isNotEmpty) {
+                var split = snapshot.data!.split('|');
+                var tokenNotifier = context.read<TokenNotifier>();
 
-                return const ActivityIndicatorWithTitle();
+                if (split.first == 'student') {
+                  Future.delayed(Duration.zero, () {
+                    tokenNotifier.setToken(split.last.trim());
+                    Navigator.of(context).pushReplacementNamed('/student/login');
+                  });
+                }
+                else if (split.first == 'staff') {
+                  Future.delayed(Duration.zero, () {
+                    tokenNotifier.setToken(split.last.trim());
+                    Navigator.of(context).pushReplacementNamed('/staff/login');
+                  });
+                }
+                else {
+                  throw Exception("Invalid token file");
+                }
               }
               else {
-                throw Exception("Invalid token file");
-              }
-            }
-            else if (snapshot.hasError) {
-              if (snapshot.error.runtimeType == FileSystemException) {
                 Future.delayed(Duration.zero, () {
                   Navigator.of(context).pushReplacementNamed('/login');
                 });
-                return const ActivityIndicatorWithTitle();
-              }
-              else {
-                throw Exception("Something weird happened: ${snapshot.error}");
               }
             }
-            else {
-              return const ActivityIndicatorWithTitle();
+            else if (snapshot.hasError) {
+              throw Exception("Something weird happened: ${snapshot.error}");
             }
+
+            return const ActivityIndicatorWithTitle();
           },
-          future: tokenStorage.readToken(),
+          future: _fetchToken(),
         ),
     );
   }

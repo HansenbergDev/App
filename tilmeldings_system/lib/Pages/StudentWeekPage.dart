@@ -38,16 +38,16 @@ class StudentWeekPage extends StatefulWidget {
 
 class _StudentWeekPageState extends State<StudentWeekPage> {
 
-  late Menu _menu;
-  late List<EnlistmentStates> _enlistments;
+  Menu _menu = const Menu(monday: "", tuesday: "", wednesday: "", thursday: "");
+  List<EnlistmentStates> _enlistments = [];
   bool _expanded = false;
+  bool _enlistmentSent = false;
 
   Future<Enlistment> _loadEnlistment() {
     return widget.enlistmentStorage.readEnlistment();
   }
 
-  Future<Enlistment?> _getEnlistment() {
-    String token = context.select<TokenNotifier, String>((notifier) => notifier.token!);
+  Future<Enlistment?> _getEnlistment(String token) {
     return widget.enlistmentClient.getEnlistment(
         widget.mondayOfWeek.year,
         widget.mondayOfWeek.weekOfYear,
@@ -58,8 +58,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     return widget.enlistmentStorage.writeEnlistment(enlistment);
   }
 
-  Future<void> _sendEnlistment(Enlistment enlistment) {
-    String token = context.select<TokenNotifier, String>((notifier) => notifier.token!);
+  Future<void> _sendEnlistment(Enlistment enlistment, String token) {
     return widget.enlistmentClient.createEnlistment(
         widget.mondayOfWeek.year,
         widget.mondayOfWeek.weekOfYear,
@@ -68,7 +67,16 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     );
   }
 
-  Future<Enlistment?> _fetchEnlistment() async {
+  Future<void> _updateEnlistment(Enlistment enlistment, String token) {
+    return widget.enlistmentClient.updateEnlistment(
+      widget.mondayOfWeek.year,
+      widget.mondayOfWeek.weekOfYear,
+      enlistment,
+      token
+    );
+  }
+
+  Future<Enlistment?> _fetchEnlistment(String token) async {
     Enlistment? enlistment;
 
     bool enlistmentExists = await widget.enlistmentStorage.enlistmentExists();
@@ -77,7 +85,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
       enlistment = await _loadEnlistment();
     }
     else {
-      enlistment = await _getEnlistment();
+      enlistment = await _getEnlistment(token);
 
       if (enlistment != null) {
         _saveEnlistment(enlistment);
@@ -121,7 +129,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     return menu;
   }
 
-  Future<void> _fetchData() async {
+  Future<bool> _fetchData(String token) async {
     Menu? menu;
     Enlistment? enlistment;
 
@@ -129,9 +137,10 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
 
     if (menu != null) {
       _menu = menu;
-      enlistment = await _fetchEnlistment();
+      enlistment = await _fetchEnlistment(token);
 
       if (enlistment != null) {
+        _enlistmentSent = true;
         _enlistments = enlistment
             .map((e) => e ? EnlistmentStates.enlisted : EnlistmentStates.rejected)
             .toList();
@@ -143,17 +152,19 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     else {
       _menu = const Menu(monday: "", tuesday: "", wednesday: "", thursday: "");
     }
+
+    return true;
   }
 
-  Future<void> _sendData() async {
-    bool valid = _enlistments
-        .take(4)
-        .any((element) => element == EnlistmentStates.none)
-        ? false : true;
+  void _sendData(String token) async {
+    setState(() {
+      _enlistmentSent = true;
+    });
+    return await _sendEnlistment(Enlistment.fromEnlistmentStates(_enlistments), token);
+  }
 
-    if (valid) {
-      return await _sendEnlistment(Enlistment.fromEnlistmentStates(_enlistments));
-    }
+  void _updateData(String token) async {
+    return await _updateEnlistment(Enlistment.fromEnlistmentStates(_enlistments), token);
   }
 
   void _navigateToNextWeek() {
@@ -182,14 +193,33 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     }
   }
 
+  bool get _enlistmentIsValid {
+    return _enlistments
+        .take(4)
+        .any((element) => element == EnlistmentStates.none)
+        ? false : true;
+  }
+
+  void Function()? _enlistButtonPress(String token) {
+    if (_enlistmentSent) {
+      return () => _updateData(token);
+    }
+    else if (_enlistmentIsValid){
+      return () => _sendData(token);
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     var dates = List<DateTime>.generate(
         5, (index) => widget.mondayOfWeek.add(Duration(days: index)));
 
+    String token = context.select<TokenNotifier, String>((notifier) => notifier.token!);
 
-    return FutureBuilder<void>(
-        builder: (BuildContext futureContext, AsyncSnapshot<void> snapshot) {
+    return FutureBuilder<bool>(
+        builder: (BuildContext futureContext, AsyncSnapshot<bool> snapshot) {
           Widget child;
 
           if (snapshot.hasData) {
@@ -274,8 +304,8 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                                 );
                               case 6:
                                 return IconCupertinoButtonFilled(
-                                    onPressed: () => _sendData(),
-                                    text: "Send tilmelding",
+                                    onPressed: _enlistButtonPress(token),
+                                    text: _enlistmentSent ? "Opdater tilmelding" : "Send tilmelding",
                                     icon: CupertinoIcons.paperplane);
                               case 7:
                                 return const SizedBox(
@@ -288,6 +318,9 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                         )),
                   ));
             }
+          }
+          else if (snapshot.hasError) {
+            child = Center(child: Text("An error happened here: ${snapshot.error}"));
           }
           else {
             child = const ActivityIndicatorWithTitle();
@@ -319,7 +352,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                 child: child,
               ));
         },
-      future: _fetchData(),
+      future: (_enlistments.isEmpty || _menu.any((element) => element.isEmpty)) ? _fetchData(token) : null,
     );
   }
 }
