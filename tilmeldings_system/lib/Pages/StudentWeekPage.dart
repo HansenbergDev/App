@@ -1,14 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:collection/collection.dart';
 import 'package:tilmeldings_system/Models/Enlistment.dart';
 import 'package:tilmeldings_system/Models/Menu.dart';
 import 'package:tilmeldings_system/Models/TokenNotifier.dart';
 import 'package:tilmeldings_system/Utilities/Clients/EnlistmentClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/MenuClient.dart';
-import 'package:tilmeldings_system/Utilities/Storage/MenuStorage.dart';
-import 'package:tilmeldings_system/Utilities/Storage/EnlistmentStorage.dart';
 import 'package:tilmeldings_system/Utilities/util.dart';
 import 'package:tilmeldings_system/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:tilmeldings_system/Widgets/IconCupertinoButton.dart';
@@ -36,6 +33,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
 
   Menu _menu = const Menu(monday: "", tuesday: "", wednesday: "", thursday: "");
   List<EnlistmentStates> _enlistments = [];
+  List<EnlistmentStates> _originalEnlistments = [];
   bool _expanded = false;
   bool _enlistmentSent = false;
 
@@ -86,6 +84,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
         _enlistments = enlistment
             .map((e) => e ? EnlistmentStates.enlisted : EnlistmentStates.rejected)
             .toList();
+        _originalEnlistments = [..._enlistments];
       }
       else {
         _enlistments = List<EnlistmentStates>.generate(5, (index) => index < 4 ? EnlistmentStates.none : EnlistmentStates.rejected);
@@ -98,11 +97,15 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
   void _sendData(String token) async {
     setState(() {
       _enlistmentSent = true;
+      _originalEnlistments = [..._enlistments];
     });
     return await _sendEnlistment(Enlistment.fromEnlistmentStates(_enlistments), token);
   }
 
   void _updateData(String token) async {
+    setState(() {
+      _originalEnlistments = [..._enlistments];
+    });
     return await _updateEnlistment(Enlistment.fromEnlistmentStates(_enlistments), token);
   }
 
@@ -136,7 +139,9 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
 
   void Function()? _enlistButtonPress(String token) {
     if (_enlistmentSent) {
-      return () => _updateData(token);
+      if (!const ListEquality().equals(_originalEnlistments, _enlistments)) {
+        return () => _updateData(token);
+      }
     }
     else if (_enlistmentIsValid){
       return () => _sendData(token);
