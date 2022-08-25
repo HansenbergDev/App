@@ -12,6 +12,9 @@ class InitPage extends StatelessWidget {
 
   Future<Map<String, String>> _fetchTokenAndType() async {
 
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+
     if (await tokenStorage.tokenExists()) {
       String token = await tokenStorage.readToken();
       String userType = await tokenStorage.readTokenType();
@@ -60,7 +63,7 @@ class InitPage extends StatelessWidget {
               }
             }
             else if (snapshot.hasError) {
-              throw Exception("Something weird happened: ${snapshot.error}");
+              throw Exception("Something weird happened: $runtimeType: ${snapshot.error}");
             }
 
             return const ActivityIndicatorWithTitle();

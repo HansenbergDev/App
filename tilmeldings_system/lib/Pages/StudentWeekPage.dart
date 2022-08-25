@@ -268,7 +268,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
             }
           }
           else if (snapshot.hasError) {
-            child = _scrollDetector(Center(child: Text("${snapshot.error}")));
+            child = _scrollDetector(Center(child: Text("${widget.runtimeType}: ${snapshot.error}")));
           }
           else {
             child = _scrollDetector(const ActivityIndicatorWithTitle());
