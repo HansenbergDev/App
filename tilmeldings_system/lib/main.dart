@@ -10,6 +10,7 @@ import 'package:tilmeldings_system/Pages/StudentRegistration.dart';
 import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/StudentClient.dart';
 import 'package:tilmeldings_system/Utilities/Storage/TokenStorage.dart';
+import 'package:tilmeldings_system/Utilities/util.dart';
 import 'package:tilmeldings_system/Widgets/CupertinoAppWithRoutes.dart';
 
 void main() {
@@ -57,7 +58,7 @@ class _HansenbergAppState extends State<HansenbergApp> {
         routes: <String, WidgetBuilder> {
           '/': (BuildContext context) => InitPage(tokenStorage: tokenStorage),
           '/login': (BuildContext context) => const LoginPage(),
-          '/student': (BuildContext context) => StudentPage(httpClient: httpClient,),
+          '/student': (BuildContext context) => StudentPage(httpClient: httpClient,userType: UserTypes.student,),
           '/student/login': (BuildContext context) => StudentLoginPage(studentClient: studentClient),
           '/student/registration': (BuildContext context) => StudentRegistration(studentClient: studentClient, tokenStorage: tokenStorage),
           '/staff/login': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff login")),

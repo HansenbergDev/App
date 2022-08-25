@@ -4,6 +4,8 @@
 // They will have to be manually changed in every saved StudentWeekData file
 enum EnlistmentStates { none, enlisted, rejected }
 
+enum UserTypes { student, staff }
+
 EnlistmentStates boolToEnlistmentStates(bool b) {
   return b ? EnlistmentStates.enlisted : EnlistmentStates.rejected;
 }

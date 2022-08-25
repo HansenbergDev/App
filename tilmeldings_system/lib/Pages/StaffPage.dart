@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:tilmeldings_system/Models/StudentNotifier.dart';
 import 'package:tilmeldings_system/Pages/WeekPage.dart';
 
-class StudentPage extends WeekPage {
-  const StudentPage({
+class StaffPage extends WeekPage {
+  const StaffPage({
     Key? key,
     required super.httpClient,
     required super.userType,
@@ -13,10 +11,6 @@ class StudentPage extends WeekPage {
   @override
   Widget build(BuildContext context) {
 
-    var studentName = context.select<StudentNotifier, String>(
-          (notifier) => notifier.student!.studentName,
-    );
-
     return CupertinoPageScaffold(
         backgroundColor: CupertinoColors.secondarySystemBackground,
         navigationBar: CupertinoNavigationBar(
@@ -24,14 +18,13 @@ class StudentPage extends WeekPage {
             // TODO: Implement menu
             onPressed: () => print("Menu"),
             padding: EdgeInsets.zero,
-            child: const Icon(CupertinoIcons.bars, size: 30,),
+            child: const Icon(CupertinoIcons.bars),
           ),
-          middle: Text("Hej $studentName!"),
           trailing: CupertinoButton(
             // TODO: Implement chat
             onPressed: () => print("Chat"),
             padding: EdgeInsets.zero,
-            child: const Icon(CupertinoIcons.chat_bubble_text, size: 30),
+            child: const Icon(CupertinoIcons.chat_bubble_text),
           ),
         ),
         child: Navigator(
