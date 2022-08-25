@@ -153,6 +153,20 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     return null;
   }
 
+  Widget _scrollDetector(Widget child) {
+    return GestureDetector(
+      onHorizontalDragEnd: (details) => {
+        if (details.primaryVelocity! > 0) {
+          _navigateToPreviousWeek()
+        }
+        else if (details.primaryVelocity! < 0){
+          _navigateToNextWeek()
+        }
+      },
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var dates = List<DateTime>.generate(
@@ -254,10 +268,10 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
             }
           }
           else if (snapshot.hasError) {
-            child = Center(child: Text("${snapshot.error}"));
+            child = _scrollDetector(Center(child: Text("${snapshot.error}")));
           }
           else {
-            child = const ActivityIndicatorWithTitle();
+            child = _scrollDetector(const ActivityIndicatorWithTitle());
           }
 
           return Scaffold(
@@ -272,26 +286,15 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                   leading: CupertinoButton(
                     onPressed: () => _navigateToPreviousWeek(),
                     padding: EdgeInsets.zero,
-                    child: const Icon(CupertinoIcons.arrow_left_circle_fill),
+                    child: const Icon(CupertinoIcons.arrow_left_circle_fill, size: 30,),
                   ),
                   middle: Text("Uge ${widget.mondayOfWeek.weekOfYear}"),
                   trailing: CupertinoButton(
                       onPressed: () => _navigateToNextWeek(),
                       padding: EdgeInsets.zero,
-                      child: const Icon(CupertinoIcons.arrow_right_circle_fill)),
+                      child: const Icon(CupertinoIcons.arrow_right_circle_fill, size: 30,)),
                 ),
-                child: GestureDetector(
-                  // TODO: Check om det her gør som forventet (på en telefon...)
-                  onHorizontalDragEnd: (details) => {
-                    if (details.primaryVelocity! > 0) {
-                      _navigateToPreviousWeek()
-                    }
-                    else if (details.primaryVelocity! < 0){
-                      _navigateToNextWeek()
-                    }
-                  },
-                  child: child,
-                )
+                child: _scrollDetector(child)
             ),
           );
         },

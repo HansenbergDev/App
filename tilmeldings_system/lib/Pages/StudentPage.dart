@@ -58,14 +58,14 @@ class StudentPage extends StatelessWidget {
             // TODO: Implement menu
             onPressed: () => print("Menu"),
             padding: EdgeInsets.zero,
-            child: const Icon(CupertinoIcons.bars),
+            child: const Icon(CupertinoIcons.bars, size: 30,),
           ),
           middle: Text("Hej $studentName!"),
           trailing: CupertinoButton(
             // TODO: Implement chat
             onPressed: () => print("Chat"),
             padding: EdgeInsets.zero,
-            child: const Icon(CupertinoIcons.chat_bubble_text),
+            child: const Icon(CupertinoIcons.chat_bubble_text, size: 30),
           ),
         ),
         child: Navigator(
