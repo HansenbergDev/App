@@ -20,15 +20,11 @@ class StudentWeekPage extends StatefulWidget {
   const StudentWeekPage({
     Key? key,
     required this.mondayOfWeek,
-    required this.menuStorage,
-    required this.enlistmentStorage,
     required this.menuClient,
     required this.enlistmentClient
   }) : super(key: key);
 
   final DateTime mondayOfWeek;
-  final MenuStorage menuStorage;
-  final EnlistmentStorage enlistmentStorage;
   final MenuClient menuClient;
   final EnlistmentClient enlistmentClient;
 
@@ -43,19 +39,11 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
   bool _expanded = false;
   bool _enlistmentSent = false;
 
-  Future<Enlistment> _loadEnlistment() {
-    return widget.enlistmentStorage.readEnlistment();
-  }
-
   Future<Enlistment?> _getEnlistment(String token) {
     return widget.enlistmentClient.getEnlistment(
         widget.mondayOfWeek.year,
         widget.mondayOfWeek.weekOfYear,
         token);
-  }
-
-  Future<File> _saveEnlistment(Enlistment enlistment) {
-    return widget.enlistmentStorage.writeEnlistment(enlistment);
   }
 
   Future<void> _sendEnlistment(Enlistment enlistment, String token) {
@@ -76,29 +64,6 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     );
   }
 
-  Future<Enlistment?> _fetchEnlistment(String token) async {
-    Enlistment? enlistment;
-
-    bool enlistmentExists = await widget.enlistmentStorage.enlistmentExists();
-
-    if (enlistmentExists) {
-      enlistment = await _loadEnlistment();
-    }
-    else {
-      enlistment = await _getEnlistment(token);
-
-      if (enlistment != null) {
-        _saveEnlistment(enlistment);
-      }
-    }
-
-    return enlistment;
-  }
-
-  Future<Menu> _loadMenu() {
-    return widget.menuStorage.readMenu();
-  }
-
   Future<Menu?> _getMenu() {
     return widget.menuClient.getMenu(
         widget.mondayOfWeek.year,
@@ -106,38 +71,15 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     );
   }
 
-  Future<File> _saveMenu(Menu menu) {
-    return widget.menuStorage.writeMenu(menu);
-  }
-
-  Future<Menu?> _fetchMenu() async {
-    Menu? menu;
-
-    bool menuExists = await widget.menuStorage.menuExists();
-
-    if (menuExists) {
-      menu = await _loadMenu();
-    }
-    else {
-      menu = await _getMenu();
-
-      if (menu != null) {
-        _saveMenu(menu);
-      }
-    }
-
-    return menu;
-  }
-
   Future<bool> _fetchData(String token) async {
     Menu? menu;
     Enlistment? enlistment;
 
-    menu = await _fetchMenu();
+    menu = await _getMenu();
 
     if (menu != null) {
       _menu = menu;
-      enlistment = await _fetchEnlistment(token);
+      enlistment = await _getEnlistment(token);
 
       if (enlistment != null) {
         _enlistmentSent = true;
@@ -148,9 +90,6 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
       else {
         _enlistments = List<EnlistmentStates>.generate(5, (index) => index < 4 ? EnlistmentStates.none : EnlistmentStates.rejected);
       }
-    }
-    else {
-      _menu = const Menu(monday: "", tuesday: "", wednesday: "", thursday: "");
     }
 
     return true;
@@ -186,11 +125,6 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     setState(() {
       _enlistments[index] = choice;
     });
-
-    if (!_enlistments.any((element) => element == EnlistmentStates.none)) {
-      Enlistment enlistment = Enlistment.fromEnlistmentStates(_enlistments);
-      await _saveEnlistment(enlistment);
-    }
   }
 
   bool get _enlistmentIsValid {
@@ -352,7 +286,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                 child: child,
               ));
         },
-      future: (_enlistments.isEmpty || _menu.any((element) => element.isEmpty)) ? _fetchData(token) : null,
+      future: _menu.any((element) => element.isEmpty) ? _fetchData(token) : null,
     );
   }
 }

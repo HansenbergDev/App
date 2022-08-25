@@ -50,14 +50,18 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   }
 
   void _sendRegistration() async {
-    String token;
+    String token = "";
 
     // TODO: Input validation
 
     try {
       token = await widget.studentClient.registerStudent(_nameController.text, _enrolledFrom, _enrolledTo);
+      await widget.tokenStorage.writeToken(token);
+      await widget.tokenStorage.writeTokenType("student");
+
       Future.delayed(Duration.zero, () {
-        context.read<TokenNotifier>().setToken(token.split('/').last);
+        context.read<TokenNotifier>().setToken(token);
+        context.read<TokenNotifier>().setType("student");
         context.read<StudentNotifier>().set(
             Student(
                 studentName: _nameController.text,
@@ -71,14 +75,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     }
     catch(e) {
       // TODO: Vis popup
-      throw Exception(e);
-    }
-
-    try {
-      await widget.tokenStorage.writeToken(token);
-    }
-    catch(e) {
-      // TODO: Gør noget?
       throw Exception(e);
     }
   }

@@ -33,20 +33,17 @@ class StudentPage extends StatelessWidget {
     final next = now.add(Duration(days: difference));
 
     final mondayOfWeek = next.subtract(Duration(days: next.weekday - 1));
-    final year = mondayOfWeek.year;
-    final newWeek = mondayOfWeek.weekOfYear;
 
     WidgetBuilder builder;
 
     builder = (BuildContext context) => StudentWeekPage(
       mondayOfWeek: mondayOfWeek,
-      menuStorage: MenuStorage(year: year, week: newWeek),
-      enlistmentStorage: EnlistmentStorage(year: year, week: newWeek),
       menuClient: MenuClient(httpClient: httpClient),
       enlistmentClient: EnlistmentClient(httpClient: httpClient),
     );
 
-    return CupertinoPageRoute(builder: builder, settings: settings);
+    return PageRouteBuilder(pageBuilder: (BuildContext context, _, __) => builder(context));
+    // return CupertinoPageRoute(builder: builder, settings: settings);
   }
 
   @override

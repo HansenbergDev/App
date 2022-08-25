@@ -42,7 +42,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
               Student student = snapshot.data!;
 
               if (student.studentName.isNotEmpty) {
-                context.read<StudentNotifier>().set(snapshot.data!);
+                context.read<StudentNotifier>().set(student);
                 Navigator.of(context).pushReplacementNamed('/student');
               }
               else {

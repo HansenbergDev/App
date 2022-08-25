@@ -23,7 +23,7 @@ class StudentClient {
     );
 
     if (response.statusCode == 201) {
-      return "student|${jsonDecode(response.body)['token']}";
+      return jsonDecode(response.body)['token'];
     }
     else {
       throw Exception("Failed to create student: ${response.statusCode}, ${response.body}");
