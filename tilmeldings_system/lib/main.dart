@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tilmeldings_system/Models/StudentNotifier.dart';
 import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Pages/LoginPage.dart';
 import 'package:tilmeldings_system/Pages/InitPage.dart';
+import 'package:tilmeldings_system/Pages/LoginPage.dart';
 import 'package:tilmeldings_system/Pages/StudentLoginPage.dart';
 import 'package:tilmeldings_system/Pages/StudentPage.dart';
 import 'package:tilmeldings_system/Pages/StudentRegistration.dart';
+import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/StudentClient.dart';
 import 'package:tilmeldings_system/Utilities/Storage/TokenStorage.dart';
 import 'package:tilmeldings_system/Widgets/CupertinoAppWithRoutes.dart';
-import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
 
 void main() {
   runApp(

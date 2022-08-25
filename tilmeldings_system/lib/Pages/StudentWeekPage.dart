@@ -1,7 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:collection/collection.dart';
 import 'package:tilmeldings_system/Models/Enlistment.dart';
 import 'package:tilmeldings_system/Models/Menu.dart';
 import 'package:tilmeldings_system/Models/TokenNotifier.dart';

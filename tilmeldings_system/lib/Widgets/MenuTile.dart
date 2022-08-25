@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import 'ColoredCupertinoButton.dart';
 import '../Utilities/util.dart';
+import 'ColoredCupertinoButton.dart';
 
 class MenuTile extends StatelessWidget {
   const MenuTile(

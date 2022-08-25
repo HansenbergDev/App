@@ -4,8 +4,6 @@ import 'package:tilmeldings_system/Models/StudentNotifier.dart';
 import 'package:tilmeldings_system/Utilities/Clients/EnlistmentClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/MenuClient.dart';
-import 'package:tilmeldings_system/Utilities/Storage/EnlistmentStorage.dart';
-import 'package:tilmeldings_system/Utilities/Storage/MenuStorage.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import 'StudentWeekPage.dart';
