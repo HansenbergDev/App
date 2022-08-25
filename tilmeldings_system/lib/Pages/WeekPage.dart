@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tilmeldings_system/Models/StudentNotifier.dart';
 import 'package:tilmeldings_system/Pages/StaffWeekPage.dart';
-import 'package:tilmeldings_system/Utilities/Clients/EnlistmentClient.dart';
+import 'package:tilmeldings_system/Utilities/Clients/StaffEnlistmentClient.dart';
+import 'package:tilmeldings_system/Utilities/Clients/StudentEnlistmentClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/MenuClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/StudentClient.dart';
@@ -44,14 +45,14 @@ class MainPage extends StatelessWidget {
       builder = (BuildContext context) => StudentWeekPage(
         mondayOfWeek: mondayOfWeek,
         menuClient: MenuClient(httpClient: httpClient),
-        enlistmentClient: EnlistmentClient(httpClient: httpClient),
+        enlistmentClient: StudentEnlistmentClient(httpClient: httpClient),
       );
     }
     else if (userType == UserTypes.staff) {
       builder = (BuildContext context) => StaffWeekPage(
         mondayOfWeek: mondayOfWeek,
         menuClient: MenuClient(httpClient: httpClient),
-        enlistmentClient: EnlistmentClient(httpClient: httpClient),
+        enlistmentClient: StaffEnlistmentClient(httpClient: httpClient),
       );
     }
     else {

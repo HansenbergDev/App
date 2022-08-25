@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tilmeldings_system/Models/Enlistment.dart';
 import 'package:tilmeldings_system/Models/Menu.dart';
 import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Utilities/Clients/EnlistmentClient.dart';
+import 'package:tilmeldings_system/Utilities/Clients/StudentEnlistmentClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/MenuClient.dart';
 import 'package:tilmeldings_system/Utilities/util.dart';
 import 'package:tilmeldings_system/Widgets/ActivityIndicatorWithTitle.dart';
@@ -24,7 +24,7 @@ class StudentWeekPage extends StatefulWidget {
 
   final DateTime mondayOfWeek;
   final MenuClient menuClient;
-  final EnlistmentClient enlistmentClient;
+  final StudentEnlistmentClient enlistmentClient;
 
   @override
   State<StudentWeekPage> createState() => _StudentWeekPageState();

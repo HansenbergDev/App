@@ -19,7 +19,7 @@ class InitPage extends StatelessWidget {
       String token = await tokenStorage.readToken();
       String userType = await tokenStorage.readTokenType();
 
-      return <String, String> { 'token': token, 'userType': userType };
+     return <String, String> { 'token': token, 'userType': userType };
     }
     else {
       return <String, String> { };

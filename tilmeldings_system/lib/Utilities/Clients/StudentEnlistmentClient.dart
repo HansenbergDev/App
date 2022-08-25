@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:tilmeldings_system/Models/Enlistment.dart';
 import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
 
-class EnlistmentClient {
+class StudentEnlistmentClient {
 
-  const EnlistmentClient({required this.httpClient});
+  const StudentEnlistmentClient({required this.httpClient});
 
   final HttpClient httpClient;
 

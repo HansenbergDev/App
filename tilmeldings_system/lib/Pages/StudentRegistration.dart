@@ -147,7 +147,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                 // https://api.flutter.dev/flutter/cupertino/CupertinoDatePicker-class.html
                 IconCupertinoButtonFilled(
                   onPressed: () => _sendRegistration(),
-                  text: "Log ind",
+                  text: "Registrér",
                   icon: CupertinoIcons.chevron_right_square,
                 ),
               ],

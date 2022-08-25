@@ -14,7 +14,6 @@ class Menu extends Iterable<String>{
 
   @override
   String toString() {
-
     return "$monday|$tuesday|$wednesday|$thursday";
   }
 

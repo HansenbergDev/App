@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tilmeldings_system/Models/Menu.dart';
-import 'package:tilmeldings_system/Utilities/Clients/EnlistmentClient.dart';
+import 'package:tilmeldings_system/Models/StaffEnlistmentWeekData.dart';
+import 'package:tilmeldings_system/Utilities/Clients/StaffEnlistmentClient.dart';
 import 'package:tilmeldings_system/Utilities/Clients/MenuClient.dart';
 import 'package:tilmeldings_system/Utilities/util.dart';
 import 'package:tilmeldings_system/Widgets/IconCupertinoButton.dart';
@@ -18,7 +19,7 @@ class StaffWeekPage extends StatefulWidget {
 
   final DateTime mondayOfWeek;
   final MenuClient menuClient;
-  final EnlistmentClient enlistmentClient;
+  final StaffEnlistmentClient enlistmentClient;
 
   @override
   State<StaffWeekPage> createState() => _StaffWeekPageState();
@@ -26,18 +27,24 @@ class StaffWeekPage extends StatefulWidget {
 
 class _StaffWeekPageState extends State<StaffWeekPage> {
 
-  // List<bool> _enlistments = [];
-  // bool _showCreateMenuButton = false;
-  //
-  // Future<bool> _fetchData(String token) async {
-  //
-  //   if (await widget.menuClient.getMenu(widget.mondayOfWeek.year, widget.mondayOfWeek.weekOfYear) == null) {
-  //
-  //   }
-  //   else {
-  //     _enlistments =
-  //   }
-  // }
+  List<int> _enlistments = [];
+  bool _showCreateMenuButton = false;
+
+  Future<bool> _fetchData(String token) async {
+    StaffEnlistmentWeekData? weekData;
+
+    if (await widget.menuClient.getMenu(widget.mondayOfWeek.year, widget.mondayOfWeek.weekOfYear) != null) {
+      weekData = await widget.enlistmentClient
+          .getEnlistments(widget.mondayOfWeek.year, widget.mondayOfWeek.weekOfYear, token);
+
+      if (weekData != null) {
+        _enlistments = weekData.toList();
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   void _navigateToNextWeek() {
     int week = widget.mondayOfWeek.weekOfYear + 1;
