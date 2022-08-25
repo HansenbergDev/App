@@ -2,6 +2,9 @@
 
 // DO NOT CHANGE THE NAMES IN THIS ENUM
 // They will have to be manually changed in every saved StudentWeekData file
+import 'package:flutter/cupertino.dart';
+import 'package:tilmeldings_system/Widgets/ColoredCupertinoButton.dart';
+
 enum EnlistmentStates { none, enlisted, rejected }
 
 enum UserTypes { student, staff }
@@ -12,6 +15,21 @@ EnlistmentStates boolToEnlistmentStates(bool b) {
 
 bool EnlistmentStatesToBool(EnlistmentStates state) {
   return state == EnlistmentStates.enlisted ? true : false;
+}
+
+Widget makeSquareButton(VoidCallback? fn, icon, iconColor, fillColor) {
+  return SizedBox(
+    width: 60,
+    height: 60,
+    child: ColoredButton.filled(
+        onPressed: fn,
+        customDisabledColor: CupertinoColors.systemGrey2,
+        fillColor: fillColor,
+        child: Icon(
+          icon,
+          color: iconColor,
+        )),
+  );
 }
 
 String dayNumberInWeekToDayString(int dayNumber) {

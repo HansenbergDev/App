@@ -89,7 +89,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
           border: null,
           backgroundColor: CupertinoColors.systemBackground,
           leading: CupertinoButton(
-            onPressed: () => Navigator.of(context).pushReplacementNamed('/'),
+            onPressed: () => Navigator.pop(context),
             padding: EdgeInsets.zero,
             child: const Icon(
               CupertinoIcons.arrow_left,
@@ -115,22 +115,28 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                   placeholder: "Skriv dit fornavn",
                   controller: _nameController,
                 ),
-                ItemPicker(
-                    text: "Vælg din klasse: ",
-                    fontSize: 18,
-                    list: _educations,
-                    callback: (int selected) => _selectedEducation = selected
-                ),
-                ItemPicker(
-                    text: "Vælg forløb: ",
-                    fontSize: 18,
-                    list: _course,
-                    callback: (int selected) => _selectedCourse = selected
+                // ItemPicker(
+                //     text: "Vælg din klasse: ",
+                //     fontSize: 18,
+                //     list: _educations,
+                //     callback: (int selected) => _selectedEducation = selected
+                // ),
+                // ItemPicker(
+                //     text: "Vælg forløb: ",
+                //     fontSize: 18,
+                //     list: _course,
+                //     callback: (int selected) => _selectedCourse = selected
+                // ),
+                const SizedBox(
+                  height: 10,
                 ),
                 DatePicker(
                     title: "Indskrevet fra",
                     fontSize: 18,
                     callback: (DateTime date) => _enrolledFrom = date
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 DatePicker(
                     title: "Indskrevet til",

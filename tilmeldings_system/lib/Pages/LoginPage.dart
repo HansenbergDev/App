@@ -20,13 +20,13 @@ class LoginPage extends StatelessWidget {
               const Text("Vælg hvad du vil logge ind som:"),
               const SizedBox(height: 30,),
               IconCupertinoButtonFilled(
-                  onPressed: () => Navigator.of(context).pushReplacementNamed("/student/registration"),
+                  onPressed: () => Navigator.of(context).pushNamed("/student/registration"),
                   text: "Elev",
                   icon: CupertinoIcons.person
               ),
               const SizedBox(height: 20,),
               IconCupertinoButton(
-                  onPressed: () => Navigator.of(context).pushReplacementNamed("/staff/login"),
+                  onPressed: () => Navigator.of(context).pushNamed("/staff/login"),
                   text: "Personale",
                   icon: CupertinoIcons.person_3
               )

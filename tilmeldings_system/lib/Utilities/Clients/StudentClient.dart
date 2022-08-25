@@ -46,4 +46,20 @@ class StudentClient {
       return null;
     }
   }
+
+  Future<bool> deleteStudent(String token) async {
+    final response = await httpClient.delete(
+        '/student',
+        <String, String> {},
+        <String, dynamic> {}
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+    else {
+      print('Failed to delete student: ${response.statusCode}, ${response.body}');
+      return false;
+    }
+  }
 }

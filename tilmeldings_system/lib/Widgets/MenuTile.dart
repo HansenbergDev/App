@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 import '../Utilities/util.dart';
-import 'ColoredCupertinoButton.dart';
 
 class MenuTile extends StatelessWidget {
   const MenuTile(
@@ -39,14 +38,16 @@ class MenuTile extends StatelessWidget {
       padding: const EdgeInsets.all(15.0),
       decoration: const BoxDecoration(
           color: CupertinoColors.systemBackground,
-          borderRadius: BorderRadius.all(Radius.circular(15))),
+          borderRadius: BorderRadius.all(Radius.circular(15))
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             constraints: const BoxConstraints(
-                minHeight: 150, maxHeight: 500, maxWidth: 250, minWidth: 250),
+                minHeight: 150, maxHeight: 500, maxWidth: 250, minWidth: 250
+            ),
             // color: CupertinoColors.systemBlue,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -55,14 +56,17 @@ class MenuTile extends StatelessWidget {
               children: <Widget>[
                 Text(
                   dateString,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Flexible(
                   flex: 200,
-                  child: Text(menuText),
+                  child: Text(
+                    menuText,
+                    style: const TextStyle(fontSize: 15),
+                  ),
                 )
               ],
             ),
@@ -83,21 +87,6 @@ class MenuTile extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-
-  Widget makeSquareButton(VoidCallback fn, icon, iconColor, fillColor) {
-    return SizedBox(
-      width: 60,
-      height: 60,
-      child: ColoredButton.filled(
-          onPressed: fn,
-          customDisabledColor: CupertinoColors.systemGrey2,
-          fillColor: fillColor,
-          child: Icon(
-            icon,
-            color: iconColor,
-          )),
     );
   }
 }

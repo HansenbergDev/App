@@ -12,9 +12,6 @@ class InitPage extends StatelessWidget {
 
   Future<Map<String, String>> _fetchTokenAndType() async {
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-
     if (await tokenStorage.tokenExists()) {
       String token = await tokenStorage.readToken();
       String userType = await tokenStorage.readTokenType();

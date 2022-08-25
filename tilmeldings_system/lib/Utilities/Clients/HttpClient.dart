@@ -31,12 +31,20 @@ class HttpClient {
     return http.post(
       Uri.parse("$base$endpoint"),
       headers: headers,
-      body: jsonEncode(body)
+      body: jsonEncode(body),
     );
   }
 
   Future<http.Response> patch(String endpoint, Map<String, String> headers, Map<String, dynamic> body) {
     return http.patch(
+        Uri.parse("$base$endpoint"),
+        headers: headers,
+        body: jsonEncode(body)
+    );
+  }
+
+  Future<http.Response> delete(String endpoint, Map<String, String> headers, Map<String, dynamic> body) {
+    return http.delete(
         Uri.parse("$base$endpoint"),
         headers: headers,
         body: jsonEncode(body)

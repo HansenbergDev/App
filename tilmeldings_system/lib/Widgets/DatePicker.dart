@@ -42,7 +42,7 @@ class _DatePickerState extends State<DatePicker> {
     return Center(
       child: _DatePickerItem(
         children: <Widget>[
-          Text(widget.title),
+          Text(widget.title, style: const TextStyle(fontWeight: FontWeight.bold),),
           CupertinoButton(
             // Display a CupertinoDatePicker in date picker mode.
             onPressed: () => _showDialog(
@@ -82,21 +82,14 @@ class _DatePickerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 300),
       decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: CupertinoColors.inactiveGray,
-            width: 0.0,
-          ),
-          bottom: BorderSide(
-            color: CupertinoColors.inactiveGray,
-            width: 0.0,
-          ),
-        ),
+        color: CupertinoColors.systemBackground,
+        borderRadius: BorderRadius.all(Radius.circular(15))
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: children,

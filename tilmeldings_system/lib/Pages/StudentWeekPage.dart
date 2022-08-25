@@ -227,7 +227,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                                         Text(
                                           // TODO: Bedre titel på denne
                                           "Fredag (Frivilligt)",
-                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                         ),
                                         Icon(
                                           CupertinoIcons.chevron_down,
