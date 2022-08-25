@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:tilmeldings_system/Models/Enlistment.dart';
@@ -138,13 +139,15 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
   }
 
   void Function()? _enlistButtonPress(String token) {
-    if (_enlistmentSent) {
-      if (!const ListEquality().equals(_originalEnlistments, _enlistments)) {
-        return () => _updateData(token);
+    if (!_menu.any((element) => element.isEmpty)) {
+      if (_enlistmentSent) {
+        if (!const ListEquality().equals(_originalEnlistments, _enlistments)) {
+          return () => _updateData(token);
+        }
       }
-    }
-    else if (_enlistmentIsValid){
-      return () => _sendData(token);
+      else if (_enlistmentIsValid){
+        return () => _sendData(token);
+      }
     }
 
     return null;
@@ -172,124 +175,125 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
               );
             }
             else {
-              child = CupertinoScrollbar(
-                  thumbVisibility: true,
-                  thickness: 6.0,
-                  thicknessWhileDragging: 10.0,
-                  radius: const Radius.circular(34.0),
-                  child: Center(
-                    child: Container(
-                        constraints: const BoxConstraints(maxWidth: 400),
-                        child: ListView.builder(
-                          itemCount: 8,
-                          itemBuilder: (BuildContext context, int index) {
-                            switch (index) {
-                              case 0:
-                              case 1:
-                              case 2:
-                              case 3:
-                                return MenuTile(
-                                  dateString:
-                                  "${dayNumberInWeekToDayString(dates[index].weekday)} d. ${dates[index].day} ${monthNumberToMonthString(dates[index].month)}",
-                                  menuText: _menu.toList()[index],
-                                  enlistmentState: _enlistments[index],
-                                  enlistForDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.enlisted),
-                                  rejectDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.rejected),
-                                );
-                              case 4:
-                                if (!_expanded) {
-                                  return Container(
-                                    margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-                                    padding: const EdgeInsets.all(15.0),
-                                    decoration: const BoxDecoration(
-                                        color: CupertinoColors.systemBackground,
-                                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                                    child: GestureDetector(
-                                        onTap: () => setState(() {
-                                          _expanded = true;
-                                        }),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: const [
-                                            Text(
-                                              // TODO: Bedre titel på denne
-                                              "Fredag (Frivilligt)",
-                                              style: TextStyle(fontWeight: FontWeight.bold),
-                                            ),
-                                            Icon(
-                                              CupertinoIcons.chevron_down,
-                                              color: CupertinoColors.black,
-                                              size: 30,
-                                            )
-                                          ],
+              child = Center(
+                child: Container(
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    child: ListView.builder(
+                      itemCount: 6,
+                      itemBuilder: (BuildContext context, int index) {
+                        switch (index) {
+                          case 0:
+                          case 1:
+                          case 2:
+                          case 3:
+                            return MenuTile(
+                              dateString:
+                              "${dayNumberInWeekToDayString(dates[index].weekday)} d. ${dates[index].day} ${monthNumberToMonthString(dates[index].month)}",
+                              menuText: _menu.toList()[index],
+                              enlistmentState: _enlistments[index],
+                              enlistForDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.enlisted),
+                              rejectDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.rejected),
+                            );
+                          case 4:
+                            if (!_expanded) {
+                              return Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+                                padding: const EdgeInsets.all(15.0),
+                                decoration: const BoxDecoration(
+                                    color: CupertinoColors.systemBackground,
+                                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                                child: GestureDetector(
+                                    onTap: () => setState(() {
+                                      _expanded = true;
+                                    }),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: const [
+                                        Text(
+                                          // TODO: Bedre titel på denne
+                                          "Fredag (Frivilligt)",
+                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                        ),
+                                        Icon(
+                                          CupertinoIcons.chevron_down,
+                                          color: CupertinoColors.black,
+                                          size: 30,
                                         )
-                                    ),
-                                  );
-                                }
-                                else {
-                                  return MenuTile(
-                                    dateString:
-                                    "${dayNumberInWeekToDayString(dates[index].weekday)} d. ${dates[index].day} ${monthNumberToMonthString(dates[index].month)}",
-                                    menuText: "Der er ikke en menu for fredag, da dette er et særtilbud",
-                                    enlistmentState: _enlistments[index],
-                                    enlistForDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.enlisted),
-                                    rejectDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.rejected),
-                                  );
-                                }
-                              case 5:
-                                return const SizedBox(
-                                  height: 20,
-                                );
-                              case 6:
-                                return IconCupertinoButtonFilled(
-                                    onPressed: _enlistButtonPress(token),
-                                    text: _enlistmentSent ? "Opdater tilmelding" : "Send tilmelding",
-                                    icon: CupertinoIcons.paperplane);
-                              case 7:
-                                return const SizedBox(
-                                  height: 30,
-                                );
-                              default:
-                                return const Text("This should not show up");
+                                      ],
+                                    )
+                                ),
+                              );
                             }
-                          },
-                        )),
-                  ));
+                            else {
+                              return MenuTile(
+                                dateString:
+                                "${dayNumberInWeekToDayString(dates[index].weekday)} d. ${dates[index].day} ${monthNumberToMonthString(dates[index].month)}",
+                                menuText: "Der er ikke en menu for fredag, da dette er et særtilbud",
+                                enlistmentState: _enlistments[index],
+                                enlistForDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.enlisted),
+                                rejectDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.rejected),
+                              );
+                            }
+                          case 5:
+                            return const SizedBox(
+                              height: 70,
+                            );
+                          default:
+                            return const Text("This should not show up");
+                        }
+                      },
+                    )),
+              );
+              // child = CupertinoScrollbar(
+              //     thumbVisibility: true,
+              //     thickness: 6.0,
+              //     thicknessWhileDragging: 10.0,
+              //     radius: const Radius.circular(34.0),
+              //     child: );
             }
           }
           else if (snapshot.hasError) {
-            child = Center(child: Text("An error happened here: ${snapshot.error}"));
+            child = Center(child: Text("${snapshot.error}"));
           }
           else {
             child = const ActivityIndicatorWithTitle();
           }
 
-          return CupertinoPageScaffold(
-              navigationBar: CupertinoNavigationBar(
-                leading: CupertinoButton(
-                  onPressed: () => _navigateToPreviousWeek(),
-                  padding: EdgeInsets.zero,
-                  child: const Icon(CupertinoIcons.arrow_left_circle_fill),
-                ),
-                middle: Text("Uge ${widget.mondayOfWeek.weekOfYear}"),
-                trailing: CupertinoButton(
-                    onPressed: () => _navigateToNextWeek(),
+          return Scaffold(
+            floatingActionButtonAnimator: null,
+            floatingActionButton: IconCupertinoButtonFilled(
+                onPressed: _enlistButtonPress(token),
+                text: _enlistmentSent ? "Opdater tilmelding" : "Send tilmelding",
+                icon: CupertinoIcons.paperplane),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            body: CupertinoPageScaffold(
+                navigationBar: CupertinoNavigationBar(
+                  leading: CupertinoButton(
+                    onPressed: () => _navigateToPreviousWeek(),
                     padding: EdgeInsets.zero,
-                    child: const Icon(CupertinoIcons.arrow_right_circle_fill)),
-              ),
-              child: GestureDetector(
-                // TODO: Check om det her gør som forventet (på en telefon...)
-                onHorizontalDragEnd: (details) => {
-                  if (details.primaryVelocity! > 0) {
-                    _navigateToPreviousWeek()
-                  }
-                  else if (details.primaryVelocity! < 0){
-                    _navigateToNextWeek()
-                  }
-                },
-                child: child,
-              ));
+                    child: const Icon(CupertinoIcons.arrow_left_circle_fill),
+                  ),
+                  middle: Text("Uge ${widget.mondayOfWeek.weekOfYear}"),
+                  trailing: CupertinoButton(
+                      onPressed: () => _navigateToNextWeek(),
+                      padding: EdgeInsets.zero,
+                      child: const Icon(CupertinoIcons.arrow_right_circle_fill)),
+                ),
+                child: GestureDetector(
+                  // TODO: Check om det her gør som forventet (på en telefon...)
+                  onHorizontalDragEnd: (details) => {
+                    if (details.primaryVelocity! > 0) {
+                      _navigateToPreviousWeek()
+                    }
+                    else if (details.primaryVelocity! < 0){
+                      _navigateToNextWeek()
+                    }
+                  },
+                  child: child,
+                )
+            ),
+          );
         },
       future: _menu.any((element) => element.isEmpty) ? _fetchData(token) : null,
     );

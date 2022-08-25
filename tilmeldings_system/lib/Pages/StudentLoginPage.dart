@@ -53,7 +53,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
             return const ActivityIndicatorWithTitle();
           }
           else if (snapshot.hasError) {
-            return Center(child: Text("An error happened: ${snapshot.error}"),);
+            return Center(child: Text("${snapshot.error}"),);
           }
           else {
             return const ActivityIndicatorWithTitle();
