@@ -65,7 +65,7 @@ class MainPage extends StatelessWidget {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
-        // title: const Text('Title'),
+        title: const Text('Indstillinger', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
         // message: const Text('Message'),
         actions: actions,
       ),

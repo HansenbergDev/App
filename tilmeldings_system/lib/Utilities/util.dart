@@ -23,7 +23,7 @@ Widget makeSquareButton(VoidCallback? fn, icon, iconColor, fillColor) {
     height: 60,
     child: ColoredButton.filled(
         onPressed: fn,
-        customDisabledColor: CupertinoColors.systemGrey2,
+        customDisabledColor: CupertinoColors.systemGrey3,
         fillColor: fillColor,
         child: Icon(
           icon,

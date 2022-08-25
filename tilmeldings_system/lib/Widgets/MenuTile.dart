@@ -22,13 +22,13 @@ class MenuTile extends StatelessWidget {
   Widget build(BuildContext context) {
     Color enlistButtonFillColor = enlistmentState == EnlistmentStates.enlisted
         ? CupertinoColors.systemGreen
-        : CupertinoColors.systemGrey2;
+        : CupertinoColors.systemGrey3;
     Color enlistButtonIconColor = enlistmentState == EnlistmentStates.enlisted
         ? CupertinoColors.white
         : CupertinoColors.black;
     Color rejectButtonFillColor = enlistmentState == EnlistmentStates.rejected
         ? CupertinoColors.systemRed
-        : CupertinoColors.systemGrey2;
+        : CupertinoColors.systemGrey3;
     Color rejectButtonIconColor = enlistmentState == EnlistmentStates.rejected
         ? CupertinoColors.white
         : CupertinoColors.black;
