@@ -1,6 +1,6 @@
-# tilmeldings_system
+# hansenber_app
 
-Tilmeldings app til Hansenbergs skolehjem
+Hansenbergs app
 
 ## Getting Started
 

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:tilmeldings_system/Models/Student.dart';
-import 'package:tilmeldings_system/Models/StudentNotifier.dart';
-import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Utilities/Clients/StudentClient.dart';
-import 'package:tilmeldings_system/Widgets/ActivityIndicatorWithTitle.dart';
+import 'package:hansenberg_app/Models/Student.dart';
+import 'package:hansenberg_app/Models/StudentNotifier.dart';
+import 'package:hansenberg_app/Models/TokenNotifier.dart';
+import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 
 class StudentLoginPage extends StatefulWidget {
   const StudentLoginPage({Key? key, required this.studentClient}) : super(key: key);

@@ -3,7 +3,7 @@
 // DO NOT CHANGE THE NAMES IN THIS ENUM
 // They will have to be manually changed in every saved StudentWeekData file
 import 'package:flutter/cupertino.dart';
-import 'package:tilmeldings_system/Widgets/ColoredCupertinoButton.dart';
+import 'package:hansenberg_app/Widgets/ColoredCupertinoButton.dart';
 
 enum EnlistmentStates { none, enlisted, rejected }
 

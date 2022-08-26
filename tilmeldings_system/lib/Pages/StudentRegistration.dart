@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:tilmeldings_system/Models/Student.dart';
-import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Utilities/Clients/StudentClient.dart';
-import 'package:tilmeldings_system/Utilities/Storage/TokenStorage.dart';
-import 'package:tilmeldings_system/Widgets/DatePicker.dart';
-import 'package:tilmeldings_system/Widgets/ItemPicker.dart';
-import 'package:tilmeldings_system/Widgets/TextfieldWithTitle.dart';
+import 'package:hansenberg_app/Models/Student.dart';
+import 'package:hansenberg_app/Models/TokenNotifier.dart';
+import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
+import 'package:hansenberg_app/Widgets/DatePicker.dart';
+import 'package:hansenberg_app/Widgets/ItemPicker.dart';
+import 'package:hansenberg_app/Widgets/TextfieldWithTitle.dart';
 
 import '../Models/StudentNotifier.dart';
 import '../Widgets/IconCupertinoButton.dart';

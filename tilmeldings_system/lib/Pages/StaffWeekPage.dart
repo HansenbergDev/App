@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tilmeldings_system/Models/Menu.dart';
-import 'package:tilmeldings_system/Models/StaffEnlistmentWeekData.dart';
-import 'package:tilmeldings_system/Utilities/Clients/StaffEnlistmentClient.dart';
-import 'package:tilmeldings_system/Utilities/Clients/MenuClient.dart';
-import 'package:tilmeldings_system/Utilities/util.dart';
-import 'package:tilmeldings_system/Widgets/IconCupertinoButton.dart';
-import 'package:tilmeldings_system/Widgets/StaffTile.dart';
+import 'package:hansenberg_app/Models/Menu.dart';
+import 'package:hansenberg_app/Models/StaffEnlistmentWeekData.dart';
+import 'package:hansenberg_app/Utilities/Clients/StaffEnlistmentClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
+import 'package:hansenberg_app/Utilities/util.dart';
+import 'package:hansenberg_app/Widgets/IconCupertinoButton.dart';
+import 'package:hansenberg_app/Widgets/StaffTile.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 class StaffWeekPage extends StatefulWidget {

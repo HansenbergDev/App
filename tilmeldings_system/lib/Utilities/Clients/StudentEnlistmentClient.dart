@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:tilmeldings_system/Models/Enlistment.dart';
-import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
+import 'package:hansenberg_app/Models/Enlistment.dart';
+import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
 
 class StudentEnlistmentClient {
 

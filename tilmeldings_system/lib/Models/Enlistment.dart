@@ -1,4 +1,4 @@
-import 'package:tilmeldings_system/Utilities/util.dart';
+import 'package:hansenberg_app/Utilities/util.dart';
 
 class Enlistment extends Iterable<bool>{
 

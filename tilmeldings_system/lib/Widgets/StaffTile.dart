@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tilmeldings_system/Widgets/ColoredCupertinoButton.dart';
+import 'package:hansenberg_app/Widgets/ColoredCupertinoButton.dart';
 
 class StaffTile extends StatelessWidget {
   const StaffTile({

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tilmeldings_system/Widgets/ColoredCupertinoButton.dart';
+import 'package:hansenberg_app/Widgets/ColoredCupertinoButton.dart';
 
 class IconCupertinoButtonFilled extends StatelessWidget {
   const IconCupertinoButtonFilled({Key? key, required this.onPressed, required this.text, required this.icon}) : super(key: key);

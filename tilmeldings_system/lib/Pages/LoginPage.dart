@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tilmeldings_system/Widgets/IconCupertinoButton.dart';
+import 'package:hansenberg_app/Widgets/IconCupertinoButton.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);

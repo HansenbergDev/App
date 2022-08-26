@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Utilities/Storage/TokenStorage.dart';
-import 'package:tilmeldings_system/Widgets/ActivityIndicatorWithTitle.dart';
+import 'package:hansenberg_app/Models/TokenNotifier.dart';
+import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
+import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 
 class InitPage extends StatelessWidget {
   const InitPage({Key? key, required this.tokenStorage}) : super(key: key);

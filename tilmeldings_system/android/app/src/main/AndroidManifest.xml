@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tilmeldings_system">
+    package="com.hansenberg.hansenberg_app">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="tilmeldings_system"
+        android:label="hansenberg_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

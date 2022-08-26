@@ -1,5 +1,5 @@
-name: tilmeldings_system
-description: Tilmeldings app til Hansenbergs skolehjem
+name: hansenberg_app
+description: Hansenbergs app
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:tilmeldings_system/Models/StudentNotifier.dart';
-import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Pages/InitPage.dart';
-import 'package:tilmeldings_system/Pages/LoginPage.dart';
-import 'package:tilmeldings_system/Pages/StudentLoginPage.dart';
-import 'package:tilmeldings_system/Pages/StudentRegistration.dart';
-import 'package:tilmeldings_system/Pages/WeekPage.dart';
-import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
-import 'package:tilmeldings_system/Utilities/Clients/StudentClient.dart';
-import 'package:tilmeldings_system/Utilities/Storage/TokenStorage.dart';
-import 'package:tilmeldings_system/Utilities/util.dart';
-import 'package:tilmeldings_system/Widgets/CupertinoAppWithRoutes.dart';
+import 'package:hansenberg_app/Models/StudentNotifier.dart';
+import 'package:hansenberg_app/Models/TokenNotifier.dart';
+import 'package:hansenberg_app/Pages/InitPage.dart';
+import 'package:hansenberg_app/Pages/LoginPage.dart';
+import 'package:hansenberg_app/Pages/StudentLoginPage.dart';
+import 'package:hansenberg_app/Pages/StudentRegistration.dart';
+import 'package:hansenberg_app/Pages/WeekPage.dart';
+import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
+import 'package:hansenberg_app/Utilities/util.dart';
+import 'package:hansenberg_app/Widgets/CupertinoAppWithRoutes.dart';
 
 void main() {
   runApp(

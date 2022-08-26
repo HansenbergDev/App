@@ -1,4 +1,4 @@
-package com.example.tilmeldings_system
+package com.hansenberg.hansenberg_app
 
 import io.flutter.embedding.android.FlutterActivity
 

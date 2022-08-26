@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tilmeldings_system/Models/StudentNotifier.dart';
-import 'package:tilmeldings_system/Pages/StaffWeekPage.dart';
-import 'package:tilmeldings_system/Utilities/Clients/StaffEnlistmentClient.dart';
-import 'package:tilmeldings_system/Utilities/Clients/StudentEnlistmentClient.dart';
-import 'package:tilmeldings_system/Utilities/Clients/HttpClient.dart';
-import 'package:tilmeldings_system/Utilities/Clients/MenuClient.dart';
-import 'package:tilmeldings_system/Utilities/Clients/StudentClient.dart';
-import 'package:tilmeldings_system/Utilities/util.dart';
+import 'package:hansenberg_app/Models/StudentNotifier.dart';
+import 'package:hansenberg_app/Pages/StaffWeekPage.dart';
+import 'package:hansenberg_app/Utilities/Clients/StaffEnlistmentClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/StudentEnlistmentClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import 'StudentWeekPage.dart';

@@ -2,14 +2,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tilmeldings_system/Models/Enlistment.dart';
-import 'package:tilmeldings_system/Models/Menu.dart';
-import 'package:tilmeldings_system/Models/TokenNotifier.dart';
-import 'package:tilmeldings_system/Utilities/Clients/StudentEnlistmentClient.dart';
-import 'package:tilmeldings_system/Utilities/Clients/MenuClient.dart';
-import 'package:tilmeldings_system/Utilities/util.dart';
-import 'package:tilmeldings_system/Widgets/ActivityIndicatorWithTitle.dart';
-import 'package:tilmeldings_system/Widgets/IconCupertinoButton.dart';
+import 'package:hansenberg_app/Models/Enlistment.dart';
+import 'package:hansenberg_app/Models/Menu.dart';
+import 'package:hansenberg_app/Models/TokenNotifier.dart';
+import 'package:hansenberg_app/Utilities/Clients/StudentEnlistmentClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
+import 'package:hansenberg_app/Utilities/util.dart';
+import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
+import 'package:hansenberg_app/Widgets/IconCupertinoButton.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import '../Widgets/MenuTile.dart';
@@ -279,7 +279,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
             floatingActionButton: IconCupertinoButtonFilled(
                 onPressed: _enlistButtonPress(token),
                 text: _enlistmentSent ? "Opdater tilmelding" : "Send tilmelding",
-                icon: CupertinoIcons.paperplane),
+                icon: _enlistmentSent ? CupertinoIcons.refresh : CupertinoIcons.paperplane),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             body: CupertinoPageScaffold(
                 navigationBar: CupertinoNavigationBar(
