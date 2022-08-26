@@ -4,6 +4,7 @@ import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/TokenStorage.dart';
+import 'package:hansenberg_app/Utilities/WeekNavigator.dart';
 import 'package:provider/provider.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
@@ -46,6 +47,7 @@ class StudentPage extends StatelessWidget {
       menuClient: menuClient,
       enlistmentClient: enlistmentClient,
       tokenStorage: tokenStorage,
+      weekNavigator: WeekNavigator(context: context, week: mondayOfWeek.weekOfYear),
     );
 
     return PageRouteBuilder(pageBuilder: (BuildContext context, _, __) => builder(context));
