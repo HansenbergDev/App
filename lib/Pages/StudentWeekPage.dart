@@ -5,7 +5,7 @@ import 'package:hansenberg_app/Models/Enlistment.dart';
 import 'package:hansenberg_app/Models/Menu.dart';
 import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
-import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
+import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:hansenberg_app/Widgets/IconCupertinoButton.dart';

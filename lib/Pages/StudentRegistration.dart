@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Models/Student.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
-import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
+import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/DatePicker.dart';
 import 'package:hansenberg_app/Widgets/TextfieldWithTitle.dart';
 import 'package:provider/provider.dart';

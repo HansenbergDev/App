@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Models/Student.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
-import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
+import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:provider/provider.dart';
 

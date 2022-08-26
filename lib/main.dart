@@ -9,7 +9,7 @@ import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
-import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
+import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/CupertinoAppWithRoutes.dart';
 import 'package:provider/provider.dart';
 
