@@ -14,24 +14,32 @@ class MenuTile extends StatelessWidget {
 
   final String dateString;
   final String menuText;
-  final EnlistmentStates enlistmentState;
+  final bool? enlistmentState;
   final VoidCallback enlistForDinner;
   final VoidCallback rejectDinner;
 
   @override
   Widget build(BuildContext context) {
-    Color enlistButtonFillColor = enlistmentState == EnlistmentStates.enlisted
-        ? CupertinoColors.systemGreen
-        : CupertinoColors.systemGrey3;
-    Color enlistButtonIconColor = enlistmentState == EnlistmentStates.enlisted
-        ? CupertinoColors.white
-        : CupertinoColors.black;
-    Color rejectButtonFillColor = enlistmentState == EnlistmentStates.rejected
-        ? CupertinoColors.systemRed
-        : CupertinoColors.systemGrey3;
-    Color rejectButtonIconColor = enlistmentState == EnlistmentStates.rejected
-        ? CupertinoColors.white
-        : CupertinoColors.black;
+
+    Color enlistButtonFillColor;
+    Color enlistButtonIconColor;
+
+    Color rejectButtonFillColor;
+    Color rejectButtonIconColor;
+
+    enlistButtonFillColor = rejectButtonFillColor = CupertinoColors.systemGrey3;
+    enlistButtonIconColor = rejectButtonIconColor = CupertinoColors.black;
+
+    if (enlistmentState != null) {
+      if (enlistmentState!) {
+        enlistButtonFillColor = CupertinoColors.systemGreen;
+        enlistButtonIconColor = CupertinoColors.white;
+      }
+      else {
+        rejectButtonFillColor = CupertinoColors.systemRed;
+        rejectButtonIconColor = CupertinoColors.white;
+      }
+    }
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),

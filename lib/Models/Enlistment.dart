@@ -31,13 +31,13 @@ class Enlistment extends Iterable<bool>{
     );
   }
 
-  factory Enlistment.fromEnlistmentStates(List<EnlistmentStates> list) {
+  factory Enlistment.fromNullableBoolList(List<bool?> list) {
     return Enlistment(
-        monday: EnlistmentStatesToBool(list[0]),
-        tuesday: EnlistmentStatesToBool(list[1]),
-        wednesday: EnlistmentStatesToBool(list[2]),
-        thursday: EnlistmentStatesToBool(list[3]),
-        friday: EnlistmentStatesToBool(list[4])
+        monday: list[0]!,
+        tuesday: list[1]!,
+        wednesday: list[2]!,
+        thursday: list[3]!,
+        friday: list[4]!
     );
   }
 

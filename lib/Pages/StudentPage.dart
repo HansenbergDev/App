@@ -89,7 +89,7 @@ class StudentPage extends StatelessWidget {
                         Navigator.pushReplacementNamed(context, '/');
                       });
                     },
-                    child: const Text('Slet bruger!'),
+                    child: const Text('Slet bruger'),
                   )
                 ]
             ),

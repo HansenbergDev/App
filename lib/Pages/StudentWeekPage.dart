@@ -34,8 +34,8 @@ class StudentWeekPage extends StatefulWidget {
 class _StudentWeekPageState extends State<StudentWeekPage> {
 
   Menu _menu = const Menu(monday: "", tuesday: "", wednesday: "", thursday: "");
-  List<EnlistmentStates> _enlistments = [];
-  List<EnlistmentStates> _originalEnlistments = [];
+  List<bool?> _enlistment = [];
+  late Enlistment _originalEnlistment;
   bool _expanded = false;
   bool _enlistmentSent = false;
 
@@ -83,13 +83,11 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
 
       if (enlistment != null) {
         _enlistmentSent = true;
-        _enlistments = enlistment
-            .map((e) => e ? EnlistmentStates.enlisted : EnlistmentStates.rejected)
-            .toList();
-        _originalEnlistments = [..._enlistments];
+        _enlistment = enlistment.toList();
+        _originalEnlistment = enlistment;
       }
       else {
-        _enlistments = List<EnlistmentStates>.generate(5, (index) => index < 4 ? EnlistmentStates.none : EnlistmentStates.rejected);
+        _enlistment = List<bool?>.generate(5, (index) => index < 4 ? null : false);
       }
     }
 
@@ -100,17 +98,17 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     final token = await widget.tokenStorage.readToken();
     setState(() {
       _enlistmentSent = true;
-      _originalEnlistments = [..._enlistments];
+      _originalEnlistment = Enlistment.fromNullableBoolList(_enlistment);
     });
-    return await _sendEnlistment(Enlistment.fromEnlistmentStates(_enlistments), token);
+    return await _sendEnlistment(Enlistment.fromNullableBoolList(_enlistment), token);
   }
 
   void _updateData() async {
     final token = await widget.tokenStorage.readToken();
     setState(() {
-      _originalEnlistments = [..._enlistments];
+      _originalEnlistment = Enlistment.fromNullableBoolList(_enlistment);
     });
-    return await _updateEnlistment(Enlistment.fromEnlistmentStates(_enlistments), token);
+    return await _updateEnlistment(Enlistment.fromNullableBoolList(_enlistment), token);
   }
 
   void _navigateToNextWeek() {
@@ -128,23 +126,23 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
   }
 
 
-  void _makeEnlistmentChoice(int index, EnlistmentStates choice) async {
+  void _makeEnlistmentChoice(int index, bool choice) async {
     setState(() {
-      _enlistments[index] = choice;
+      _enlistment[index] = choice;
     });
   }
 
   bool get _enlistmentIsValid {
-    return _enlistments
+    return _enlistment
         .take(4)
-        .any((element) => element == EnlistmentStates.none)
+        .any((element) => element == null)
         ? false : true;
   }
 
   void Function()? _enlistButtonPress() {
     if (!_menu.any((element) => element.isEmpty)) {
       if (_enlistmentSent) {
-        if (!const ListEquality().equals(_originalEnlistments, _enlistments)) {
+        if (!const ListEquality().equals(_originalEnlistment.toList(), _enlistment)) {
           return () => _updateData();
         }
       }
@@ -205,9 +203,9 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                               dateString:
                               "${dayNumberInWeekToDayString(dates[index].weekday)} d. ${dates[index].day} ${monthNumberToMonthString(dates[index].month)}",
                               menuText: _menu.toList()[index],
-                              enlistmentState: _enlistments[index],
-                              enlistForDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.enlisted),
-                              rejectDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.rejected),
+                              enlistmentState: _enlistment[index],
+                              enlistForDinner: () => _makeEnlistmentChoice(index, true),
+                              rejectDinner: () => _makeEnlistmentChoice(index, false),
                             );
                           case 4:
                             if (!_expanded) {
@@ -245,9 +243,9 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                                 dateString:
                                 "${dayNumberInWeekToDayString(dates[index].weekday)} d. ${dates[index].day} ${monthNumberToMonthString(dates[index].month)}",
                                 menuText: "Der er ikke en menu for fredag, da dette er et særtilbud",
-                                enlistmentState: _enlistments[index],
-                                enlistForDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.enlisted),
-                                rejectDinner: () => _makeEnlistmentChoice(index, EnlistmentStates.rejected),
+                                enlistmentState: _enlistment[index],
+                                enlistForDinner: () => _makeEnlistmentChoice(index, true),
+                                rejectDinner: () => _makeEnlistmentChoice(index, false),
                               );
                             }
                           case 5:

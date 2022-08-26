@@ -1,19 +1,5 @@
-// TODO: Konverter alt med EnlistmentStates til bool?
-
-// DO NOT CHANGE THE NAMES IN THIS ENUM
-// They will have to be manually changed in every saved StudentWeekData file
 import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Widgets/ColoredCupertinoButton.dart';
-
-enum EnlistmentStates { none, enlisted, rejected }
-
-EnlistmentStates boolToEnlistmentStates(bool b) {
-  return b ? EnlistmentStates.enlisted : EnlistmentStates.rejected;
-}
-
-bool EnlistmentStatesToBool(EnlistmentStates state) {
-  return state == EnlistmentStates.enlisted ? true : false;
-}
 
 Widget makeSquareButton(VoidCallback? fn, icon, iconColor, fillColor) {
   return SizedBox(
