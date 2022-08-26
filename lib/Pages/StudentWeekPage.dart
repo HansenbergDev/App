@@ -5,10 +5,10 @@ import 'package:hansenberg_app/Models/Enlistment.dart';
 import 'package:hansenberg_app/Models/Menu.dart';
 import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
+import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:hansenberg_app/Widgets/IconCupertinoButton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import '../Widgets/MenuTile.dart';
@@ -18,12 +18,14 @@ class StudentWeekPage extends StatefulWidget {
     Key? key,
     required this.mondayOfWeek,
     required this.menuClient,
-    required this.enlistmentClient
+    required this.enlistmentClient,
+    required this.tokenStorage
   }) : super(key: key);
 
   final DateTime mondayOfWeek;
   final MenuClient menuClient;
   final EnlistmentClient enlistmentClient;
+  final TokenStorage tokenStorage;
 
   @override
   State<StudentWeekPage> createState() => _StudentWeekPageState();
@@ -77,8 +79,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
 
     if (menu != null) {
       _menu = menu;
-      final token = (await SharedPreferences.getInstance()).getString('token')!;
-      enlistment = await _getEnlistment(token);
+      enlistment = await _getEnlistment(await widget.tokenStorage.readToken());
 
       if (enlistment != null) {
         _enlistmentSent = true;
@@ -96,7 +97,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
   }
 
   void _sendData() async {
-    final token = (await SharedPreferences.getInstance()).getString('token')!;
+    final token = await widget.tokenStorage.readToken();
     setState(() {
       _enlistmentSent = true;
       _originalEnlistments = [..._enlistments];
@@ -105,7 +106,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
   }
 
   void _updateData() async {
-    final token = (await SharedPreferences.getInstance()).getString('token')!;
+    final token = await widget.tokenStorage.readToken();
     setState(() {
       _originalEnlistments = [..._enlistments];
     });

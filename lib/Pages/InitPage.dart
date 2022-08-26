@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class InitPage extends StatelessWidget {
   const InitPage({Key? key, required this.tokenStorage}) : super(key: key);
@@ -10,7 +9,7 @@ class InitPage extends StatelessWidget {
 
   Future<String> _fetchToken() async {
 
-    (await SharedPreferences.getInstance()).clear();
+    await tokenStorage.deleteToken();
 
     if (await tokenStorage.tokenExists()) {
       return await tokenStorage.readToken();
@@ -30,10 +29,14 @@ class InitPage extends StatelessWidget {
               String token = snapshot.data!;
 
               if (token.isNotEmpty) {
-                Navigator.of(context).pushReplacementNamed('/student/login');
+                Future.delayed(Duration.zero, () {
+                  Navigator.of(context).pushReplacementNamed('/student/login');
+                });
               }
               else {
-                Navigator.of(context).pushReplacementNamed('/welcome');
+                Future.delayed(Duration.zero, () {
+                  Navigator.of(context).pushReplacementNamed('/welcome');
+                });
               }
             }
             else if (snapshot.hasError) {

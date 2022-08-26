@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
 import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
-import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import 'StudentWeekPage.dart';
@@ -13,10 +12,16 @@ import 'StudentWeekPage.dart';
 class StudentPage extends StatelessWidget {
   const StudentPage({
     Key? key,
-    required this.httpClient
+    required this.menuClient,
+    required this.enlistmentClient,
+    required this.studentClient,
+    required this.tokenStorage
   }) : super(key: key);
 
-  final HttpClient httpClient;
+  final MenuClient menuClient;
+  final EnlistmentClient enlistmentClient;
+  final StudentClient studentClient;
+  final TokenStorage tokenStorage;
 
   String initialRoute() {
     DateTime now = DateTime.now();
@@ -38,8 +43,9 @@ class StudentPage extends StatelessWidget {
 
     builder = (BuildContext context) => StudentWeekPage(
       mondayOfWeek: mondayOfWeek,
-      menuClient: MenuClient(httpClient: httpClient),
-      enlistmentClient: EnlistmentClient(httpClient: httpClient),
+      menuClient: menuClient,
+      enlistmentClient: enlistmentClient,
+      tokenStorage: tokenStorage,
     );
 
     return PageRouteBuilder(pageBuilder: (BuildContext context, _, __) => builder(context));
@@ -57,12 +63,8 @@ class StudentPage extends StatelessWidget {
   }
 
   Future _deleteUser() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    StudentClient client = StudentClient(httpClient: httpClient);
-    client.deleteStudent(prefs.getString('token')!);
-
-    prefs.clear();
+    studentClient.deleteStudent(await tokenStorage.readToken());
+    tokenStorage.deleteToken();
   }
 
   @override

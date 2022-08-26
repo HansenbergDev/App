@@ -2,14 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Models/Student.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentLoginPage extends StatefulWidget {
-  const StudentLoginPage({Key? key, required this.studentClient}) : super(key: key);
+  const StudentLoginPage({Key? key, required this.studentClient, required this.tokenStorage}) : super(key: key);
   
   final StudentClient studentClient;
+  final TokenStorage tokenStorage;
 
   @override
   State<StudentLoginPage> createState() => _StudentLoginPageState();
@@ -18,7 +19,7 @@ class StudentLoginPage extends StatefulWidget {
 class _StudentLoginPageState extends State<StudentLoginPage> {
 
   Future<Student> _fetchStudent() async {
-    final token = (await SharedPreferences.getInstance()).getString('token')!;
+    final token = await widget.tokenStorage.readToken();
 
     Student? student = await widget.studentClient.getStudent(token);
 

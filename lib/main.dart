@@ -5,7 +5,9 @@ import 'package:hansenberg_app/Pages/StudentLoginPage.dart';
 import 'package:hansenberg_app/Pages/StudentPage.dart';
 import 'package:hansenberg_app/Pages/StudentRegistration.dart';
 import 'package:hansenberg_app/Pages/WelcomePage.dart';
+import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/CupertinoAppWithRoutes.dart';
@@ -49,18 +51,32 @@ class _HansenbergAppState extends State<HansenbergApp> {
 
     HttpClient httpClient = HttpClient(base: uri);
 
-    StudentClient studentClient = StudentClient(
-        httpClient: httpClient
-    );
+    StudentClient studentClient = StudentClient(httpClient: httpClient);
+    MenuClient menuClient = MenuClient(httpClient: httpClient);
+    EnlistmentClient enlistmentClient = EnlistmentClient(httpClient: httpClient);
 
     return CupertinoAppWithRoutes(
         initialRoute: '/',
         routes: <String, WidgetBuilder> {
           '/': (BuildContext context) => InitPage(tokenStorage: tokenStorage),
           '/welcome': (BuildContext context) => const WelcomePage(),
-          '/student': (BuildContext context) => StudentPage(httpClient: httpClient,),
-          '/student/login': (BuildContext context) => StudentLoginPage(studentClient: studentClient),
-          '/student/registration': (BuildContext context) => StudentRegistration(studentClient: studentClient, tokenStorage: tokenStorage),
+          '/student': (BuildContext context) =>
+              StudentPage(
+                menuClient: menuClient,
+                enlistmentClient: enlistmentClient,
+                studentClient: studentClient,
+                tokenStorage: tokenStorage,
+              ),
+          '/student/login': (BuildContext context) =>
+              StudentLoginPage(
+                  studentClient: studentClient,
+                  tokenStorage: tokenStorage
+              ),
+          '/student/registration': (BuildContext context) =>
+              StudentRegistration(
+                  studentClient: studentClient,
+                  tokenStorage: tokenStorage
+              ),
         });
   }
 }

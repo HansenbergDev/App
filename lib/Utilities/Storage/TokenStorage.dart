@@ -13,4 +13,8 @@ class TokenStorage {
   Future<void> writeToken(String token) async {
     (await SharedPreferences.getInstance()).setString('token', token);
   }
+
+  Future<void> deleteToken() async {
+    (await SharedPreferences.getInstance()).remove('token');
+  }
 }
