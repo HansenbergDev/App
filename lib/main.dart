@@ -1,25 +1,20 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
-import 'package:hansenberg_app/Models/TokenNotifier.dart';
 import 'package:hansenberg_app/Pages/InitPage.dart';
-import 'package:hansenberg_app/Pages/LoginPage.dart';
 import 'package:hansenberg_app/Pages/StudentLoginPage.dart';
+import 'package:hansenberg_app/Pages/StudentPage.dart';
 import 'package:hansenberg_app/Pages/StudentRegistration.dart';
-import 'package:hansenberg_app/Pages/WeekPage.dart';
+import 'package:hansenberg_app/Pages/WelcomePage.dart';
 import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
-import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:hansenberg_app/Widgets/CupertinoAppWithRoutes.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => TokenNotifier(),
-        ),
         ChangeNotifierProvider(
           create: (context) => StudentNotifier(),
         ),
@@ -38,16 +33,21 @@ class HansenbergApp extends StatefulWidget {
 }
 
 class _HansenbergAppState extends State<HansenbergApp> {
-  // final String uriBase = "http://10.0.2.2:4001";
-
-  final String uriBase = "http://178.62.220.90:4001";
 
   @override
   Widget build(BuildContext context) {
 
+    String protocol = 'http://';
+    // String ip = '178.62.220.90';
+    String ip = "10.0.2.2";
+    String port = '4001';
+    String api = '/api/1.0';
+
+    String uri = "$protocol$ip:$port$api";
+
     TokenStorage tokenStorage = TokenStorage();
 
-    HttpClient httpClient = HttpClient(base: uriBase);
+    HttpClient httpClient = HttpClient(base: uri);
 
     StudentClient studentClient = StudentClient(
         httpClient: httpClient
@@ -57,12 +57,10 @@ class _HansenbergAppState extends State<HansenbergApp> {
         initialRoute: '/',
         routes: <String, WidgetBuilder> {
           '/': (BuildContext context) => InitPage(tokenStorage: tokenStorage),
-          '/login': (BuildContext context) => const LoginPage(),
-          '/student': (BuildContext context) => MainPage(httpClient: httpClient,userType: UserTypes.student,),
+          '/welcome': (BuildContext context) => const WelcomePage(),
+          '/student': (BuildContext context) => StudentPage(httpClient: httpClient,),
           '/student/login': (BuildContext context) => StudentLoginPage(studentClient: studentClient),
           '/student/registration': (BuildContext context) => StudentRegistration(studentClient: studentClient, tokenStorage: tokenStorage),
-          '/staff/login': (BuildContext context) => MainPage(httpClient: httpClient, userType: UserTypes.staff),
-          '/staff': (BuildContext context) => const CupertinoPageScaffold(child: Text("Staff home")),
         });
   }
 }

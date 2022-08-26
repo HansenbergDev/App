@@ -1,15 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:hansenberg_app/Models/Enlistment.dart';
 import 'package:hansenberg_app/Models/Menu.dart';
-import 'package:hansenberg_app/Models/TokenNotifier.dart';
-import 'package:hansenberg_app/Utilities/Clients/StudentEnlistmentClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:hansenberg_app/Widgets/IconCupertinoButton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import '../Widgets/MenuTile.dart';
@@ -24,7 +23,7 @@ class StudentWeekPage extends StatefulWidget {
 
   final DateTime mondayOfWeek;
   final MenuClient menuClient;
-  final StudentEnlistmentClient enlistmentClient;
+  final EnlistmentClient enlistmentClient;
 
   @override
   State<StudentWeekPage> createState() => _StudentWeekPageState();
@@ -70,7 +69,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     );
   }
 
-  Future<bool> _fetchData(String token) async {
+  Future<bool> _fetchData() async {
     Menu? menu;
     Enlistment? enlistment;
 
@@ -78,6 +77,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
 
     if (menu != null) {
       _menu = menu;
+      final token = (await SharedPreferences.getInstance()).getString('token')!;
       enlistment = await _getEnlistment(token);
 
       if (enlistment != null) {
@@ -95,7 +95,8 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     return true;
   }
 
-  void _sendData(String token) async {
+  void _sendData() async {
+    final token = (await SharedPreferences.getInstance()).getString('token')!;
     setState(() {
       _enlistmentSent = true;
       _originalEnlistments = [..._enlistments];
@@ -103,7 +104,8 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     return await _sendEnlistment(Enlistment.fromEnlistmentStates(_enlistments), token);
   }
 
-  void _updateData(String token) async {
+  void _updateData() async {
+    final token = (await SharedPreferences.getInstance()).getString('token')!;
     setState(() {
       _originalEnlistments = [..._enlistments];
     });
@@ -138,15 +140,15 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
         ? false : true;
   }
 
-  void Function()? _enlistButtonPress(String token) {
+  void Function()? _enlistButtonPress() {
     if (!_menu.any((element) => element.isEmpty)) {
       if (_enlistmentSent) {
         if (!const ListEquality().equals(_originalEnlistments, _enlistments)) {
-          return () => _updateData(token);
+          return () => _updateData();
         }
       }
       else if (_enlistmentIsValid){
-        return () => _sendData(token);
+        return () => _sendData();
       }
     }
 
@@ -171,8 +173,6 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
   Widget build(BuildContext context) {
     var dates = List<DateTime>.generate(
         5, (index) => widget.mondayOfWeek.add(Duration(days: index)));
-
-    String token = context.select<TokenNotifier, String>((notifier) => notifier.token!);
 
     return FutureBuilder<bool>(
         builder: (BuildContext futureContext, AsyncSnapshot<bool> snapshot) {
@@ -277,7 +277,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
           return Scaffold(
             floatingActionButtonAnimator: null,
             floatingActionButton: IconCupertinoButtonFilled(
-                onPressed: _enlistButtonPress(token),
+                onPressed: _enlistButtonPress(),
                 text: _enlistmentSent ? "Opdater tilmelding" : "Send tilmelding",
                 icon: _enlistmentSent ? CupertinoIcons.refresh : CupertinoIcons.paperplane),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -298,7 +298,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
             ),
           );
         },
-      future: _menu.any((element) => element.isEmpty) ? _fetchData(token) : null,
+      future: _menu.any((element) => element.isEmpty) ? _fetchData() : null,
     );
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:intl/intl.dart';
 import 'package:hansenberg_app/Models/Student.dart';
 import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
+import 'package:intl/intl.dart';
 
 class StudentClient {
   const StudentClient({required this.httpClient});

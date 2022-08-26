@@ -1,65 +1,39 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:hansenberg_app/Models/TokenNotifier.dart';
 import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InitPage extends StatelessWidget {
   const InitPage({Key? key, required this.tokenStorage}) : super(key: key);
 
   final TokenStorage tokenStorage;
 
-  Future<Map<String, String>> _fetchTokenAndType() async {
+  Future<String> _fetchToken() async {
 
-    // final prefs = await SharedPreferences.getInstance();
-    // prefs.clear();
+    (await SharedPreferences.getInstance()).clear();
 
     if (await tokenStorage.tokenExists()) {
-      String token = await tokenStorage.readToken();
-      String userType = await tokenStorage.readTokenType();
-
-     return <String, String> { 'token': token, 'userType': userType };
+      return await tokenStorage.readToken();
     }
     else {
-      return <String, String> { };
+      return "";
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        child: FutureBuilder<Map<String, String>>(
-          builder: (BuildContext futureContext, AsyncSnapshot<Map<String, String>> snapshot) {
+        child: FutureBuilder<String>(
+          builder: (BuildContext futureContext, AsyncSnapshot<String> snapshot) {
             if (snapshot.hasData) {
 
-              Map<String, String> map = snapshot.data!;
+              String token = snapshot.data!;
 
-              if (map.isNotEmpty) {
-                String userType = map['userType']!;
-                String token = map['token']!;
-                var tokenNotifier = context.read<TokenNotifier>();
-
-                if (userType == 'student') {
-                  Future.delayed(Duration.zero, () {
-                    tokenNotifier.setToken(token);
-                    Navigator.of(context).pushReplacementNamed('/student/login');
-                  });
-                }
-                else if (userType == 'staff') {
-                  Future.delayed(Duration.zero, () {
-                    tokenNotifier.setToken(token);
-                    Navigator.of(context).pushReplacementNamed('/staff/login');
-                  });
-                }
-                else {
-                  throw Exception("Invalid token file");
-                }
+              if (token.isNotEmpty) {
+                Navigator.of(context).pushReplacementNamed('/student/login');
               }
               else {
-                Future.delayed(Duration.zero, () {
-                  Navigator.of(context).pushReplacementNamed('/login');
-                });
+                Navigator.of(context).pushReplacementNamed('/welcome');
               }
             }
             else if (snapshot.hasError) {
@@ -68,7 +42,7 @@ class InitPage extends StatelessWidget {
 
             return const ActivityIndicatorWithTitle();
           },
-          future: _fetchTokenAndType(),
+          future: _fetchToken(),
         ),
     );
   }

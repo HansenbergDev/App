@@ -7,8 +7,6 @@ import 'package:hansenberg_app/Widgets/ColoredCupertinoButton.dart';
 
 enum EnlistmentStates { none, enlisted, rejected }
 
-enum UserTypes { student, staff }
-
 EnlistmentStates boolToEnlistmentStates(bool b) {
   return b ? EnlistmentStates.enlisted : EnlistmentStates.rejected;
 }

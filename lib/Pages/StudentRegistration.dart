@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 import 'package:hansenberg_app/Models/Student.dart';
-import 'package:hansenberg_app/Models/TokenNotifier.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/Storage/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/DatePicker.dart';
-import 'package:hansenberg_app/Widgets/ItemPicker.dart';
 import 'package:hansenberg_app/Widgets/TextfieldWithTitle.dart';
+import 'package:provider/provider.dart';
 
 import '../Models/StudentNotifier.dart';
 import '../Widgets/IconCupertinoButton.dart';
@@ -57,11 +55,8 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     try {
       token = await widget.studentClient.registerStudent(_nameController.text, _enrolledFrom, _enrolledTo);
       await widget.tokenStorage.writeToken(token);
-      await widget.tokenStorage.writeTokenType("student");
 
       Future.delayed(Duration.zero, () {
-        context.read<TokenNotifier>().setToken(token);
-        context.read<TokenNotifier>().setType("student");
         context.read<StudentNotifier>().set(
             Student(
                 studentName: _nameController.text,

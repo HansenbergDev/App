@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:hansenberg_app/Models/Enlistment.dart';
 import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
 
-class StudentEnlistmentClient {
+class EnlistmentClient {
 
-  const StudentEnlistmentClient({required this.httpClient});
+  const EnlistmentClient({required this.httpClient});
 
   final HttpClient httpClient;
 

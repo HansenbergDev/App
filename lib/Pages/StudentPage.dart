@@ -1,27 +1,22 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
-import 'package:hansenberg_app/Pages/StaffWeekPage.dart';
-import 'package:hansenberg_app/Utilities/Clients/StaffEnlistmentClient.dart';
-import 'package:hansenberg_app/Utilities/Clients/StudentEnlistmentClient.dart';
+import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/HttpClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
-import 'package:hansenberg_app/Utilities/util.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import 'StudentWeekPage.dart';
 
-class MainPage extends StatelessWidget {
-  const MainPage({
+class StudentPage extends StatelessWidget {
+  const StudentPage({
     Key? key,
-    required this.httpClient,
-    required this.userType
+    required this.httpClient
   }) : super(key: key);
 
   final HttpClient httpClient;
-  final UserTypes userType;
 
   String initialRoute() {
     DateTime now = DateTime.now();
@@ -41,23 +36,11 @@ class MainPage extends StatelessWidget {
 
     WidgetBuilder builder;
 
-    if (userType == UserTypes.student) {
-      builder = (BuildContext context) => StudentWeekPage(
-        mondayOfWeek: mondayOfWeek,
-        menuClient: MenuClient(httpClient: httpClient),
-        enlistmentClient: StudentEnlistmentClient(httpClient: httpClient),
-      );
-    }
-    else if (userType == UserTypes.staff) {
-      builder = (BuildContext context) => StaffWeekPage(
-        mondayOfWeek: mondayOfWeek,
-        menuClient: MenuClient(httpClient: httpClient),
-        enlistmentClient: StaffEnlistmentClient(httpClient: httpClient),
-      );
-    }
-    else {
-      throw Exception("Invalid user type");
-    }
+    builder = (BuildContext context) => StudentWeekPage(
+      mondayOfWeek: mondayOfWeek,
+      menuClient: MenuClient(httpClient: httpClient),
+      enlistmentClient: EnlistmentClient(httpClient: httpClient),
+    );
 
     return PageRouteBuilder(pageBuilder: (BuildContext context, _, __) => builder(context));
   }
@@ -76,10 +59,8 @@ class MainPage extends StatelessWidget {
   Future _deleteUser() async {
     final prefs = await SharedPreferences.getInstance();
 
-    if (userType == UserTypes.student) {
-      StudentClient client = StudentClient(httpClient: httpClient);
-      client.deleteStudent(prefs.getString('token')!);
-    }
+    StudentClient client = StudentClient(httpClient: httpClient);
+    client.deleteStudent(prefs.getString('token')!);
 
     prefs.clear();
   }
@@ -87,13 +68,9 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String userName = "";
-
-    if (userType == UserTypes.student) {
-      userName = context.select<StudentNotifier, String>(
-            (notifier) => notifier.student!.studentName,
-      );
-    }
+    String studentName = context.select<StudentNotifier, String>(
+          (notifier) => notifier.student!.studentName,
+    );
 
     return CupertinoPageScaffold(
         backgroundColor: CupertinoColors.secondarySystemBackground,
@@ -117,7 +94,7 @@ class MainPage extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: const Icon(CupertinoIcons.gear, size: 30,),
           ),
-          middle: userName.isNotEmpty ? Text("Hej $userName!") : null,
+          middle: studentName.isNotEmpty ? Text("Hej $studentName!") : null,
           trailing: CupertinoButton(
             // TODO: Implement chat
             onPressed: () => print("Chat"),

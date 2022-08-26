@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 import 'package:hansenberg_app/Models/Student.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
-import 'package:hansenberg_app/Models/TokenNotifier.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentLoginPage extends StatefulWidget {
   const StudentLoginPage({Key? key, required this.studentClient}) : super(key: key);
@@ -17,7 +17,9 @@ class StudentLoginPage extends StatefulWidget {
 
 class _StudentLoginPageState extends State<StudentLoginPage> {
 
-  Future<Student> _fetchStudent(String token) async {
+  Future<Student> _fetchStudent() async {
+    final token = (await SharedPreferences.getInstance()).getString('token')!;
+
     Student? student = await widget.studentClient.getStudent(token);
 
     if (student != null) {
@@ -31,8 +33,6 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
   
   @override
   Widget build(BuildContext context) {
-
-    String token = context.select<TokenNotifier, String>((notifier) => notifier.token!);
 
     return CupertinoPageScaffold(
       child: FutureBuilder<Student>(
@@ -59,7 +59,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
             return const ActivityIndicatorWithTitle();
           }
         },
-        future: _fetchStudent(token),
+        future: _fetchStudent(),
       ),
     );
   }
