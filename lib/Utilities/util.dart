@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Widgets/ColoredCupertinoButton.dart';
+import 'package:hansenberg_app/Widgets/TopNotification.dart';
 
 Widget makeSquareButton(VoidCallback? fn, icon, iconColor, fillColor) {
   return SizedBox(
@@ -14,6 +15,18 @@ Widget makeSquareButton(VoidCallback? fn, icon, iconColor, fillColor) {
           color: iconColor,
         )),
   );
+}
+
+void showNotification({required BuildContext context, required String text, required Color backgroundColor, required Color textColor, required Duration duration}) {
+  final entry = OverlayEntry(builder: (BuildContext overlayContext) {
+    return TopNotification(text: text, backgroundColor: backgroundColor, textColor: textColor,);
+  });
+
+  Navigator.of(context).overlay!.insert(entry);
+
+  Future.delayed(duration, () {
+    entry.remove();
+  });
 }
 
 String dayNumberInWeekToDayString(int dayNumber) {

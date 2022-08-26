@@ -9,7 +9,7 @@ class EnlistmentClient {
 
   final HttpClient httpClient;
 
-  Future<void> updateEnlistment(int year, int week, Enlistment enlistment, String token) async {
+  Future<bool> updateEnlistment(int year, int week, Enlistment enlistment, String token) async {
     final response = await httpClient.patch(
         '/student/enlistment',
         <String, String> {
@@ -27,12 +27,18 @@ class EnlistmentClient {
         }
     );
 
-    if (response.statusCode != 200) {
+    return response.statusCode == 200;
+
+    if (response.statusCode == 200) {
+      return true;
       throw Exception("Failed to update enlistment: ${response.statusCode}, ${response.body}");
+    }
+    else {
+      return false;
     }
   }
 
-  Future<void> createEnlistment(int year, int week, Enlistment enlistment, String token) async {
+  Future<bool> createEnlistment(int year, int week, Enlistment enlistment, String token) async {
     final response = await httpClient.post(
         '/student/enlistment',
         <String, String> {
@@ -49,6 +55,8 @@ class EnlistmentClient {
           'friday': enlistment.friday,
         }
     );
+
+    return response.statusCode == 201;
 
     if (response.statusCode != 201) {
       throw Exception("Failed to create enlistment: ${response.statusCode}, ${response.body}");

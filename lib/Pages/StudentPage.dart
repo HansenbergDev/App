@@ -97,12 +97,12 @@ class StudentPage extends StatelessWidget {
             child: const Icon(CupertinoIcons.gear, size: 30,),
           ),
           middle: studentName.isNotEmpty ? Text("Hej $studentName!") : null,
-          trailing: CupertinoButton(
-            // TODO: Implement chat
-            onPressed: () => print("Chat"),
-            padding: EdgeInsets.zero,
-            child: const Icon(CupertinoIcons.chat_bubble_text, size: 30),
-          ),
+          // trailing: CupertinoButton(
+          //   // TODO: Implement chat
+          //   onPressed: () => print("Chat"),
+          //   padding: EdgeInsets.zero,
+          //   child: const Icon(CupertinoIcons.chat_bubble_text, size: 30),
+          // ),
         ),
         child: Navigator(
           initialRoute: initialRoute(),

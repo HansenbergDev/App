@@ -9,6 +9,7 @@ import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:hansenberg_app/Widgets/IconCupertinoButton.dart';
+import 'package:hansenberg_app/Widgets/TopNotification.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import '../Widgets/MenuTile.dart';
@@ -35,51 +36,25 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
 
   Menu _menu = const Menu(monday: "", tuesday: "", wednesday: "", thursday: "");
   List<bool?> _enlistment = [];
-  late Enlistment _originalEnlistment;
+  Enlistment _originalEnlistment = Enlistment.fromNullableBoolList(List<bool>.generate(5, (index) => false));
   bool _expanded = false;
   bool _enlistmentSent = false;
-
-  Future<Enlistment?> _getEnlistment(String token) {
-    return widget.enlistmentClient.getEnlistment(
-        widget.mondayOfWeek.year,
-        widget.mondayOfWeek.weekOfYear,
-        token);
-  }
-
-  Future<void> _sendEnlistment(Enlistment enlistment, String token) {
-    return widget.enlistmentClient.createEnlistment(
-        widget.mondayOfWeek.year,
-        widget.mondayOfWeek.weekOfYear,
-        enlistment,
-        token
-    );
-  }
-
-  Future<void> _updateEnlistment(Enlistment enlistment, String token) {
-    return widget.enlistmentClient.updateEnlistment(
-      widget.mondayOfWeek.year,
-      widget.mondayOfWeek.weekOfYear,
-      enlistment,
-      token
-    );
-  }
-
-  Future<Menu?> _getMenu() {
-    return widget.menuClient.getMenu(
-        widget.mondayOfWeek.year,
-        widget.mondayOfWeek.weekOfYear
-    );
-  }
 
   Future<bool> _fetchData() async {
     Menu? menu;
     Enlistment? enlistment;
 
-    menu = await _getMenu();
+    menu = await widget.menuClient
+        .getMenu(widget.mondayOfWeek.year, widget.mondayOfWeek.weekOfYear);
 
     if (menu != null) {
       _menu = menu;
-      enlistment = await _getEnlistment(await widget.tokenStorage.readToken());
+      enlistment = await widget.enlistmentClient
+          .getEnlistment(
+          widget.mondayOfWeek.year, 
+          widget.mondayOfWeek.weekOfYear, 
+          await widget.tokenStorage.readToken()
+      );
 
       if (enlistment != null) {
         _enlistmentSent = true;
@@ -94,21 +69,46 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     return true;
   }
 
-  void _sendData() async {
+  void _pushEnlistment(Function enlistmentPush) async {
+    final year = widget.mondayOfWeek.year;
+    final week = widget.mondayOfWeek.weekOfYear;
+    final enlistment = Enlistment.fromNullableBoolList(_enlistment);
     final token = await widget.tokenStorage.readToken();
-    setState(() {
-      _enlistmentSent = true;
-      _originalEnlistment = Enlistment.fromNullableBoolList(_enlistment);
-    });
-    return await _sendEnlistment(Enlistment.fromNullableBoolList(_enlistment), token);
+    
+    bool status = await enlistmentPush(year, week, enlistment, token);
+
+    showNotification(
+        context: context,
+        text: status ? "Tak for din tilmelding!" : "Der skete en fejl",
+        backgroundColor: status ? CupertinoColors.systemGreen : CupertinoColors.destructiveRed,
+        textColor: CupertinoColors.white,
+        duration: const Duration(seconds: 2)
+    );
   }
 
-  void _updateData() async {
-    final token = await widget.tokenStorage.readToken();
-    setState(() {
-      _originalEnlistment = Enlistment.fromNullableBoolList(_enlistment);
-    });
-    return await _updateEnlistment(Enlistment.fromNullableBoolList(_enlistment), token);
+  Future<bool> _sendData(int year, int week, Enlistment enlistment, String token) async {
+    bool status = await widget.enlistmentClient.createEnlistment(year, week, enlistment, token);
+    
+    if (status) {
+      setState(() {
+        _enlistmentSent = true;
+        _originalEnlistment = Enlistment.fromNullableBoolList(_enlistment);
+      });
+    }
+    
+    return status;
+  }
+
+  Future<bool> _updateData(int year, int week, Enlistment enlistment, String token) async {
+    bool status = await widget.enlistmentClient.updateEnlistment(year, week, enlistment, token);
+    
+    if (status) {
+      setState(() {
+        _originalEnlistment = Enlistment.fromNullableBoolList(_enlistment);
+      });
+    }
+    
+    return status;
   }
 
   void _navigateToNextWeek() {
@@ -125,7 +125,6 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     Navigator.of(context).pushReplacementNamed('$week');
   }
 
-
   void _makeEnlistmentChoice(int index, bool choice) async {
     setState(() {
       _enlistment[index] = choice;
@@ -139,15 +138,23 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
         ? false : true;
   }
 
+  bool get _unsavedChanges {
+    return !const ListEquality().equals(_originalEnlistment.toList(), _enlistment);
+  }
+
+  bool get _canNavigate {
+    return (!_unsavedChanges || _menu.any((element) => element.isEmpty));
+  }
+
   void Function()? _enlistButtonPress() {
     if (!_menu.any((element) => element.isEmpty)) {
       if (_enlistmentSent) {
-        if (!const ListEquality().equals(_originalEnlistment.toList(), _enlistment)) {
-          return () => _updateData();
+        if (_unsavedChanges) {
+          return () => _pushEnlistment(_updateData);
         }
       }
       else if (_enlistmentIsValid){
-        return () => _sendData();
+        return () => _pushEnlistment(_sendData);
       }
     }
 
@@ -155,13 +162,25 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
   }
 
   Widget _scrollDetector(Widget child) {
+
     return GestureDetector(
-      onHorizontalDragEnd: (details) => {
-        if (details.primaryVelocity! > 0) {
-          _navigateToPreviousWeek()
+      onHorizontalDragEnd: (details) {
+        if (_canNavigate) {
+          if (details.primaryVelocity! > 0) {
+            _navigateToPreviousWeek();
+          }
+          else if (details.primaryVelocity! < 0){
+            _navigateToNextWeek();
+          }
         }
-        else if (details.primaryVelocity! < 0){
-          _navigateToNextWeek()
+        else {
+          showNotification(
+              context: context,
+              text: "Du mangler at sende din tilmelding!",
+              backgroundColor: CupertinoColors.destructiveRed,
+              textColor: CupertinoColors.white,
+              duration: const Duration(seconds: 5)
+          );
         }
       },
       child: child,
@@ -183,8 +202,13 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                 _menu.tuesday.isEmpty ||
                 _menu.wednesday.isEmpty ||
                 _menu.thursday.isEmpty) {
-              child = const Center(
-                child: Text("Ingen menu tilgængelig for denne uge"),
+              child = const Material(
+                child: Center(
+                  child: Text(
+                    "Ingen menu tilgængelig for denne uge",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                ),
               );
             }
             else {
@@ -267,7 +291,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
             }
           }
           else if (snapshot.hasError) {
-            child = _scrollDetector(Center(child: Text("${widget.runtimeType}: ${snapshot.error}")));
+            child = _scrollDetector(Center(child: Text("${snapshot.error}")));
           }
           else {
             child = _scrollDetector(const ActivityIndicatorWithTitle());
@@ -277,19 +301,22 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
             floatingActionButtonAnimator: null,
             floatingActionButton: IconCupertinoButtonFilled(
                 onPressed: _enlistButtonPress(),
-                text: _enlistmentSent ? "Opdater tilmelding" : "Send tilmelding",
-                icon: _enlistmentSent ? CupertinoIcons.refresh : CupertinoIcons.paperplane),
+                text: "Send tilmelding",
+                icon: CupertinoIcons.paperplane,
+                // text: _enlistmentSent ? "Opdater tilmelding" : "Send tilmelding",
+                // icon: _enlistmentSent ? CupertinoIcons.refresh : CupertinoIcons.paperplane
+            ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             body: CupertinoPageScaffold(
                 navigationBar: CupertinoNavigationBar(
                   leading: CupertinoButton(
-                    onPressed: () => _navigateToPreviousWeek(),
+                    onPressed: _canNavigate ? () => _navigateToPreviousWeek() : null,
                     padding: EdgeInsets.zero,
                     child: const Icon(CupertinoIcons.arrow_left_circle_fill, size: 30,),
                   ),
                   middle: Text("Uge ${widget.mondayOfWeek.weekOfYear}"),
                   trailing: CupertinoButton(
-                      onPressed: () => _navigateToNextWeek(),
+                      onPressed: _canNavigate ? () => _navigateToNextWeek() : null,
                       padding: EdgeInsets.zero,
                       child: const Icon(CupertinoIcons.arrow_right_circle_fill, size: 30,)),
                 ),

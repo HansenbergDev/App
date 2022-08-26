@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Models/Student.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/TokenStorage.dart';
+import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:hansenberg_app/Widgets/DatePicker.dart';
 import 'package:hansenberg_app/Widgets/TextfieldWithTitle.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +71,15 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     }
     catch(e) {
       // TODO: Vis popup
-      throw Exception(e);
+      // throw Exception(e);
+
+      showNotification(
+          context: context,
+          text: "Ingen forbindelse",
+          backgroundColor: CupertinoColors.destructiveRed,
+          textColor: CupertinoColors.white,
+          duration: const Duration(seconds: 3)
+      );
     }
   }
 

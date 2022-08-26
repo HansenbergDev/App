@@ -40,7 +40,7 @@ class InitPage extends StatelessWidget {
               }
             }
             else if (snapshot.hasError) {
-              throw Exception("Something weird happened: $runtimeType: ${snapshot.error}");
+              throw Exception("Something weird happened: ${snapshot.error}");
             }
 
             return const ActivityIndicatorWithTitle();
