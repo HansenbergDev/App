@@ -41,7 +41,6 @@ class _ItemPickerState extends State<ItemPicker> {
   @override
   Widget build(BuildContext context) {
 
-    // TODO: Put det her i en constrained container med hvid baggrund
     return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

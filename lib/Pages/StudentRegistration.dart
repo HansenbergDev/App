@@ -49,12 +49,12 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   }
 
   void _sendRegistration() async {
-    String token = "";
-
     // TODO: Input validation
 
+    // final test = RegExp(r'');
+
     try {
-      token = await widget.studentClient.registerStudent(_nameController.text, _enrolledFrom, _enrolledTo);
+      final token = await widget.studentClient.registerStudent(_nameController.text, _enrolledFrom, _enrolledTo);
       await widget.tokenStorage.writeToken(token);
 
       Future.delayed(Duration.zero, () {
@@ -70,9 +70,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       });
     }
     catch(e) {
-      // TODO: Vis popup
-      // throw Exception(e);
-
       showNotification(
           context: context,
           text: "Ingen forbindelse",
