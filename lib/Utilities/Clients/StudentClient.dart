@@ -11,11 +11,11 @@ class StudentClient {
 
   Future<String> registerStudent(String name, DateTime enrolledFrom, DateTime enrolledTo) async {
     final response = await httpClient.post(
-      '/student/register',
-      <String, String> {
+      endpoint: '/student/register',
+      headers: <String, String> {
         'Content-Type': 'application/json'
       },
-      <String, dynamic> {
+      body: <String, dynamic> {
         'name': name,
         'enrolled_from': DateFormat("yyyy-MM-dd").format(enrolledFrom),
         'enrolled_to': DateFormat("yyyy-MM-dd").format(enrolledTo)
@@ -32,9 +32,8 @@ class StudentClient {
 
   Future<Student?> getStudent(String token) async {
     final response = await httpClient.get(
-        '/student',
-        <String, String> {},
-        <String, String> {
+        endpoint: '/student',
+        headers: <String, String> {
           'x-access-token': token
         });
 
@@ -49,12 +48,13 @@ class StudentClient {
 
   Future<bool> deleteStudent(String token) async {
     final response = await httpClient.delete(
-        '/student',
-        <String, String> {},
-        <String, dynamic> {}
+        endpoint: '/student',
+        headers: <String, String> {
+          'x-access-token': token
+        },
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 410) {
       return true;
     }
     else {

@@ -3,6 +3,7 @@ import 'package:hansenberg_app/Models/StudentNotifier.dart';
 import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/WeekNavigator.dart';
 import 'package:provider/provider.dart';
@@ -64,9 +65,15 @@ class StudentPage extends StatelessWidget {
     );
   }
 
-  Future _deleteUser() async {
-    studentClient.deleteStudent(await tokenStorage.readToken());
-    tokenStorage.deleteToken();
+  Future<bool> _deleteUser() async {
+    var status = await studentClient.deleteStudent(await tokenStorage.readToken());
+    if (status) {
+      await tokenStorage.deleteToken();
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   @override
@@ -86,10 +93,17 @@ class StudentPage extends StatelessWidget {
                   CupertinoActionSheetAction(
                     isDestructiveAction: true,
                     onPressed: () async {
-                      await _deleteUser();
-                      Future.delayed(Duration.zero, () {
-                        Navigator.pushReplacementNamed(context, '/');
-                      });
+                      var status = await _deleteUser();
+                      if (status) {
+                        Future.delayed(Duration.zero, () {
+                          Navigator.pushReplacementNamed(context, '/');
+                        });
+                      }
+                      else {
+                        Future.delayed(Duration.zero, () {
+                          Notifications.showAlert(context: context, text: "Kunne ikke slette bruger");
+                        });
+                      }
                     },
                     child: const Text('Slet bruger'),
                   )

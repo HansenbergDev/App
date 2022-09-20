@@ -11,12 +11,12 @@ class MenuClient {
 
   Future<void> createMenu(Menu menu, String token) async {
     final response = await httpClient.post(
-        '/menu',
-        <String, String> {
+        endpoint: '/menu',
+        headers: <String, String> {
           'Content-Type': 'application/json',
           'x-access-token': token
         },
-        <String, dynamic> {
+        body: <String, dynamic> {
           'monday': menu.monday,
           'tuesday': menu.tuesday,
           'wednesday': menu.wednesday,
@@ -31,12 +31,11 @@ class MenuClient {
 
   Future<Menu?> getMenu(int year, int week) async {
     final response = await httpClient.get(
-        '/menu/single',
-        <String, String> {
+        endpoint: '/menu/single',
+        params: <String, String> {
           'year': '$year',
           'week': '$week',
         },
-        <String, String> {}
     );
 
     if (response.statusCode == 200) {

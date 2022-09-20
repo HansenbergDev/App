@@ -11,12 +11,12 @@ class EnlistmentClient {
 
   Future<bool> updateEnlistment(int year, int week, Enlistment enlistment, String token) async {
     final response = await httpClient.patch(
-        '/student/enlistment',
-        <String, String> {
+        endpoint: '/student/enlistment',
+        headers: <String, String> {
           'Content-Type': 'application/json',
           'x-access-token': token
         },
-        <String, dynamic> {
+        body: <String, dynamic> {
           'year': year,
           'week': week,
           'monday': enlistment.monday,
@@ -40,12 +40,12 @@ class EnlistmentClient {
 
   Future<bool> createEnlistment(int year, int week, Enlistment enlistment, String token) async {
     final response = await httpClient.post(
-        '/student/enlistment',
-        <String, String> {
+        endpoint: '/student/enlistment',
+        headers: <String, String> {
           'Content-Type': 'application/json',
           'x-access-token': token
         },
-        <String, dynamic> {
+        body: <String, dynamic> {
           'year': year,
           'week': week,
           'monday': enlistment.monday,
@@ -65,12 +65,12 @@ class EnlistmentClient {
 
   Future<Enlistment?> getEnlistment(int year, int week, String token) async {
     final response = await httpClient.get(
-        '/student/enlistment/single',
-        <String, String> {
+        endpoint: '/student/enlistment/single',
+        params: <String, String> {
           'year': '$year',
           'week': '$week',
         },
-        <String, String> {
+        headers: <String, String> {
           'x-access-token': token
         }
     );

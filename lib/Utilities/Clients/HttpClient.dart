@@ -7,7 +7,7 @@ class HttpClient {
 
   final String base;
 
-  Future<http.Response> get(String endpoint, Map<String, String> params, Map<String, String> headers) {
+  Future<http.Response> get({required String endpoint, Map<String, String> params = const {}, Map<String, String> headers = const {}}) {
     String formattedParams = "";
 
     if (params.isNotEmpty) {
@@ -27,7 +27,7 @@ class HttpClient {
     return http.get(uri, headers: headers);
   }
 
-  Future<http.Response> post(String endpoint, Map<String, String> headers, Map<String, dynamic> body) {
+  Future<http.Response> post({required String endpoint, required Map<String, String> headers, required Map<String, dynamic> body}) {
     return http.post(
       Uri.parse("$base$endpoint"),
       headers: headers,
@@ -35,7 +35,7 @@ class HttpClient {
     );
   }
 
-  Future<http.Response> patch(String endpoint, Map<String, String> headers, Map<String, dynamic> body) {
+  Future<http.Response> patch({required String endpoint, required Map<String, String> headers, required Map<String, dynamic> body}) {
     return http.patch(
         Uri.parse("$base$endpoint"),
         headers: headers,
@@ -43,7 +43,7 @@ class HttpClient {
     );
   }
 
-  Future<http.Response> delete(String endpoint, Map<String, String> headers, Map<String, dynamic> body) {
+  Future<http.Response> delete({required String endpoint, required Map<String, String> headers, Map<String, dynamic> body = const {}}) {
     return http.delete(
         Uri.parse("$base$endpoint"),
         headers: headers,
