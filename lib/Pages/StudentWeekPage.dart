@@ -300,10 +300,10 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     return GestureDetector(
       onHorizontalDragEnd: (details) {
         if (_canNavigate) {
-          if (details.primaryVelocity! > 0) {
+          if (details.primaryVelocity! < 0) {
             widget.weekNavigator.toNextWeek();
           }
-          else if (details.primaryVelocity! < 0){
+          else if (details.primaryVelocity! > 0){
             widget.weekNavigator.toPreviousWeek();
           }
         }
