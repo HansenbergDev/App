@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Models/Student.dart';
 import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:hansenberg_app/Widgets/DatePicker.dart';
@@ -70,11 +71,9 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       });
     }
     catch(e) {
-      showNotification(
+      Notifications.showAlert(
           context: context,
           text: "Ingen forbindelse",
-          backgroundColor: CupertinoColors.destructiveRed,
-          textColor: CupertinoColors.white,
           duration: const Duration(seconds: 3)
       );
     }

@@ -5,6 +5,7 @@ import 'package:hansenberg_app/Models/Enlistment.dart';
 import 'package:hansenberg_app/Models/Menu.dart';
 import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
+import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/WeekNavigator.dart';
 import 'package:hansenberg_app/Utilities/util.dart';
@@ -220,13 +221,17 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     
     bool status = await enlistmentPush(year, week, enlistment, token);
 
-    showNotification(
+    if (status) {
+      Notifications.showConfirmation(
+          context: context,
+          text: "Tak for din tilmelding!");
+    }
+    else {
+      Notifications.showAlert(
         context: context,
-        text: status ? "Tak for din tilmelding!" : "Der skete en fejl",
-        backgroundColor: status ? CupertinoColors.systemGreen : CupertinoColors.destructiveRed,
-        textColor: CupertinoColors.white,
-        duration: const Duration(seconds: 2)
-    );
+        text: "Der skete en fejl",
+      );
+    }
   }
 
   Future<bool> _sendData(int year, int week, Enlistment enlistment, String token) async {
@@ -303,11 +308,9 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
           }
         }
         else {
-          showNotification(
+          Notifications.showAlert(
               context: context,
               text: "Du mangler at sende din tilmelding!",
-              backgroundColor: CupertinoColors.destructiveRed,
-              textColor: CupertinoColors.white,
               duration: const Duration(seconds: 5)
           );
         }

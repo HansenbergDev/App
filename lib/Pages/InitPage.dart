@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hansenberg_app/Utilities/DevelopingMode.dart';
+import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 
@@ -9,7 +11,9 @@ class InitPage extends StatelessWidget {
 
   Future<String> _fetchToken() async {
 
-    await tokenStorage.deleteToken();
+    if (DevelopingOptions.deleteOnInit) {
+      await tokenStorage.deleteToken();
+    }
 
     if (await tokenStorage.tokenExists()) {
       return await tokenStorage.readToken();
@@ -21,10 +25,21 @@ class InitPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return CupertinoPageScaffold(
         child: FutureBuilder<String>(
           builder: (BuildContext futureContext, AsyncSnapshot<String> snapshot) {
             if (snapshot.hasData) {
+
+              if (DevelopingOptions().any((option) => option == true)) {
+                Future.delayed(Duration.zero, () {
+                  Notifications.showAlert(
+                      context: context,
+                      text: "Developing Mode enabled!",
+                      duration: const Duration(seconds: 5)
+                  );
+                });
+              }
 
               String token = snapshot.data!;
 
