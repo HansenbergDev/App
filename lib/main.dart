@@ -40,8 +40,8 @@ class _HansenbergAppState extends State<HansenbergApp> {
   Widget build(BuildContext context) {
 
     String protocol = 'http://';
-    // String ip = '178.62.220.90';
-    String ip = "10.0.2.2";
+    String ip = '143.244.196.82';
+    // String ip = "10.0.2.2";
     String port = '4001';
     String api = '/api/1.0';
 
