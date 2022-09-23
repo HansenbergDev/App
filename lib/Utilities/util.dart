@@ -17,6 +17,28 @@ Widget makeSquareButton(VoidCallback? fn, icon, iconColor, fillColor) {
   );
 }
 
+List<BoxShadow> createBoxShadow() {
+  return [
+    BoxShadow(
+      color: CupertinoColors.systemGrey.withOpacity(0.2),
+      spreadRadius: 0,
+      blurRadius: 5,
+      offset: const Offset(0, 3)
+    )
+  ];
+}
+
+List<BoxShadow> createButtonShadow() {
+  return [
+    BoxShadow(
+        color: CupertinoColors.systemGrey.withOpacity(0.2),
+        spreadRadius: 1,
+        blurRadius: 2,
+        offset: const Offset(0, 0)
+    )
+  ];
+}
+
 String dayNumberInWeekToDayString(int dayNumber) {
   switch (dayNumber) {
     case 1:

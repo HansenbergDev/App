@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hansenberg_app/Utilities/util.dart';
 
 class TextfieldWithTitle extends StatelessWidget {
   const TextfieldWithTitle({Key? key, required this.title, required this.placeholder, required this.controller}) : super(key: key);
@@ -13,9 +14,10 @@ class TextfieldWithTitle extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 300),
       margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
       padding: const EdgeInsets.all(15),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: CupertinoColors.systemBackground,
         borderRadius: BorderRadius.all(Radius.circular(15)),
+        boxShadow: createBoxShadow()
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

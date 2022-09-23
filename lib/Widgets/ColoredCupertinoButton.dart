@@ -30,6 +30,4 @@ class ColoredButton extends CupertinoButton {
 
   @override
   EdgeInsetsGeometry? get padding => EdgeInsets.zero;
-  
-  
 }

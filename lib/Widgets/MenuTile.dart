@@ -47,14 +47,7 @@ class MenuTile extends StatelessWidget {
       decoration: BoxDecoration(
           color: CupertinoColors.systemBackground,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
-          boxShadow: [
-            BoxShadow(
-              color: CupertinoColors.systemGrey.withOpacity(0.2),
-              spreadRadius: 0,
-              blurRadius: 5,
-              offset: const Offset(0, 3)
-            )
-          ]
+          boxShadow: createBoxShadow()
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

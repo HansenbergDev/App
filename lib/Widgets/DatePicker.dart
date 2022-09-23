@@ -2,6 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 
+import '../Utilities/util.dart';
+
 class DatePicker extends StatefulWidget {
   const DatePicker({Key? key, required this.title, required this.fontSize, required this.callback}) : super(key: key);
 
@@ -84,9 +86,10 @@ class _DatePickerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(maxWidth: 300),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: CupertinoColors.systemBackground,
-        borderRadius: BorderRadius.all(Radius.circular(15))
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+          boxShadow: createBoxShadow()
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
