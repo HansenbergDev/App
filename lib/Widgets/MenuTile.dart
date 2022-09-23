@@ -44,9 +44,17 @@ class MenuTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
       padding: const EdgeInsets.all(15.0),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           color: CupertinoColors.systemBackground,
-          borderRadius: BorderRadius.all(Radius.circular(15))
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          boxShadow: [
+            BoxShadow(
+              color: CupertinoColors.systemGrey.withOpacity(0.2),
+              spreadRadius: 0,
+              blurRadius: 5,
+              offset: const Offset(0, 3)
+            )
+          ]
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
