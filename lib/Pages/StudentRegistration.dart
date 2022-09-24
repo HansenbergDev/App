@@ -86,7 +86,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
 
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          border: null,
           backgroundColor: CupertinoColors.systemBackground,
           leading: CupertinoButton(
             onPressed: () => Navigator.pop(context),

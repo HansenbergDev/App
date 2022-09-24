@@ -92,9 +92,11 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                             return Container(
                               margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
                               padding: const EdgeInsets.all(15.0),
-                              decoration: const BoxDecoration(
-                                  color: CupertinoColors.systemBackground,
-                                  borderRadius: BorderRadius.all(Radius.circular(15))),
+                              decoration: BoxDecoration(
+                                color: CupertinoColors.systemBackground,
+                                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                boxShadow: createBoxShadow(),
+                              ),
                               child: GestureDetector(
                                   onTap: () => setState(() {
                                     _expanded = true;
