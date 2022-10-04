@@ -30,6 +30,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  hansenberg_app_core:
+    git:
+      url: https://github.com/HansenbergDev/HansenbergAppCore.git
+      ref: dev
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

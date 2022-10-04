@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hansenberg_app/Models/Enlistment.dart';
-import 'package:hansenberg_app/Models/Menu.dart';
-import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
-import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
+import 'package:hansenberg_app_core/Models/Enlistment.dart';
+import 'package:hansenberg_app_core/Models/Menu.dart';
+import 'package:hansenberg_app_core/Utilities/Clients/EnlistmentClient.dart';
+import 'package:hansenberg_app_core/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/WeekNavigator.dart';

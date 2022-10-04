@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:hansenberg_app/Models/Student.dart';
-import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app_core/Models/Student.dart';
+import 'package:hansenberg_app_core/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app/Utilities/TokenStorage.dart';
-import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:hansenberg_app/Widgets/DatePicker.dart';
 import 'package:hansenberg_app/Widgets/TextfieldWithTitle.dart';
 import 'package:provider/provider.dart';
@@ -45,8 +44,8 @@ class _StudentRegistrationState extends State<StudentRegistration> {
 
   @override
   void dispose() {
-    super.dispose();
     _nameController.dispose();
+    super.dispose();
   }
 
   void _sendRegistration() async {

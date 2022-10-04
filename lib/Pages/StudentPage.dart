@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
-import 'package:hansenberg_app/Utilities/Clients/EnlistmentClient.dart';
-import 'package:hansenberg_app/Utilities/Clients/MenuClient.dart';
-import 'package:hansenberg_app/Utilities/Clients/StudentClient.dart';
+import 'package:hansenberg_app_core/Utilities/Clients/EnlistmentClient.dart';
+import 'package:hansenberg_app_core/Utilities/Clients/MenuClient.dart';
+import 'package:hansenberg_app_core/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/WeekNavigator.dart';

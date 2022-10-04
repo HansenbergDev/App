@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:hansenberg_app/Models/Student.dart';
+import 'package:hansenberg_app_core/Models/Student.dart';
 
 class StudentNotifier with ChangeNotifier {
 
