@@ -5,10 +5,10 @@ import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/DatePicker.dart';
 import 'package:hansenberg_app_core/Widgets/TextfieldWithTitle.dart';
+import 'package:hansenberg_app_core/Widgets/IconCupertinoButton.dart';
 import 'package:provider/provider.dart';
 
 import '../Models/StudentNotifier.dart';
-import '../Widgets/IconCupertinoButton.dart';
 
 class StudentRegistration extends StatefulWidget {
   const StudentRegistration({Key? key, required this.studentClient, required this.tokenStorage}) : super(key: key);
@@ -112,6 +112,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                   title: "Fornavn",
                   placeholder: "Skriv dit fornavn",
                   controller: _nameController,
+                  obscureText: false,
                 ),
                 // ItemPicker(
                 //     text: "Vælg din klasse: ",
