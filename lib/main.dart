@@ -40,17 +40,15 @@ class _HansenbergAppState extends State<HansenbergApp> {
   @override
   Widget build(BuildContext context) {
 
-    String protocol = 'http://';
     String ip = '143.244.196.82';
-    // String ip = "10.0.2.2";
     String port = '4001';
-    String api = '/api/1.0';
+    String urlBase = '$ip:$port';
 
-    String uri = "$protocol$ip:$port$api";
+    String endpointBase = '/api/1.0';
 
     TokenStorage tokenStorage = TokenStorageSecure();
 
-    HttpClient httpClient = HttpClient(base: uri);
+    HttpClient httpClient = HttpClient(urlBase: urlBase, endpointBase: endpointBase);
 
     StudentClient studentClient = StudentClient(httpClient: httpClient);
     MenuClient menuClient = MenuClient(httpClient: httpClient);
