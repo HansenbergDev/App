@@ -11,6 +11,7 @@ import 'package:hansenberg_app_core/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/CupertinoAppWithRoutes.dart';
+import 'package:hansenberg_app_core/Utilities/TokenStorageSecure.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -47,7 +48,7 @@ class _HansenbergAppState extends State<HansenbergApp> {
 
     String uri = "$protocol$ip:$port$api";
 
-    TokenStorage tokenStorage = TokenStorage();
+    TokenStorage tokenStorage = TokenStorageSecure();
 
     HttpClient httpClient = HttpClient(base: uri);
 
