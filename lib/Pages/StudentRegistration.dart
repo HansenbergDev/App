@@ -4,7 +4,7 @@ import 'package:hansenberg_app_core/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/DatePicker.dart';
-import 'package:hansenberg_app/Widgets/TextfieldWithTitle.dart';
+import 'package:hansenberg_app_core/Widgets/TextfieldWithTitle.dart';
 import 'package:provider/provider.dart';
 
 import '../Models/StudentNotifier.dart';
@@ -49,7 +49,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   }
 
   void _sendRegistration() async {
-    // TODO: Input validation
+    //TODO: Input validation
 
     // final test = RegExp(r'');
 

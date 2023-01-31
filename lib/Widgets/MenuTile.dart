@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../Utilities/util.dart';
+import 'package:hansenberg_app_core/Utilities/util.dart';
 
 class MenuTile extends StatelessWidget {
   const MenuTile(

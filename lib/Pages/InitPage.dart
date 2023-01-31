@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Utilities/DevelopingMode.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
-import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
+import 'package:hansenberg_app_core/Widgets/ActivityIndicatorWithTitle.dart';
 
 class InitPage extends StatelessWidget {
   const InitPage({Key? key, required this.tokenStorage}) : super(key: key);
 
   final TokenStorage tokenStorage;
 
+  //TODO: Det burde være nok at returnere en Bool her, ingen grund til faktisk at læse token, da det ikke bliver brugt her
   Future<String> _fetchToken() async {
 
     if (DevelopingOptions.deleteOnInit) {
@@ -55,7 +56,7 @@ class InitPage extends StatelessWidget {
               }
             }
             else if (snapshot.hasError) {
-              throw Exception("Something weird happened: ${snapshot.error}");
+              throw Exception("Something happened: ${snapshot.error}");
             }
 
             return const ActivityIndicatorWithTitle();

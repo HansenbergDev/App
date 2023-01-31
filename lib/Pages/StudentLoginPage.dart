@@ -3,7 +3,7 @@ import 'package:hansenberg_app_core/Models/Student.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
-import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
+import 'package:hansenberg_app_core/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:provider/provider.dart';
 
 class StudentLoginPage extends StatefulWidget {

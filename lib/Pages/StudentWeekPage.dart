@@ -8,8 +8,8 @@ import 'package:hansenberg_app_core/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/WeekNavigator.dart';
-import 'package:hansenberg_app/Utilities/util.dart';
-import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
+import 'package:hansenberg_app_core/Utilities/util.dart';
+import 'package:hansenberg_app_core/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:hansenberg_app/Widgets/IconCupertinoButton.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 

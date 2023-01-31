@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 
-import '../Utilities/util.dart';
+import 'package:hansenberg_app_core/Utilities/util.dart';
 
 class DatePicker extends StatefulWidget {
   const DatePicker({Key? key, required this.title, required this.fontSize, required this.callback}) : super(key: key);
