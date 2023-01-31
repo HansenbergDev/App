@@ -5,14 +5,14 @@ import 'package:hansenberg_app_core/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
-import 'package:hansenberg_app/Utilities/WeekNavigator.dart';
+import 'package:hansenberg_app_core/Utilities/CupertinoWeekNavigator.dart';
 import 'package:provider/provider.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import 'StudentWeekPage.dart';
 
-class StudentPage extends StatelessWidget {
-  const StudentPage({
+class StudentPageNavigator extends StatelessWidget {
+  const StudentPageNavigator({
     Key? key,
     required this.menuClient,
     required this.enlistmentClient,
@@ -31,14 +31,10 @@ class StudentPage extends StatelessWidget {
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    final week = int.parse(settings.name!);
-
+    final targetWeek = int.parse(settings.name!);
     final now = DateTime.now();
-
-    final difference = 7 * (week - now.weekOfYear);
-
+    final difference = 7 * (targetWeek - now.weekOfYear);
     final next = now.add(Duration(days: difference));
-
     final mondayOfWeek = next.subtract(Duration(days: next.weekday - 1));
 
     WidgetBuilder builder;
@@ -48,7 +44,7 @@ class StudentPage extends StatelessWidget {
       menuClient: menuClient,
       enlistmentClient: enlistmentClient,
       tokenStorage: tokenStorage,
-      weekNavigator: WeekNavigator(context: context, week: mondayOfWeek.weekOfYear),
+      weekNavigator: CupertinoWeekNavigator(context: context, week: mondayOfWeek.weekOfYear),
     );
 
     return PageRouteBuilder(pageBuilder: (BuildContext context, _, __) => builder(context));

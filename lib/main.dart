@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
 import 'package:hansenberg_app/Pages/InitPage.dart';
 import 'package:hansenberg_app/Pages/StudentLoginPage.dart';
-import 'package:hansenberg_app/Pages/StudentPage.dart';
+import 'package:hansenberg_app/Pages/StudentPageNavigator.dart';
 import 'package:hansenberg_app/Pages/StudentRegistration.dart';
 import 'package:hansenberg_app/Pages/WelcomePage.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/EnlistmentClient.dart';
@@ -60,7 +60,7 @@ class _HansenbergAppState extends State<HansenbergApp> {
           '/': (BuildContext context) => InitPage(tokenStorage: tokenStorage),
           '/welcome': (BuildContext context) => const WelcomePage(),
           '/student': (BuildContext context) =>
-              StudentPage(
+              StudentPageNavigator(
                 menuClient: menuClient,
                 enlistmentClient: enlistmentClient,
                 studentClient: studentClient,

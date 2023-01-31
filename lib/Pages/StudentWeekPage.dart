@@ -7,7 +7,7 @@ import 'package:hansenberg_app_core/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
 import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
-import 'package:hansenberg_app/Utilities/WeekNavigator.dart';
+import 'package:hansenberg_app_core/Utilities/CupertinoWeekNavigator.dart';
 import 'package:hansenberg_app_core/Utilities/util.dart';
 import 'package:hansenberg_app_core/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:hansenberg_app_core/Widgets/IconCupertinoButton.dart';
@@ -29,7 +29,7 @@ class StudentWeekPage extends StatefulWidget {
   final MenuClient menuClient;
   final EnlistmentClient enlistmentClient;
   final TokenStorage tokenStorage;
-  final WeekNavigator weekNavigator;
+  final CupertinoWeekNavigator weekNavigator;
 
   @override
   State<StudentWeekPage> createState() => _StudentWeekPageState();
@@ -52,6 +52,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
       builder: (BuildContext futureContext, AsyncSnapshot<bool> snapshot) {
         Widget child;
 
+        //TODO: Der er lige nu dobbelt scrollDetector på child, både her og der hvor der hvor child bliver brugt
         if (snapshot.hasData) {
 
           if (_menu.monday.isEmpty ||
@@ -80,8 +81,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
                         case 2:
                         case 3:
                           return MenuTile(
-                            dateString:
-                            "${dayNumberInWeekToDayString(dates[index].weekday)} d. ${dates[index].day} ${monthNumberToMonthString(dates[index].month)}",
+                            dateString: "${dayNumberInWeekToDayString(dates[index].weekday)} d. ${dates[index].day} ${monthNumberToMonthString(dates[index].month)}",
                             menuText: _menu.toList()[index],
                             enlistmentState: _enlistment[index],
                             enlistForDinner: () => _makeEnlistmentChoice(index, true),
@@ -186,6 +186,7 @@ class _StudentWeekPageState extends State<StudentWeekPage> {
     );
   }
 
+  //TODO: Denne kan være void
   Future<bool> _fetchData() async {
     Menu? menu;
     Enlistment? enlistment;
