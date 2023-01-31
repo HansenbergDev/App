@@ -6,7 +6,7 @@ import 'package:hansenberg_app_core/Models/Menu.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
-import 'package:hansenberg_app/Utilities/TokenStorage.dart';
+import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/WeekNavigator.dart';
 import 'package:hansenberg_app/Utilities/util.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';

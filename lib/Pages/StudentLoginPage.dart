@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app_core/Models/Student.dart';
 import 'package:hansenberg_app/Models/StudentNotifier.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/StudentClient.dart';
-import 'package:hansenberg_app/Utilities/TokenStorage.dart';
+import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 import 'package:provider/provider.dart';
 
@@ -27,8 +27,10 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
       return student;
     }
     else {
-      DateTime date = DateTime.fromMillisecondsSinceEpoch(0);
-      return Student(studentName: "", enrolledFrom: date, enrolledTo: date);
+      // DateTime date = DateTime.fromMillisecondsSinceEpoch(0);
+      // return Student(studentName: "", enrolledFrom: date, enrolledTo: date);
+      // TODO: Håndter på en pæn måde. Måske en side hvor man kan bede om at reloade?
+      throw Exception("Could not fetch student");
     }
   }
   

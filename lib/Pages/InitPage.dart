@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hansenberg_app/Utilities/DevelopingMode.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
-import 'package:hansenberg_app/Utilities/TokenStorage.dart';
+import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Widgets/ActivityIndicatorWithTitle.dart';
 
 class InitPage extends StatelessWidget {

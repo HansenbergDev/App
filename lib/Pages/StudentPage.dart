@@ -4,7 +4,7 @@ import 'package:hansenberg_app_core/Utilities/Clients/EnlistmentClient.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/MenuClient.dart';
 import 'package:hansenberg_app_core/Utilities/Clients/StudentClient.dart';
 import 'package:hansenberg_app/Utilities/Notifications.dart';
-import 'package:hansenberg_app/Utilities/TokenStorage.dart';
+import 'package:hansenberg_app_core/Utilities/TokenStorage.dart';
 import 'package:hansenberg_app/Utilities/WeekNavigator.dart';
 import 'package:provider/provider.dart';
 import 'package:week_of_year/date_week_extensions.dart';
